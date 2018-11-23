@@ -9,5 +9,7 @@ namespace BlackMitten.Elliot.Engine
     public interface IEngine
     {
         void Stop();
+        string GetBestMove();
+        void Move(string move);
     }
 }

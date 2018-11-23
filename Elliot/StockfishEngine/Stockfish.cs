@@ -13,6 +13,11 @@ namespace BlackMitten.Elliot.StockfishEngine
     {
         Process _process;
         ManualResetEvent _fishReady = new ManualResetEvent(false);
+        AutoResetEvent _bestMoveReady = new AutoResetEvent(false);
+        AutoResetEvent _readyOk = new AutoResetEvent(false);
+        private bool _quitting = false;
+
+        private string _bestMove;
 
         public Stockfish(string filename)
         {
@@ -39,13 +44,40 @@ namespace BlackMitten.Elliot.StockfishEngine
 
         public void Stop()
         {
+            _quitting = true;
             _process.StandardInput.WriteLine("quit");
             _process.WaitForExit();
         }
 
+        public string GetBestMove()
+        {
+            _process.StandardInput.WriteLine("go");
+            _bestMoveReady.WaitOne();
+            return _bestMove;
+        }
+
+        public void Move(string move)
+        {
+            _process.StandardInput.WriteLine("position startpos moves "+ move);
+            WaitForReady();
+        }
+
+        private void WaitForReady()
+        {
+            _process.StandardInput.WriteLine("isready");
+            _readyOk.WaitOne();
+        }
+
         private void Stockfish_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            int j = 1;
+            if (e.Data != null)
+            {
+                throw new Exception(e.Data);
+            }
+            else if ( !_quitting )
+            {
+                throw new Exception();
+            }
         }
 
         private void Stockfish_OutputDataReceived(object sender, DataReceivedEventArgs e)
@@ -54,9 +86,27 @@ namespace BlackMitten.Elliot.StockfishEngine
             {
                 return;
             }
-            if (e.Data.StartsWith("Stockfish "))
+            else if (e.Data.StartsWith("Stockfish "))
             {
                 _fishReady.Set();
+            }
+            else if (e.Data.StartsWith("bestmove "))
+            {
+                string[] bits = e.Data.Split(' ');
+                _bestMove = bits[1];
+                _bestMoveReady.Set();
+            }
+            else if (e.Data.StartsWith("info "))
+            {
+                // ignore
+            }
+            else if (e.Data == "readyok")
+            {
+                _readyOk.Set();
+            }
+            else
+            {
+                throw new Exception(e.Data);
             }
         }
 
