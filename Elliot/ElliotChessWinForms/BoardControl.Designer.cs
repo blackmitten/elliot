@@ -1,13 +1,13 @@
-﻿namespace BlackMitten.Elliot.Winforms
+﻿namespace ElliotChessWinForms
 {
-    partial class Form1
+    partial class BoardControl
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -20,39 +20,27 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            this.boardControl1 = new ElliotChessWinForms.BoardControl();
             this.SuspendLayout();
             // 
-            // boardControl1
-            // 
-            this.boardControl1.Location = new System.Drawing.Point(12, 12);
-            this.boardControl1.Name = "boardControl1";
-            this.boardControl1.Size = new System.Drawing.Size(522, 458);
-            this.boardControl1.TabIndex = 0;
-            // 
-            // Form1
+            // BoardControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 569);
-            this.Controls.Add(this.boardControl1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "BoardControl";
+            this.Size = new System.Drawing.Size(522, 458);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.BoardControl_Paint);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private ElliotChessWinForms.BoardControl boardControl1;
     }
 }
-
