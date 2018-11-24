@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ElliotChessWinForms.Properties
+namespace BlackmittenElliotWinForms.Properties
 {
 
 

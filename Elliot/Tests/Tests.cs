@@ -1,4 +1,5 @@
-﻿using BlackMitten.Elliot.Engine;
+﻿using Blackmitten.Elliot.Backend;
+using BlackMitten.Elliot.Engine;
 using BlackMitten.Elliot.StockfishEngine;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,26 @@ namespace BlackMitten.Elliot.Tests
 {
     class Program
     {
+        static string _stockfishFilename;
+
         static void Main( string[ ] args )
         {
-            string stockfishFilename = args[ 0 ];
-            Test1( stockfishFilename );
+            _stockfishFilename = args[ 0 ];
+
+            RunTests();
+            
 
             Console.WriteLine("Tests complete");
             Console.ReadLine();
         }
+
+        private static void RunTests()
+        {
+
+            //Test1(_stockfishFilename);
+        }
+
+
 
         private static void Test1( string stockfishFileName )
         {

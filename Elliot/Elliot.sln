@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElliotChessWinForms", "Elli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{7E544606-EA44-4CD6-8687-FB1F43339570}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElliotChessBackend", "ElliotChessBackend\ElliotChessBackend.csproj", "{FAB48294-3276-49AF-A8F1-80E5899B487A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElliotTests", "ElliotTests\ElliotTests.csproj", "{461AA044-9E80-4193-83BA-570C47AD37E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{7E544606-EA44-4CD6-8687-FB1F43339570}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E544606-EA44-4CD6-8687-FB1F43339570}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E544606-EA44-4CD6-8687-FB1F43339570}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAB48294-3276-49AF-A8F1-80E5899B487A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAB48294-3276-49AF-A8F1-80E5899B487A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAB48294-3276-49AF-A8F1-80E5899B487A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAB48294-3276-49AF-A8F1-80E5899B487A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{461AA044-9E80-4193-83BA-570C47AD37E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{461AA044-9E80-4193-83BA-570C47AD37E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{461AA044-9E80-4193-83BA-570C47AD37E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{461AA044-9E80-4193-83BA-570C47AD37E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

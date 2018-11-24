@@ -1,4 +1,4 @@
-﻿namespace ElliotChessWinForms
+﻿namespace Blackmitten.Elliot.WinForms
 {
     partial class BoardControl
     {

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.boardControl1 = new ElliotChessWinForms.BoardControl();
+            this.boardControl1 = new Blackmitten.Elliot.WinForms.BoardControl();
             this.SuspendLayout();
             // 
             // boardControl1
@@ -52,7 +52,7 @@
 
         #endregion
 
-        private ElliotChessWinForms.BoardControl boardControl1;
+        private Blackmitten.Elliot.WinForms.BoardControl boardControl1;
     }
 }
 
