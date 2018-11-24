@@ -42,29 +42,35 @@ namespace BlackMitten.Elliot.StockfishEngine
 
         }
 
+        void SendCommand(string command)
+        {
+            Console.WriteLine(command);
+            _process.StandardInput.WriteLine(command);
+        }
+
         public void Stop()
         {
             _quitting = true;
-            _process.StandardInput.WriteLine("quit");
+            SendCommand("quit");
             _process.WaitForExit();
         }
 
         public string GetBestMove()
         {
-            _process.StandardInput.WriteLine("go");
+            SendCommand("go depth 20");
             _bestMoveReady.WaitOne();
             return _bestMove;
         }
 
         public void Move(string move)
         {
-            _process.StandardInput.WriteLine("position startpos moves "+ move);
+            SendCommand("position startpos moves "+ move);
             WaitForReady();
         }
 
         private void WaitForReady()
         {
-            _process.StandardInput.WriteLine("isready");
+            SendCommand("isready");
             _readyOk.WaitOne();
         }
 
@@ -74,7 +80,8 @@ namespace BlackMitten.Elliot.StockfishEngine
             {
                 throw new Exception(e.Data);
             }
-            else if ( !_quitting )
+            Console.WriteLine(e.Data);
+            if ( !_quitting )
             {
                 throw new Exception();
             }
@@ -86,7 +93,8 @@ namespace BlackMitten.Elliot.StockfishEngine
             {
                 return;
             }
-            else if (e.Data.StartsWith("Stockfish "))
+            Console.WriteLine(e.Data);
+            if (e.Data.StartsWith("Stockfish "))
             {
                 _fishReady.Set();
             }
