@@ -67,9 +67,12 @@ namespace Blackmitten.Elliot.WinForms
                 }
             }
             graphics.DrawRectangle(Pens.Black, 0, 0, m_width, m_width);
-            foreach (var piece in board.Pieces)
+            if (board != null)
             {
-                piece.Accept(this, graphics);
+                foreach (var piece in board.Pieces)
+                {
+                    piece.Accept(this, graphics);
+                }
             }
 
         }
@@ -128,7 +131,7 @@ namespace Blackmitten.Elliot.WinForms
         {
             int squareWidth = m_width / 8;
             brush = piece.White ? m_whiteBrush : m_blackBrush;
-            pt = new Point(piece.Pos.x * squareWidth - squareWidth / 2, piece.Pos.y * squareWidth - squareWidth / 2);
+            pt = new Point(piece.Pos.x * squareWidth - squareWidth / 2, (9-piece.Pos.y) * squareWidth - squareWidth / 2);
 
         }
 

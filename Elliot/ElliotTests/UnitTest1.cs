@@ -23,6 +23,16 @@ namespace ElliotTests
         }
 
         [TestMethod]
+        public void TestSquareCopyAndChange()
+        {
+            Square s1 = new Square(1, 1);
+            Square s2 = s1;
+            Assert.AreEqual(s1, s2);
+            s2.x++;
+            Assert.AreNotEqual(s1, s2);
+        }
+
+        [TestMethod]
         public void TestSquareOffset()
         {
             Square s6 = new Square(4, 4);

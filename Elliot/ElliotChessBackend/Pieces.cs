@@ -11,6 +11,8 @@ namespace Blackmitten.Elliot.Backend
         Square Pos { get; set; }
         bool White { get; }
         void Accept(IPieceVisitor visitor, object data);
+        IPiece Copy();
+        string Name { get; }
     }
 
     public interface IPieceVisitor
@@ -37,6 +39,11 @@ namespace Blackmitten.Elliot.Backend
 
         abstract public void Accept(IPieceVisitor visitor, object data);
 
+        abstract public IPiece Copy();
+
+        public abstract string Name { get; }
+
+        public override string ToString() => (White ? "White " : "Black ") + Name + " on " + Pos;
     }
 
     public class Pawn : Piece
@@ -47,6 +54,10 @@ namespace Blackmitten.Elliot.Backend
         }
 
         public override void Accept(IPieceVisitor visitor, object data) => visitor.Visit(this, data);
+
+        public override IPiece Copy() => new Pawn(Pos, White);
+
+        public override string Name => "Pawn";
     }
 
     public class Rook : Piece
@@ -57,6 +68,10 @@ namespace Blackmitten.Elliot.Backend
         }
 
         public override void Accept(IPieceVisitor visitor, object data) => visitor.Visit(this, data);
+
+        public override IPiece Copy() => new Rook(Pos, White);
+
+        public override string Name => "Rook";
     }
 
     public class Knight : Piece
@@ -67,6 +82,10 @@ namespace Blackmitten.Elliot.Backend
         }
 
         public override void Accept(IPieceVisitor visitor, object data) => visitor.Visit(this, data);
+
+        public override IPiece Copy() => new Knight(Pos, White);
+
+        public override string Name => "Knight";
     }
 
     public class Bishop : Piece
@@ -77,6 +96,10 @@ namespace Blackmitten.Elliot.Backend
         }
 
         public override void Accept(IPieceVisitor visitor, object data) => visitor.Visit(this, data);
+
+        public override IPiece Copy() => new Bishop(Pos, White);
+
+        public override string Name => "Bishop";
     }
 
     public class Queen : Piece
@@ -87,6 +110,10 @@ namespace Blackmitten.Elliot.Backend
         }
 
         public override void Accept(IPieceVisitor visitor, object data) => visitor.Visit(this, data);
+
+        public override IPiece Copy() => new Queen(Pos, White);
+
+        public override string Name => "Queen";
     }
 
     public class King : Piece
@@ -97,5 +124,10 @@ namespace Blackmitten.Elliot.Backend
         }
 
         public override void Accept(IPieceVisitor visitor, object data) => visitor.Visit(this, data);
+
+        public override IPiece Copy() => new King(Pos, White);
+
+        public override string Name => "King";
     }
+
 }

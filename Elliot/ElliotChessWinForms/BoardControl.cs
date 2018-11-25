@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Blackmitten.Elliot.Backend;
+using Blackmitten.Menzel;
 
 namespace Blackmitten.Elliot.WinForms
 {
@@ -15,6 +16,7 @@ namespace Blackmitten.Elliot.WinForms
     {
         private int m_width = 400;
         private DrawPiecesBadly _drawPiecesBadly;
+        Square _moveStartSquare;
 
 
         public BoardControl()
@@ -26,7 +28,10 @@ namespace Blackmitten.Elliot.WinForms
 
         private void BoardControl_Paint(object sender, PaintEventArgs e)
         {
-            _drawPiecesBadly.Draw(e.Graphics,_board);
+            if (_drawPiecesBadly != null)
+            {
+                _drawPiecesBadly.Draw(e.Graphics, _board);
+            }
         }
 
 
@@ -44,6 +49,38 @@ namespace Blackmitten.Elliot.WinForms
             }
         }
 
+        private void BoardControl_MouseClick(object sender, MouseEventArgs e)
+        {
+            double squareWidth = m_width / 8;
+            int x = 1 + (int)Math.Floor(e.X / squareWidth);
+            int y = 8 - (int)Math.Floor(e.Y / squareWidth);
+            SquareClicked(new Square(x, y));
+        }
+
+        private void SquareClicked(Square clickedSquare)
+        {
+            Log.Write("Clicked " + clickedSquare);
+            if (clickedSquare.InBounds)
+            {
+                if (!_moveStartSquare.InBounds)
+                {
+                    _moveStartSquare = clickedSquare;
+                }
+                else
+                {
+                    MovePiece(_moveStartSquare, clickedSquare);
+                    _moveStartSquare = new Square();
+                }
+            }
+        }
+
+        private void MovePiece(Square startSquare, Square endSquare)
+        {
+            _board.MovePiece(startSquare, endSquare);
+            Invalidate();
+        }
+
+        public ILog Log { private get; set; }
 
     }
 }

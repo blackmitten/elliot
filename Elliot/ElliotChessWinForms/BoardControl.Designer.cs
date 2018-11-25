@@ -1,4 +1,5 @@
-﻿namespace Blackmitten.Elliot.WinForms
+﻿
+namespace Blackmitten.Elliot.WinForms
 {
     partial class BoardControl
     {
@@ -37,6 +38,7 @@
             this.Name = "BoardControl";
             this.Size = new System.Drawing.Size(522, 458);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.BoardControl_Paint);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BoardControl_MouseClick);
             this.ResumeLayout(false);
 
         }

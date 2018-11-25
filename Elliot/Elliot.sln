@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElliotChessBackend", "Ellio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElliotTests", "ElliotTests\ElliotTests.csproj", "{461AA044-9E80-4193-83BA-570C47AD37E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenzelLog", "MenzelLog\MenzelLog.csproj", "{EA031E13-1D5C-4D4E-B8EE-400A802BF523}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{461AA044-9E80-4193-83BA-570C47AD37E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{461AA044-9E80-4193-83BA-570C47AD37E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{461AA044-9E80-4193-83BA-570C47AD37E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA031E13-1D5C-4D4E-B8EE-400A802BF523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA031E13-1D5C-4D4E-B8EE-400A802BF523}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA031E13-1D5C-4D4E-B8EE-400A802BF523}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA031E13-1D5C-4D4E-B8EE-400A802BF523}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

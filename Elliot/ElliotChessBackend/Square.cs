@@ -22,6 +22,8 @@ namespace Blackmitten.Elliot.Backend
         public int x;
         public int y;
 
+        public bool InBounds => x >= 1 && x <= 8 && y >= 1 && y <= 8;
+
         public Square(string s)
         {
             int c = char.ConvertToUtf32(s, 0);
