@@ -13,10 +13,14 @@ namespace Blackmitten.Elliot.WinForms
         private Brush m_whiteBrush = new SolidBrush(Color.White);
         private Brush m_blackBrush = new SolidBrush(Color.Black);
         private int m_width;
+        private Brush m_darkBrush;
+        private Brush m_lightBrush;
 
         public DrawPiecesBadly(int width)
         {
             m_width = width;
+            m_darkBrush = new SolidBrush(Color.FromArgb(0x70, 0x70, 0x70));
+            m_lightBrush = new SolidBrush(Color.FromArgb(0xa0, 0xa0, 0xa0));
         }
 
         #region piece drawing
@@ -37,6 +41,36 @@ namespace Blackmitten.Elliot.WinForms
             g.FillRectangle(brush, pt.X - squareWidth / 7, pt.Y - squareWidth / 4, 2 * squareWidth / 7, 2 * squareWidth / 4);
             g.FillRectangle(brush, pt.X - squareWidth / 5, pt.Y - squareWidth / 4, 2 * squareWidth / 5, squareWidth / 8);
             g.FillRectangle(brush, pt.X - squareWidth / 5, pt.Y + squareWidth / 4 - squareWidth / 8, 2 * squareWidth / 5, squareWidth / 8);
+
+        }
+
+        internal void Draw(Graphics graphics, Board board)
+        {
+            graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            bool dark = false;
+            for (var x = 0; x < 8; x++)
+            {
+                dark = !dark;
+                for (var y = 0; y < 8; y++)
+                {
+                    dark = !dark;
+                    Brush brush;
+                    if (dark)
+                    {
+                        brush = m_darkBrush;
+                    }
+                    else
+                    {
+                        brush = m_lightBrush;
+                    }
+                    graphics.FillRectangle(brush, x * m_width / 8, y * m_width / 8, m_width / 8, m_width / 8);
+                }
+            }
+            graphics.DrawRectangle(Pens.Black, 0, 0, m_width, m_width);
+            foreach (var piece in board.Pieces)
+            {
+                piece.Accept(this, graphics);
+            }
 
         }
 
