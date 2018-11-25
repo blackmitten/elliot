@@ -88,5 +88,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ElliotChessBackend\ElliotChessBackend.csproj">
+      <Project>{FAB48294-3276-49AF-A8F1-80E5899B487A}</Project>
+      <Name>ElliotChessBackend</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

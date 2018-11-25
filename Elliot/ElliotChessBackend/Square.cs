@@ -17,16 +17,17 @@ namespace Blackmitten.Elliot.Backend
         // 3 ■   ■   ■   ■
         // 2   ■   ■   ■   ■
         // 1 ■   ■   ■   ■
+        //   1 2 3 4 5 6 7 8
 
         public int x;
         public int y;
 
         public Square(string s)
         {
-            int c = Char.ConvertToUtf32(s, 0);
-            int r = Char.ConvertToUtf32(s, 1);
-            x = c-96;
-            y = r-48;
+            int c = char.ConvertToUtf32(s, 0);
+            int r = char.ConvertToUtf32(s, 1);
+            x = c - 96;
+            y = r - 48;
         }
 
         public Square(int x, int y)
@@ -62,7 +63,9 @@ namespace Blackmitten.Elliot.Backend
 
         public override string ToString()
         {
-            return x + ", " + y;
+            string c = char.ConvertFromUtf32(x + 96);
+            string r = char.ConvertFromUtf32(y + 48);
+            return c + r;
         }
 
     }

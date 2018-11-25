@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Blackmitten.Elliot.Backend;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,9 @@ namespace BlackMitten.Elliot.Winforms
         public Form1()
         {
             InitializeComponent();
+
+            Board board = Board.InitNewGame();
+            this.boardControl1.Board = board;
         }
     }
 }

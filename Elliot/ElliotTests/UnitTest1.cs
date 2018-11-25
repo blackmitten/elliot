@@ -50,5 +50,12 @@ namespace ElliotTests
             Assert.AreEqual(new Square("h8"), new Square(8, 8));
             Assert.AreEqual(new Square("a8"), new Square(1, 8));
         }
+
+        [TestMethod]
+        public void TestSquareToString()
+        {
+            Assert.AreEqual(new Square("a1").ToString(), "a1");
+            Assert.AreEqual(new Square("h5").ToString(), "h5");
+        }
     }
 }
