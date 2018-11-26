@@ -12,6 +12,7 @@ namespace Blackmitten.Elliot.WinForms
     {
         private Brush m_whiteBrush = new SolidBrush(Color.White);
         private Brush m_blackBrush = new SolidBrush(Color.Black);
+        private Pen m_selectionPen = new Pen(Color.Red, 3);
         private int m_width;
         private Brush m_darkBrush;
         private Brush m_lightBrush;
@@ -23,28 +24,7 @@ namespace Blackmitten.Elliot.WinForms
             m_lightBrush = new SolidBrush(Color.FromArgb(0xa0, 0xa0, 0xa0));
         }
 
-        #region piece drawing
-
-        public void Visit(Pawn piece, object data)
-        {
-            int squareWidth = m_width / 8;
-            Graphics g = data as Graphics;
-            drawPiecePreamble(piece, out Brush brush, out PointF pt);
-            g.FillEllipse(brush, pt.X - squareWidth / 5, pt.Y - squareWidth / 5, 2 * squareWidth / 5, 2 * squareWidth / 5);
-        }
-
-        public void Visit(Rook piece, object data)
-        {
-            int squareWidth = m_width / 8;
-            Graphics g = data as Graphics;
-            drawPiecePreamble(piece, out Brush brush, out PointF pt);
-            g.FillRectangle(brush, pt.X - squareWidth / 7, pt.Y - squareWidth / 4, 2 * squareWidth / 7, 2 * squareWidth / 4);
-            g.FillRectangle(brush, pt.X - squareWidth / 5, pt.Y - squareWidth / 4, 2 * squareWidth / 5, squareWidth / 8);
-            g.FillRectangle(brush, pt.X - squareWidth / 5, pt.Y + squareWidth / 4 - squareWidth / 8, 2 * squareWidth / 5, squareWidth / 8);
-
-        }
-
-        internal void Draw(Graphics graphics, Board board)
+        internal void Draw(Graphics graphics, Board board, Square startSquare)
         {
             graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             bool dark = false;
@@ -74,6 +54,39 @@ namespace Blackmitten.Elliot.WinForms
                     piece.Accept(this, graphics);
                 }
             }
+            if (startSquare.InBounds)
+            {
+                int SquareWidth = m_width / 8;
+                graphics.DrawRectangle(m_selectionPen, (startSquare.x-1) * SquareWidth, (8-startSquare.y) * SquareWidth, SquareWidth, SquareWidth);
+            }
+
+
+        }
+
+        void DrawPiecePreamble(IPiece piece, out Brush brush, out PointF pt)
+        {
+            int squareWidth = m_width / 8;
+            brush = piece.White ? m_whiteBrush : m_blackBrush;
+            pt = new Point(piece.Pos.x * squareWidth - squareWidth / 2, (9 - piece.Pos.y) * squareWidth - squareWidth / 2);
+
+        }
+
+        public void Visit(Pawn piece, object data)
+        {
+            int squareWidth = m_width / 8;
+            Graphics g = data as Graphics;
+            DrawPiecePreamble(piece, out Brush brush, out PointF pt);
+            g.FillEllipse(brush, pt.X - squareWidth / 5, pt.Y - squareWidth / 5, 2 * squareWidth / 5, 2 * squareWidth / 5);
+        }
+
+        public void Visit(Rook piece, object data)
+        {
+            int squareWidth = m_width / 8;
+            Graphics g = data as Graphics;
+            DrawPiecePreamble(piece, out Brush brush, out PointF pt);
+            g.FillRectangle(brush, pt.X - squareWidth / 7, pt.Y - squareWidth / 4, 2 * squareWidth / 7, 2 * squareWidth / 4);
+            g.FillRectangle(brush, pt.X - squareWidth / 5, pt.Y - squareWidth / 4, 2 * squareWidth / 5, squareWidth / 8);
+            g.FillRectangle(brush, pt.X - squareWidth / 5, pt.Y + squareWidth / 4 - squareWidth / 8, 2 * squareWidth / 5, squareWidth / 8);
 
         }
 
@@ -81,7 +94,7 @@ namespace Blackmitten.Elliot.WinForms
         {
             int squareWidth = m_width / 8;
             Graphics g = data as Graphics;
-            drawPiecePreamble(piece, out Brush brush, out PointF pt);
+            DrawPiecePreamble(piece, out Brush brush, out PointF pt);
             g.FillRectangle(brush, pt.X - squareWidth / 5, pt.Y - squareWidth / 4, 2 * squareWidth / 7, 2 * squareWidth / 4);
             g.FillRectangle(brush, pt.X - squareWidth / 5, pt.Y - squareWidth / 4, 2 * squareWidth / 5, 2 * squareWidth / 8);
         }
@@ -90,7 +103,7 @@ namespace Blackmitten.Elliot.WinForms
         {
             int squareWidth = m_width / 8;
             Graphics g = data as Graphics;
-            drawPiecePreamble(piece, out Brush brush, out PointF pt);
+            DrawPiecePreamble(piece, out Brush brush, out PointF pt);
             PointF[] pts = new PointF[] {
                 new PointF( pt.X - squareWidth / 5, pt.Y + squareWidth / 4 ),
                 new PointF(pt.X+squareWidth/5,pt.Y+squareWidth/4),
@@ -103,7 +116,7 @@ namespace Blackmitten.Elliot.WinForms
         {
             int squareWidth = m_width / 8;
             Graphics g = data as Graphics;
-            drawPiecePreamble(piece, out Brush brush, out PointF pt);
+            DrawPiecePreamble(piece, out Brush brush, out PointF pt);
             PointF[] pts = new PointF[] {
                 new PointF( pt.X-squareWidth/3.5f,pt.Y+squareWidth/7),
                 new PointF(pt.X+squareWidth/3.5f,pt.Y+squareWidth/7),
@@ -122,19 +135,10 @@ namespace Blackmitten.Elliot.WinForms
         {
             int squareWidth = m_width / 8;
             Graphics g = data as Graphics;
-            drawPiecePreamble(piece, out Brush brush, out PointF pt);
+            DrawPiecePreamble(piece, out Brush brush, out PointF pt);
             g.FillRectangle(brush, pt.X - squareWidth / 7, pt.Y - squareWidth / 3.5f, 2 * squareWidth / 7, 2 * squareWidth / 3.5f);
             g.FillRectangle(brush, pt.X - squareWidth / 3.5f, pt.Y - squareWidth / 7, 2 * squareWidth / 3.5f, 2 * squareWidth / 7);
         }
 
-        void drawPiecePreamble(IPiece piece, out Brush brush, out PointF pt)
-        {
-            int squareWidth = m_width / 8;
-            brush = piece.White ? m_whiteBrush : m_blackBrush;
-            pt = new Point(piece.Pos.x * squareWidth - squareWidth / 2, (9-piece.Pos.y) * squareWidth - squareWidth / 2);
-
-        }
-
-        #endregion
     }
 }

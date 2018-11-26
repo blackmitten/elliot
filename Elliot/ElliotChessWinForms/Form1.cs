@@ -32,9 +32,13 @@ namespace BlackMitten.Elliot.Winforms
         private void Timer1_Tick(object sender, EventArgs e)
         {
             var strings = _log.Read();
-            foreach(var s in strings)
+            foreach (var s in strings)
             {
                 listBox1.Items.Add(s);
+            }
+            if (listBox1.Items.Count > 0)
+            {
+                listBox1.SelectedIndex = listBox1.Items.Count - 1;
             }
         }
 

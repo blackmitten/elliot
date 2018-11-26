@@ -30,7 +30,7 @@ namespace Blackmitten.Elliot.WinForms
         {
             if (_drawPiecesBadly != null)
             {
-                _drawPiecesBadly.Draw(e.Graphics, _board);
+                _drawPiecesBadly.Draw(e.Graphics, _board, _moveStartSquare);
             }
         }
 
@@ -72,6 +72,7 @@ namespace Blackmitten.Elliot.WinForms
                     _moveStartSquare = new Square();
                 }
             }
+            Invalidate();
         }
 
         private void MovePiece(Square startSquare, Square endSquare)
