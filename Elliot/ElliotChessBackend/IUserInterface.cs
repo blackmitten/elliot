@@ -19,9 +19,10 @@ namespace Blackmitten.Elliot.Backend
     public interface IUserInterface
     {
         Board Board { set; }
+        /*
         bool MachineThinking { set; }
 
         event EventHandler<BoardUpdateEventArgs> BoardUpdated;
-
+        */
     }
 }

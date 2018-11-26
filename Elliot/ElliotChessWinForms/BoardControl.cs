@@ -12,7 +12,7 @@ using Blackmitten.Menzel;
 
 namespace Blackmitten.Elliot.WinForms
 {
-    public partial class BoardControl : UserControl
+    public partial class BoardControl : UserControl, IUserInterface
     {
         private int m_width = 400;
         private DrawPiecesBadly _drawPiecesBadly;
@@ -64,7 +64,10 @@ namespace Blackmitten.Elliot.WinForms
             {
                 if (!_moveStartSquare.InBounds)
                 {
-                    _moveStartSquare = clickedSquare;
+                    if (_board.GetPieceOnSquare(clickedSquare) != null)
+                    {
+                        _moveStartSquare = clickedSquare;
+                    }
                 }
                 else
                 {

@@ -15,6 +15,7 @@ namespace BlackMitten.Elliot.Winforms
     public partial class Form1 : Form
     {
         ILog _log;
+        Game _game;
 
         public Form1()
         {
@@ -22,9 +23,11 @@ namespace BlackMitten.Elliot.Winforms
 
             _log = new Log();
 
-            Board board = Board.InitNewGame();
+            _game = new Game( new HumanPlayer(true), new HumanPlayer(false), boardControl1);
+
+            
             this.boardControl1.Log = _log;
-            this.boardControl1.Board = board;
+            // this.boardControl1.Board = board;
             this.timer1.Tick += Timer1_Tick;
             this.timer1.Start();
         }

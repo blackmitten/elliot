@@ -26,7 +26,7 @@ namespace Blackmitten.Elliot.Backend
             m_currentBoard = Board.InitNewGame();
 
             userInterface.Board = m_currentBoard;
-            userInterface.BoardUpdated += BoardUpdated;
+//            userInterface.BoardUpdated += BoardUpdated;
 
             Play();
         }
