@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blackmitten.Elliot.Backend
 {
-    public class MachinePlayer:IPlayer
+    public class MachinePlayer : IPlayer
     {
         public MachinePlayer(bool white)
         {

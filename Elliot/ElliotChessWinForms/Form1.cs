@@ -23,9 +23,9 @@ namespace BlackMitten.Elliot.Winforms
 
             _log = new Log();
 
-            _game = new Game( new HumanPlayer(true), new HumanPlayer(false), boardControl1);
+            _game = new Game(new HumanPlayer(true, boardControl1), new HumanPlayer(false, boardControl1), boardControl1);
 
-            
+
             this.boardControl1.Log = _log;
             // this.boardControl1.Board = board;
             this.timer1.Tick += Timer1_Tick;
@@ -45,5 +45,9 @@ namespace BlackMitten.Elliot.Winforms
             }
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _game.Stop();
+        }
     }
 }

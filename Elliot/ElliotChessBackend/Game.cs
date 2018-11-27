@@ -14,6 +14,7 @@ namespace Blackmitten.Elliot.Backend
         Board m_currentBoard;
         IPlayer m_white;
         IPlayer m_black;
+        bool _gameOver = false;
 //        TranspositionTable m_transpositionTable = new TranspositionTable();
 
         public Game(IPlayer white, IPlayer black, IUserInterface userInterface)
@@ -35,11 +36,16 @@ namespace Blackmitten.Elliot.Backend
         {
             Thread thread = new Thread(() =>
             {
-                bool gameOver = false;
-                while (!gameOver)
+                while (!_gameOver)
                 {
-                    m_white.Play();
-                    m_black.Play();
+                    if (m_currentBoard.WhitesTurn)
+                    {
+                        m_white.Play();
+                    }
+                    else
+                    {
+                        m_black.Play();
+                    }
                 }
 
                 /*
@@ -68,6 +74,11 @@ namespace Blackmitten.Elliot.Backend
             Play();
         }
 
+        public void Stop()
+        {
+            _gameOver = true;
+            m_userInterface.StopWaiting();
+        }
 
     }
 }

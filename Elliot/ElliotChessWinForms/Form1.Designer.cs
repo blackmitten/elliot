@@ -45,6 +45,8 @@
             this.boardControl1.Name = "boardControl1";
             this.boardControl1.Size = new System.Drawing.Size(407, 404);
             this.boardControl1.TabIndex = 0;
+            this.boardControl1.WaitingForBlackHuman = false;
+            this.boardControl1.WaitingForWhiteHuman = false;
             // 
             // panel1
             // 
@@ -82,6 +84,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);

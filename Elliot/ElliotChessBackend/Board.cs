@@ -62,6 +62,7 @@ namespace Blackmitten.Elliot.Backend
         {
             IPiece piece = GetPieceOnSquare(startSquare);
             piece.Pos = endSquare;
+            WhitesTurn = !WhitesTurn;
         }
 
         public IPiece GetPieceOnSquare(Square square)

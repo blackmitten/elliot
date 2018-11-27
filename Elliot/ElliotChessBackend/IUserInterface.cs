@@ -19,6 +19,12 @@ namespace Blackmitten.Elliot.Backend
     public interface IUserInterface
     {
         Board Board { set; }
+        bool WaitingForWhiteHuman { get; set; }
+        bool WaitingForBlackHuman { get; set; }
+
+        void WaitForHuman();
+        void StopWaiting();
+
         /*
         bool MachineThinking { set; }
 

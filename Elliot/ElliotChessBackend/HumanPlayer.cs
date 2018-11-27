@@ -8,9 +8,12 @@ namespace Blackmitten.Elliot.Backend
 {
     public class HumanPlayer : IPlayer
     {
-        public HumanPlayer(bool white)
+        IUserInterface _userInterface;
+
+        public HumanPlayer(bool white, IUserInterface userInterface)
         {
             White = white;
+            _userInterface = userInterface;
         }
 
         public bool Human => true;
@@ -19,7 +22,18 @@ namespace Blackmitten.Elliot.Backend
 
         public void Play()
         {
-
+            if (White)
+            {
+                _userInterface.WaitingForBlackHuman = false;
+                _userInterface.WaitingForWhiteHuman = true;
+                _userInterface.WaitForHuman();
+            }
+            else
+            {
+                _userInterface.WaitingForBlackHuman = true;
+                _userInterface.WaitingForWhiteHuman = false;
+                _userInterface.WaitForHuman();
+            }
         }
 
     }

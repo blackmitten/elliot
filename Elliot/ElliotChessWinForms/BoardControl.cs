@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Blackmitten.Elliot.Backend;
 using Blackmitten.Menzel;
+using System.Threading;
 
 namespace Blackmitten.Elliot.WinForms
 {
@@ -17,6 +18,8 @@ namespace Blackmitten.Elliot.WinForms
         private int m_width = 400;
         private DrawPiecesBadly _drawPiecesBadly;
         Square _moveStartSquare;
+        ManualResetEvent _humanMoved = new ManualResetEvent(false);
+        ManualResetEvent _quitting = new ManualResetEvent(false);
 
 
         public BoardControl()
@@ -62,17 +65,25 @@ namespace Blackmitten.Elliot.WinForms
             Log.Write("Clicked " + clickedSquare);
             if (clickedSquare.InBounds)
             {
-                if (!_moveStartSquare.InBounds)
+                if (WaitingForWhiteHuman || WaitingForBlackHuman)
                 {
-                    if (_board.GetPieceOnSquare(clickedSquare) != null)
+                    if (!_moveStartSquare.InBounds)
                     {
-                        _moveStartSquare = clickedSquare;
+                        IPiece clickedPiece = _board.GetPieceOnSquare(clickedSquare);
+                        if (clickedPiece != null)
+                        {
+                            if ((clickedPiece.White && WaitingForWhiteHuman) || (!clickedPiece.White && WaitingForBlackHuman))
+                            {
+                                _moveStartSquare = clickedSquare;
+                            }
+                        }
                     }
-                }
-                else
-                {
-                    MovePiece(_moveStartSquare, clickedSquare);
-                    _moveStartSquare = new Square();
+                    else
+                    {
+                        MovePiece(_moveStartSquare, clickedSquare);
+                        _moveStartSquare = new Square();
+                        _humanMoved.Set();
+                    }
                 }
             }
             Invalidate();
@@ -84,7 +95,19 @@ namespace Blackmitten.Elliot.WinForms
             Invalidate();
         }
 
-        public ILog Log { private get; set; }
+        public void WaitForHuman()
+        {
+            _humanMoved.Reset();
+            WaitHandle.WaitAny(new[] { _humanMoved, _quitting });
+        }
 
+        public void StopWaiting()
+        {
+            _quitting.Set();
+        }
+
+        public ILog Log { private get; set; }
+        public bool WaitingForWhiteHuman { get; set; }
+        public bool WaitingForBlackHuman { get; set; }
     }
 }
