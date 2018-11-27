@@ -6,21 +6,20 @@ using System.Threading.Tasks;
 
 namespace Blackmitten.Elliot.Backend
 {
-    public class HumanPlayer : IPlayer
+    public class MachinePlayer:IPlayer
     {
-        public HumanPlayer(bool white)
+        public MachinePlayer(bool white)
         {
             White = white;
         }
 
-        public bool Human => true;
+        public bool Human => false;
 
         public bool White { get; }
 
         public void Play()
         {
-
+            throw new NotImplementedException();
         }
-
     }
 }

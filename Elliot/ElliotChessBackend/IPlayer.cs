@@ -8,6 +8,7 @@ namespace Blackmitten.Elliot.Backend
 {
     public interface IPlayer
     {
+        bool Human { get; }
         bool White { get; }
         void Play();
     }
