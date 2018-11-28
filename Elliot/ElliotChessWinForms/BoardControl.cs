@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace Blackmitten.Elliot.WinForms
 {
-    public partial class BoardControl : UserControl, IUserInterface
+    public partial class BoardControl : UserControl
     {
         private int m_width = 400;
         private DrawPiecesBadly _drawPiecesBadly;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlackMitten.Elliot.Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,14 @@ namespace Blackmitten.Elliot.Backend
 {
     public class MachinePlayer : IPlayer
     {
-        public MachinePlayer(bool white)
+        IUserInterface _userInterface;
+        IEngine _engine;
+
+        public MachinePlayer(bool white, IUserInterface userInterface, IEngine engine)
         {
             White = white;
+            _userInterface = userInterface;
+            _engine = engine;
         }
 
         public bool Human => false;
@@ -19,6 +25,7 @@ namespace Blackmitten.Elliot.Backend
 
         public void Play()
         {
+            string move = _engine.GetBestMove();
             throw new NotImplementedException();
         }
     }

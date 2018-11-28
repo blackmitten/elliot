@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace BlackMitten.Elliot.FaladeEngine
 {
-    /*
-    internal class FaladeEngine : IEngine
+    
+    public class Falade : IEngine
     {
         public void Stop()
         {
@@ -19,6 +19,8 @@ namespace BlackMitten.Elliot.FaladeEngine
         {
             throw new NotImplementedException();
         }
+
+        public void Move(string move) => throw new NotImplementedException();
     }
-    */
+    
 }

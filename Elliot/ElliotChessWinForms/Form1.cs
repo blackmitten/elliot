@@ -1,5 +1,6 @@
 ﻿using Blackmitten.Elliot.Backend;
 using Blackmitten.Menzel;
+using BlackMitten.Elliot.FaladeEngine;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,10 +13,22 @@ using System.Windows.Forms;
 
 namespace BlackMitten.Elliot.Winforms
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, IUserInterface
     {
         ILog _log;
         Game _game;
+
+        public Board Board { set => boardControl1.Board = value; }
+        public bool WaitingForWhiteHuman
+        {
+            get => boardControl1.WaitingForWhiteHuman;
+            set => boardControl1.WaitingForWhiteHuman = value;
+        }
+        public bool WaitingForBlackHuman
+        {
+            get => boardControl1.WaitingForBlackHuman;
+            set => boardControl1.WaitingForBlackHuman = value;
+        }
 
         public Form1()
         {
@@ -23,7 +36,7 @@ namespace BlackMitten.Elliot.Winforms
 
             _log = new Log();
 
-            _game = new Game(new HumanPlayer(true, boardControl1), new HumanPlayer(false, boardControl1), boardControl1);
+            _game = new Game(new HumanPlayer(true, this), new MachinePlayer(false, this, new Falade()), this);
 
 
             this.boardControl1.Log = _log;
@@ -49,5 +62,8 @@ namespace BlackMitten.Elliot.Winforms
         {
             _game.Stop();
         }
+
+        public void WaitForHuman() => boardControl1.WaitForHuman();
+        public void StopWaiting() => boardControl1.StopWaiting();
     }
 }
