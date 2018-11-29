@@ -29,6 +29,11 @@ namespace BlackMitten.Elliot.Winforms
             get => boardControl1.WaitingForBlackHuman;
             set => boardControl1.WaitingForBlackHuman = value;
         }
+        public bool MachineThinking
+        {
+            get => boardControl1.MachineThinking;
+            set => boardControl1.MachineThinking = value;
+        }
 
         public Form1()
         {
@@ -36,7 +41,11 @@ namespace BlackMitten.Elliot.Winforms
 
             _log = new Log();
 
-            _game = new Game(new HumanPlayer(true, this), new MachinePlayer(false, this, new Falade()), this);
+            IPlayer whiteHuman = new HumanPlayer(true, this);
+            IPlayer blackHuman = new HumanPlayer(false, this);
+            IPlayer blackMachine = new MachinePlayer(false, this, new Falade());
+
+            _game = new Game(whiteHuman, blackMachine, this);
 
 
             this.boardControl1.Log = _log;
@@ -63,7 +72,7 @@ namespace BlackMitten.Elliot.Winforms
             _game.Stop();
         }
 
-        public void WaitForHuman() => boardControl1.WaitForHuman();
+        public Move WaitForHuman() => boardControl1.WaitForHuman();
         public void StopWaiting() => boardControl1.StopWaiting();
     }
 }

@@ -20,20 +20,22 @@ namespace Blackmitten.Elliot.Backend
 
         public bool White { get; }
 
-        public void Play()
+        public Move Play()
         {
+            Move move;
             if (White)
             {
                 _userInterface.WaitingForBlackHuman = false;
                 _userInterface.WaitingForWhiteHuman = true;
-                _userInterface.WaitForHuman();
+                move = _userInterface.WaitForHuman();
             }
             else
             {
                 _userInterface.WaitingForBlackHuman = true;
                 _userInterface.WaitingForWhiteHuman = false;
-                _userInterface.WaitForHuman();
+                move = _userInterface.WaitForHuman();
             }
+            return move;
         }
 
     }

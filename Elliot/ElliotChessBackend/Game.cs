@@ -15,7 +15,7 @@ namespace Blackmitten.Elliot.Backend
         IPlayer m_white;
         IPlayer m_black;
         bool _gameOver = false;
-//        TranspositionTable m_transpositionTable = new TranspositionTable();
+        //        TranspositionTable m_transpositionTable = new TranspositionTable();
 
         public Game(IPlayer white, IPlayer black, IUserInterface userInterface)
         {
@@ -27,7 +27,7 @@ namespace Blackmitten.Elliot.Backend
             m_currentBoard = Board.InitNewGame();
 
             userInterface.Board = m_currentBoard;
-//            userInterface.BoardUpdated += BoardUpdated;
+            //            userInterface.BoardUpdated += BoardUpdated;
 
             Play();
         }
@@ -38,13 +38,28 @@ namespace Blackmitten.Elliot.Backend
             {
                 while (!_gameOver)
                 {
+                    Move move;
                     if (m_currentBoard.WhitesTurn)
                     {
-                        m_white.Play();
+                        if (!m_white.Human)
+                        {
+                            m_userInterface.MachineThinking = true;
+                        }
+                        move = m_white.Play();
+                        m_userInterface.MachineThinking = false;
                     }
                     else
                     {
-                        m_black.Play();
+                        if (!m_black.Human)
+                        {
+                            m_userInterface.MachineThinking = true;
+                        }
+                        move = m_black.Play();
+                        m_userInterface.MachineThinking = false;
+                    }
+                    if (!_gameOver)
+                    {
+                        m_currentBoard.Move(move);
                     }
                 }
 

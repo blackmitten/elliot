@@ -56,14 +56,23 @@ namespace Blackmitten.Elliot.Backend
             return b;
         }
 
+        internal void Move(Move move)
+        {
+            IPiece piece = GetPieceOnSquare(move.Start);
+            piece.Pos = move.End;
+            WhitesTurn = !WhitesTurn;
+        }
+
         public IList<IPiece> Pieces => m_pieces;
 
+        /*
         public void MovePiece(Square startSquare, Square endSquare)
         {
             IPiece piece = GetPieceOnSquare(startSquare);
             piece.Pos = endSquare;
             WhitesTurn = !WhitesTurn;
         }
+        */
 
         public IPiece GetPieceOnSquare(Square square)
         {

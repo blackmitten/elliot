@@ -23,7 +23,7 @@ namespace Blackmitten.Elliot.Backend
 
         public bool White { get; }
 
-        public void Play()
+        public Move Play()
         {
             string move = _engine.GetBestMove();
             throw new NotImplementedException();

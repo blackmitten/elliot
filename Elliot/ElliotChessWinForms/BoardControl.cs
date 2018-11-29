@@ -20,6 +20,7 @@ namespace Blackmitten.Elliot.WinForms
         Square _moveStartSquare;
         ManualResetEvent _humanMoved = new ManualResetEvent(false);
         ManualResetEvent _quitting = new ManualResetEvent(false);
+        Move _humansMove;
 
 
         public BoardControl()
@@ -80,7 +81,7 @@ namespace Blackmitten.Elliot.WinForms
                     }
                     else
                     {
-                        MovePiece(_moveStartSquare, clickedSquare);
+                        _humansMove = new Move(_moveStartSquare, clickedSquare);
                         _moveStartSquare = new Square();
                         _humanMoved.Set();
                     }
@@ -89,16 +90,20 @@ namespace Blackmitten.Elliot.WinForms
             Invalidate();
         }
 
+        /*
         private void MovePiece(Square startSquare, Square endSquare)
         {
             _board.MovePiece(startSquare, endSquare);
             Invalidate();
         }
+        */
 
-        public void WaitForHuman()
+        public Move WaitForHuman()
         {
             _humanMoved.Reset();
+            _humansMove = null;
             WaitHandle.WaitAny(new[] { _humanMoved, _quitting });
+            return _humansMove;
         }
 
         public void StopWaiting()
@@ -109,5 +114,6 @@ namespace Blackmitten.Elliot.WinForms
         public ILog Log { private get; set; }
         public bool WaitingForWhiteHuman { get; set; }
         public bool WaitingForBlackHuman { get; set; }
+        public bool MachineThinking { get; internal set; }
     }
 }

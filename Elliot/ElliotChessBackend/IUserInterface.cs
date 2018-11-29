@@ -21,8 +21,9 @@ namespace Blackmitten.Elliot.Backend
         Board Board { set; }
         bool WaitingForWhiteHuman { get; set; }
         bool WaitingForBlackHuman { get; set; }
+        bool MachineThinking { get; set; }
 
-        void WaitForHuman();
+        Move WaitForHuman();
         void StopWaiting();
 
         /*
