@@ -10,23 +10,23 @@ namespace Blackmitten.Elliot.Backend
 {
     public class Game
     {
-        IUserInterface m_userInterface;
-        Board m_currentBoard;
-        IPlayer m_white;
-        IPlayer m_black;
+        IUserInterface _userInterface;
+        Board _board;
+        IPlayer _whitePlayer;
+        IPlayer _blackPlayer;
         bool _gameOver = false;
         //        TranspositionTable m_transpositionTable = new TranspositionTable();
 
-        public Game(IPlayer white, IPlayer black, IUserInterface userInterface)
+        public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface)
         {
-            Trace.Assert(white.White);
-            Trace.Assert(!black.White);
-            m_white = white;
-            m_black = black;
-            m_userInterface = userInterface;
-            m_currentBoard = Board.InitNewGame();
+            Trace.Assert(whitePlayer.White);
+            Trace.Assert(!blackPlayer.White);
+            _whitePlayer = whitePlayer;
+            _blackPlayer = blackPlayer;
+            _userInterface = userInterface;
+            _board = Board.InitNewGame();
 
-            userInterface.Board = m_currentBoard;
+            userInterface.Board = _board;
             //            userInterface.BoardUpdated += BoardUpdated;
 
             Play();
@@ -39,61 +39,47 @@ namespace Blackmitten.Elliot.Backend
                 while (!_gameOver)
                 {
                     Move move;
-                    if (m_currentBoard.WhitesTurn)
+                    if (_board.WhitesTurn)
                     {
-                        if (!m_white.Human)
+                        if (!_whitePlayer.Human)
                         {
-                            m_userInterface.MachineThinking = true;
+                            _userInterface.MachineThinking = true;
                         }
-                        move = m_white.Play();
-                        m_userInterface.MachineThinking = false;
+                        move = _whitePlayer.Play(_board);
+                        _userInterface.MachineThinking = false;
                     }
                     else
                     {
-                        if (!m_black.Human)
+                        if (!_blackPlayer.Human)
                         {
-                            m_userInterface.MachineThinking = true;
+                            _userInterface.MachineThinking = true;
                         }
-                        move = m_black.Play();
-                        m_userInterface.MachineThinking = false;
+                        move = _blackPlayer.Play(_board);
+                        _userInterface.MachineThinking = false;
                     }
                     if (!_gameOver)
                     {
-                        m_currentBoard.Move(move);
+                        _board.Move(move);
+                        _userInterface.Redraw();
                     }
                 }
-
-                /*
-                if (m_currentBoard.WhitesTurn && !m_whiteHuman)
-                {
-                    m_userInterface.MachineThinking = true;
-                    Board newBoard = m_currentBoard.ThinkAndMove(m_transpositionTable);
-                    m_userInterface.Update(newBoard);
-                    m_userInterface.MachineThinking = false;
-                }
-                else if (!m_currentBoard.WhitesTurn && !m_blackHuman)
-                {
-                    m_userInterface.MachineThinking = true;
-                    Board newBoard = m_currentBoard.ThinkAndMove(m_transpositionTable);
-                    m_userInterface.Update(newBoard);
-                    m_userInterface.MachineThinking = false;
-                }
-                */
             });
             thread.Start();
         }
 
         private void BoardUpdated(object sender, BoardUpdateEventArgs e)
         {
-            m_currentBoard = e.Board;
+            _board = e.Board;
             Play();
         }
 
         public void Stop()
         {
             _gameOver = true;
-            m_userInterface.StopWaiting();
+            _userInterface.StopWaiting();
         }
+
+        public bool WhitesTurn => _board.WhitesTurn;
 
     }
 }

@@ -1,5 +1,4 @@
-﻿using BlackMitten.Elliot.Engine;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,10 +22,10 @@ namespace Blackmitten.Elliot.Backend
 
         public bool White { get; }
 
-        public Move Play()
+        public Move Play(Board board)
         {
-            string move = _engine.GetBestMove();
-            throw new NotImplementedException();
+            Move move = _engine.GetBestMove(board);
+            return move;
         }
     }
 }

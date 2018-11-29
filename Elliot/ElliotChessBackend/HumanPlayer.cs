@@ -20,7 +20,7 @@ namespace Blackmitten.Elliot.Backend
 
         public bool White { get; }
 
-        public Move Play()
+        public Move Play(Board board)
         {
             Move move;
             if (White)

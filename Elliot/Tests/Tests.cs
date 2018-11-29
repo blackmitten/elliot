@@ -1,5 +1,4 @@
 ﻿using Blackmitten.Elliot.Backend;
-using BlackMitten.Elliot.Engine;
 using BlackMitten.Elliot.StockfishEngine;
 using System;
 using System.Collections.Generic;
@@ -40,7 +39,7 @@ namespace BlackMitten.Elliot.Tests
             string moves = "";
             for (;;)
             {
-                string bestMove = stockfish.GetBestMove();
+                Move bestMove = stockfish.GetBestMove();
                 Console.WriteLine(bestMove);
                 moves += " " + bestMove;
                 stockfish.Move(moves);

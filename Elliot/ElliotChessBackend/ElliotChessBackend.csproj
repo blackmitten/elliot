@@ -44,6 +44,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="HumanPlayer.cs" />
+    <Compile Include="IEngine.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="IUserInterface.cs" />
     <Compile Include="MachinePlayer.cs" />
@@ -51,12 +52,9 @@
     <Compile Include="Pieces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Square.cs" />
+    <Compile Include="StaticRandom.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Engine\Engine.csproj">
-      <Project>{425FDD5F-7A07-45B6-9787-994EA487292B}</Project>
-      <Name>Engine</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MenzelLog\MenzelLog.csproj">
       <Project>{EA031E13-1D5C-4D4E-B8EE-400A802BF523}</Project>
       <Name>MenzelLog</Name>

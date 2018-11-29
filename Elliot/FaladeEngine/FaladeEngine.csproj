@@ -45,9 +45,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Engine\Engine.csproj">
-      <Project>{425fdd5f-7a07-45b6-9787-994ea487292b}</Project>
-      <Name>Engine</Name>
+    <ProjectReference Include="..\ElliotChessBackend\ElliotChessBackend.csproj">
+      <Project>{FAB48294-3276-49AF-A8F1-80E5899B487A}</Project>
+      <Name>ElliotChessBackend</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

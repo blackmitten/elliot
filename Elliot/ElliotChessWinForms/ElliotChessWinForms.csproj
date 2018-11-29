@@ -95,10 +95,6 @@
       <Project>{FAB48294-3276-49AF-A8F1-80E5899B487A}</Project>
       <Name>ElliotChessBackend</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Engine\Engine.csproj">
-      <Project>{425FDD5F-7A07-45B6-9787-994EA487292B}</Project>
-      <Name>Engine</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FaladeEngine\FaladeEngine.csproj">
       <Project>{e1dfb0ab-9e43-48d0-bbc7-8e38d8163fa2}</Project>
       <Name>FaladeEngine</Name>

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackMitten.Elliot.Engine
+namespace Blackmitten.Elliot.Backend
 {
     public interface IEngine
     {
         void Stop();
-        string GetBestMove();
-        void Move(string move);
+        Move GetBestMove(Board board);
+//        void Move(string move);
     }
 }

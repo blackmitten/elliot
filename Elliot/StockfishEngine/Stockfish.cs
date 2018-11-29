@@ -1,4 +1,4 @@
-﻿using BlackMitten.Elliot.Engine;
+﻿using Blackmitten.Elliot.Backend;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -55,16 +55,17 @@ namespace BlackMitten.Elliot.StockfishEngine
             _process.WaitForExit();
         }
 
-        public string GetBestMove()
+        public Move GetBestMove(Board board)
         {
+            throw new NotImplementedException("need to use board parameter");
             SendCommand("go depth 20");
             _bestMoveReady.WaitOne();
-            return _bestMove;
+            return new Move(_bestMove);
         }
 
         public void Move(string move)
         {
-            SendCommand("position startpos moves "+ move);
+            SendCommand("position startpos moves " + move);
             WaitForReady();
         }
 
@@ -81,7 +82,7 @@ namespace BlackMitten.Elliot.StockfishEngine
                 throw new Exception(e.Data);
             }
             Console.WriteLine(e.Data);
-            if ( !_quitting )
+            if (!_quitting)
             {
                 throw new Exception();
             }

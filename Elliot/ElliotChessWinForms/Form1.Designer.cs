@@ -34,6 +34,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.labelWhosTurn = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -50,6 +51,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.labelWhosTurn);
             this.panel1.Controls.Add(this.boardControl1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -75,6 +77,16 @@
             this.listBox1.Size = new System.Drawing.Size(800, 159);
             this.listBox1.TabIndex = 0;
             // 
+            // labelWhosTurn
+            // 
+            this.labelWhosTurn.AutoSize = true;
+            this.labelWhosTurn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelWhosTurn.Location = new System.Drawing.Point(427, 35);
+            this.labelWhosTurn.Name = "labelWhosTurn";
+            this.labelWhosTurn.Size = new System.Drawing.Size(110, 24);
+            this.labelWhosTurn.TabIndex = 1;
+            this.labelWhosTurn.Text = "Who\'s turn?";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -86,6 +98,7 @@
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -98,6 +111,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label labelWhosTurn;
     }
 }
 

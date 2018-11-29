@@ -25,6 +25,7 @@ namespace Blackmitten.Elliot.Backend
 
         Move WaitForHuman();
         void StopWaiting();
+        void Redraw();
 
         /*
         bool MachineThinking { set; }

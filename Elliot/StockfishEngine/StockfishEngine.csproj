@@ -46,9 +46,9 @@
     <Compile Include="StockfishBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Engine\Engine.csproj">
-      <Project>{425fdd5f-7a07-45b6-9787-994ea487292b}</Project>
-      <Name>Engine</Name>
+    <ProjectReference Include="..\ElliotChessBackend\ElliotChessBackend.csproj">
+      <Project>{fab48294-3276-49af-a8f1-80e5899b487a}</Project>
+      <Name>ElliotChessBackend</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

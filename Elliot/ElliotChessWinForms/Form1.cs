@@ -43,6 +43,7 @@ namespace BlackMitten.Elliot.Winforms
 
             IPlayer whiteHuman = new HumanPlayer(true, this);
             IPlayer blackHuman = new HumanPlayer(false, this);
+            IPlayer whiteMachine = new MachinePlayer(true, this, new Falade());
             IPlayer blackMachine = new MachinePlayer(false, this, new Falade());
 
             _game = new Game(whiteHuman, blackMachine, this);
@@ -65,6 +66,7 @@ namespace BlackMitten.Elliot.Winforms
             {
                 listBox1.SelectedIndex = listBox1.Items.Count - 1;
             }
+            labelWhosTurn.Text = _game.WhitesTurn ? "White's turn" : "Black's turn";
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -74,5 +76,18 @@ namespace BlackMitten.Elliot.Winforms
 
         public Move WaitForHuman() => boardControl1.WaitForHuman();
         public void StopWaiting() => boardControl1.StopWaiting();
+
+        public void Redraw()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(() => Redraw()));
+            }
+            else
+            {
+                Invalidate(true);
+            }            
+        }
+
     }
 }

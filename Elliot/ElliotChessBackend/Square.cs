@@ -24,6 +24,16 @@ namespace Blackmitten.Elliot.Backend
 
         public bool InBounds => x >= 1 && x <= 8 && y >= 1 && y <= 8;
 
+        public static Square Random
+        {
+            get
+            {
+
+                Square square = new Square(1 + StaticRandom.Instance().Next() % 8, 1 + StaticRandom.Instance().Next() % 8);
+                return square;
+            }
+        }
+
         public Square(string s)
         {
             int c = char.ConvertToUtf32(s, 0);

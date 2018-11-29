@@ -16,6 +16,7 @@ namespace Blackmitten.Elliot.WinForms
         private int m_width;
         private Brush m_darkBrush;
         private Brush m_lightBrush;
+        Brush m_translucentBrush = new SolidBrush(Color.FromArgb(120, 0, 0, 0));
 
         public DrawPiecesBadly(int width)
         {
@@ -24,7 +25,7 @@ namespace Blackmitten.Elliot.WinForms
             m_lightBrush = new SolidBrush(Color.FromArgb(0xa0, 0xa0, 0xa0));
         }
 
-        internal void Draw(Graphics graphics, Board board, Square startSquare)
+        internal void Draw(Graphics graphics, Board board, Square startSquare, bool thinking)
         {
             graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             bool dark = false;
@@ -60,6 +61,10 @@ namespace Blackmitten.Elliot.WinForms
                 graphics.DrawRectangle(m_selectionPen, (startSquare.x-1) * SquareWidth, (8-startSquare.y) * SquareWidth, SquareWidth, SquareWidth);
             }
 
+            if (thinking)
+            {
+                graphics.FillRectangle(m_translucentBrush, 0, 0, m_width, m_width);
+            }
 
         }
 

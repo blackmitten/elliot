@@ -34,7 +34,7 @@ namespace Blackmitten.Elliot.WinForms
         {
             if (_drawPiecesBadly != null)
             {
-                _drawPiecesBadly.Draw(e.Graphics, _board, _moveStartSquare);
+                _drawPiecesBadly.Draw(e.Graphics, _board, _moveStartSquare, MachineThinking);
             }
         }
 

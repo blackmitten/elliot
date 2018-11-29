@@ -76,6 +76,10 @@ namespace Blackmitten.Elliot.Backend
 
         public IPiece GetPieceOnSquare(Square square)
         {
+            if (!square.InBounds)
+            {
+                throw new InvalidOperationException("Out of bounds square in GetPieceOnSquare " + square.ToString());
+            }
             foreach (var piece in m_pieces)
             {
                 if (square == piece.Pos)
