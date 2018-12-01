@@ -7,7 +7,7 @@ namespace ElliotTests
     public class UnitTest1
     {
         [TestMethod]
-        public void TestSquareEquality()
+        public void SquareEquality()
         {
             Square s1 = new Square(0, 0);
             Square s2 = new Square(0, 1);
@@ -23,7 +23,7 @@ namespace ElliotTests
         }
 
         [TestMethod]
-        public void TestSquareCopyAndChange()
+        public void SquareCopyAndChange()
         {
             Square s1 = new Square(1, 1);
             Square s2 = s1;
@@ -33,7 +33,7 @@ namespace ElliotTests
         }
 
         [TestMethod]
-        public void TestSquareOffset()
+        public void SquareOffset()
         {
             Square s6 = new Square(4, 4);
             Square s7 = new Square(2, 6);
@@ -43,7 +43,7 @@ namespace ElliotTests
         }
 
         [TestMethod]
-        public void TestSquareCopy()
+        public void SquareCopy()
         {
             Square s1 = new Square(4, 4);
             Square s2 = s1;
@@ -52,7 +52,7 @@ namespace ElliotTests
         }
 
         [TestMethod]
-        public void TestSquareConstructFromNotation()
+        public void SquareConstructFromNotation()
         {
             Assert.AreEqual(new Square("a1"), new Square(1, 1));
             Assert.AreNotEqual(new Square("h1"), new Square(1, 1));
@@ -62,10 +62,21 @@ namespace ElliotTests
         }
 
         [TestMethod]
-        public void TestSquareToString()
+        public void SquareToString()
         {
             Assert.AreEqual(new Square("a1").ToString(), "a1");
             Assert.AreEqual(new Square("h5").ToString(), "h5");
+        }
+
+        [TestMethod]
+        public void FenString()
+        {
+            Board board = Board.InitNewGame();
+            string fen = board.GetFenString();
+
+            string startingFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
+            Assert.AreEqual(fen, startingFen);
         }
     }
 }

@@ -90,6 +90,101 @@ namespace Blackmitten.Elliot.Backend
             return null;
         }
 
+        public bool WhiteCanCastleKingside { get; set; } = true;
+        public bool WhiteCanCastleQueenside { get; set; } = true;
+        public bool BlackCanCastleKingside { get; set; } = true;
+        public bool BlackCanCastleQueenside { get; set; } = true;
+        public Square EnPassantTarget { get; set; } = new Square();
+        public int HalfMoveClock { get; set; } = 0;
+        public int FullMoveClock { get; set; } = 1;
+
+
+        public string GetFenString()
+        {
+            StringBuilder fen = new StringBuilder();
+            FenCharPieceVisitor fenCharPieceVisitor = new FenCharPieceVisitor();
+
+            for (int y = 8; y > 0; y--)
+            {
+                int x = 1;
+                int emptySquares = 0;
+                while (x <= 8)
+                {
+                    IPiece piece = GetPieceOnSquare(new Square(x, y));
+                    if (piece != null)
+                    {
+                        if (emptySquares > 0)
+                        {
+                            fen.Append(emptySquares.ToString());
+                            emptySquares = 0;
+                        }
+                        piece.Accept(fenCharPieceVisitor);
+                        fen.Append(fenCharPieceVisitor.Char);
+                    }
+                    else
+                    {
+                        emptySquares++;
+                    }
+                    x++;
+                }
+                if (emptySquares > 0)
+                {
+                    fen.Append(emptySquares.ToString());
+                    emptySquares = 0;
+                }
+                if (y > 1)
+                {
+                    fen.Append('/');
+                }
+            }
+
+            if (WhitesTurn)
+            {
+                fen.Append(" w ");
+            }
+            else
+            {
+                fen.Append(" b ");
+            }
+
+            StringBuilder castling = new StringBuilder();
+            if (WhiteCanCastleKingside)
+            {
+                castling.Append("K");
+            }
+            if (WhiteCanCastleQueenside)
+            {
+                castling.Append("Q");
+            }
+            if (BlackCanCastleKingside)
+            {
+                castling.Append("k");
+            }
+            if (BlackCanCastleQueenside)
+            {
+                castling.Append("q");
+            }
+            if (castling.Length == 0)
+            {
+                castling.Append("-");
+            }
+            fen.Append(castling);
+            fen.Append(" ");
+            if (EnPassantTarget.InBounds)
+            {
+                fen.Append(EnPassantTarget);
+            }
+            else
+            {
+                fen.Append("-");
+            }
+            fen.Append(" ");
+            fen.Append(HalfMoveClock);
+            fen.Append(" ");
+            fen.Append(FullMoveClock);
+            return fen.ToString();
+        }
+
     }
 
 }

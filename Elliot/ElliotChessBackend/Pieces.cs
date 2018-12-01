@@ -10,7 +10,7 @@ namespace Blackmitten.Elliot.Backend
     {
         Square Pos { get; set; }
         bool White { get; }
-        void Accept(IPieceVisitor visitor, object data);
+        void Accept(IPieceVisitor visitor, object data = null);
         IPiece Copy();
         string Name { get; }
     }
