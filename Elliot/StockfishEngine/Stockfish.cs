@@ -57,7 +57,7 @@ namespace BlackMitten.Elliot.StockfishEngine
 
         public Move GetBestMove(Board board)
         {
-            throw new NotImplementedException("need to use board parameter");
+            SendCommand("position fen " + board.GetFenString());
             SendCommand("go depth 20");
             _bestMoveReady.WaitOne();
             return new Move(_bestMove);

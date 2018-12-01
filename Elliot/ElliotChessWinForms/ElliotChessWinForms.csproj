@@ -103,6 +103,10 @@
       <Project>{EA031E13-1D5C-4D4E-B8EE-400A802BF523}</Project>
       <Name>MenzelLog</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StockfishEngine\StockfishEngine.csproj">
+      <Project>{F17F8D65-A74C-465A-8F5E-E3D3C2F51FC1}</Project>
+      <Name>StockfishEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

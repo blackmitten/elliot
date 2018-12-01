@@ -1,6 +1,7 @@
 ﻿using Blackmitten.Elliot.Backend;
 using Blackmitten.Menzel;
 using BlackMitten.Elliot.FaladeEngine;
+using BlackMitten.Elliot.StockfishEngine;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,8 +44,9 @@ namespace BlackMitten.Elliot.Winforms
 
             IPlayer whiteHuman = new HumanPlayer(true, this);
             IPlayer blackHuman = new HumanPlayer(false, this);
-            IPlayer whiteMachine = new MachinePlayer(true, this, new Falade());
-            IPlayer blackMachine = new MachinePlayer(false, this, new Falade());
+//            IPlayer whiteMachine = new MachinePlayer(true, this, new Falade());
+            IPlayer blackMachine = new MachinePlayer(false, this, StockfishBuilder.Build(
+                @"C:\Users\carl\Documents\dev\elliot\Elliot\StockfishBin\stockfish_9_x64.exe"));
 
             _game = new Game(whiteHuman, blackMachine, this);
 
