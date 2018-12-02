@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -16,11 +17,14 @@ namespace BlackMitten.Elliot.StockfishEngine
         AutoResetEvent _bestMoveReady = new AutoResetEvent(false);
         AutoResetEvent _readyOk = new AutoResetEvent(false);
         private bool _quitting = false;
+        int _depth;
 
         private string _bestMove;
 
-        public Stockfish(string filename)
+        public Stockfish(string filename, int depth)
         {
+            _depth = depth;
+
             _process = new Process();
             _process.StartInfo.FileName = filename;
             _process.StartInfo.RedirectStandardInput = true;
@@ -58,7 +62,7 @@ namespace BlackMitten.Elliot.StockfishEngine
         public Move GetBestMove(Board board)
         {
             SendCommand("position fen " + board.GetFenString());
-            SendCommand("go depth 20");
+            SendCommand("go depth " + _depth.ToString(CultureInfo.InvariantCulture));
             _bestMoveReady.WaitOne();
             return new Move(_bestMove);
         }

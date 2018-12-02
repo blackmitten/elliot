@@ -1,5 +1,7 @@
-using Blackmitten.Elliot.Backend;
+﻿using Blackmitten.Elliot.Backend;
+using BlackMitten.Elliot.StockfishEngine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading;
 
 namespace ElliotTests
 {
@@ -78,5 +80,51 @@ namespace ElliotTests
 
             Assert.AreEqual(fen, startingFen);
         }
+
+        [TestMethod]
+        public void PromotePawn()
+        {
+            //   a b c d e f g h
+            // 8   ■   k   ■   ■
+            // 7 ■ p ■   ■   ■
+            // 6   ■   ■   ■   ■
+            // 5 ■   ■   ■   ■
+            // 4   ■   ■   ■   ■
+            // 3 ■   ■   ■   ■
+            // 2   ■   ■   ■   ■
+            // 1 ■   ■ K ■   ■
+            //   1 2 3 4 5 6 7 8
+
+            MockUI ui = new MockUI();
+
+            IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(
+                @"C:\Users\carl\Documents\dev\elliot\Elliot\StockfishBin\stockfish_9_x64.exe", 10));
+            IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(
+                @"C:\Users\carl\Documents\dev\elliot\Elliot\StockfishBin\stockfish_9_x64.exe", 10));
+
+            Board board = new Board();
+            board.AddPiece(new King(new Square(4, 1), true));
+            board.AddPiece(new Pawn(new Square(2, 7), true));
+            board.AddPiece(new King(new Square(4, 8), false));
+            board.BlackCanCastleKingside = false;
+            board.BlackCanCastleQueenside = false;
+            board.WhiteCanCastleKingside = false;
+            board.WhiteCanCastleQueenside = false;
+
+            Game game = new Game(whiteStockfish, blackStockfish, ui, board);
+            ManualResetEvent done = new ManualResetEvent(false);
+            game.GameDone += Game_GameDone;
+
+            game.Play();
+            done.WaitOne();
+
+
+            void Game_GameDone(object sender, System.EventArgs e)
+            {
+                done.Set();
+            }
+
+        }
+
     }
 }

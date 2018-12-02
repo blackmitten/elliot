@@ -11,7 +11,7 @@ namespace Blackmitten.Elliot.Backend
     {
         List<IPiece> m_pieces = new List<IPiece>();
 
-        public bool WhitesTurn { get; set; }
+        public bool WhitesTurn { get; set; } = true;
 
         public IEnumerable<IPiece> Pieces => m_pieces;
 
@@ -135,6 +135,11 @@ namespace Blackmitten.Elliot.Backend
 
         }
 
+        public void AddPiece(IPiece piece)
+        {
+            m_pieces.Add(piece);
+        }
+
         public IPiece GetPieceOnSquare(Square square)
         {
             if (!square.InBounds)
@@ -245,6 +250,8 @@ namespace Blackmitten.Elliot.Backend
             fen.Append(FullMoveClock);
             return fen.ToString();
         }
+
+        public override string ToString() => GetFenString();
 
     }
 

@@ -16,25 +16,36 @@ namespace Blackmitten.Elliot.Backend
         IPlayer _blackPlayer;
         bool _gameOver = false;
         //        TranspositionTable m_transpositionTable = new TranspositionTable();
+        Thread _gameThread;
+
+        public event EventHandler<EventArgs> GameDone;
 
         public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface)
+        {
+            Begin(whitePlayer, blackPlayer, userInterface, Board.InitNewGame());
+        }
+
+        public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface, Board board)
+        {
+            Begin(whitePlayer, blackPlayer, userInterface, board);
+        }
+
+        void Begin(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface, Board board)
         {
             Trace.Assert(whitePlayer.White);
             Trace.Assert(!blackPlayer.White);
             _whitePlayer = whitePlayer;
             _blackPlayer = blackPlayer;
             _userInterface = userInterface;
-            _board = Board.InitNewGame();
+            _board = board;
 
             userInterface.Board = _board;
-            //            userInterface.BoardUpdated += BoardUpdated;
 
-            Play();
         }
 
-        private void Play()
+        public void Play()
         {
-            Thread thread = new Thread(() =>
+            _gameThread = new Thread(() =>
             {
                 while (!_gameOver)
                 {
@@ -63,8 +74,9 @@ namespace Blackmitten.Elliot.Backend
                         _userInterface.Redraw();
                     }
                 }
+                GameDone.Invoke(this, new EventArgs());
             });
-            thread.Start();
+            _gameThread.Start();
         }
 
         private void BoardUpdated(object sender, BoardUpdateEventArgs e)

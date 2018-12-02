@@ -46,17 +46,19 @@ namespace BlackMitten.Elliot.Winforms
             IPlayer blackHuman = new HumanPlayer(false, this);
             IPlayer whiteFalade = new MachinePlayer(true, this, new Falade());
             IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(
-                @"C:\Users\carl\Documents\dev\elliot\Elliot\StockfishBin\stockfish_9_x64.exe"));
+                @"C:\Users\carl\Documents\dev\elliot\Elliot\StockfishBin\stockfish_9_x64.exe", 15));
             IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(
-                @"C:\Users\carl\Documents\dev\elliot\Elliot\StockfishBin\stockfish_9_x64.exe"));
+                @"C:\Users\carl\Documents\dev\elliot\Elliot\StockfishBin\stockfish_9_x64.exe", 1));
 
-            _game = new Game(whiteStockfish, blackStockfish, this);
 
 
             this.boardControl1.Log = _log;
             // this.boardControl1.Board = board;
             this.timer1.Tick += Timer1_Tick;
             this.timer1.Start();
+
+            _game = new Game(whiteStockfish, blackStockfish, this);
+            _game.Play();
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
