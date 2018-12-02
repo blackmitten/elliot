@@ -13,6 +13,9 @@ namespace Blackmitten.Elliot.Backend
         void Accept(IPieceVisitor visitor, object data = null);
         IPiece Copy();
         string Name { get; }
+        bool IsKing { get; }
+        bool IsRook { get; }
+        bool IsPawn { get; }
     }
 
     public interface IPieceVisitor
@@ -44,6 +47,10 @@ namespace Blackmitten.Elliot.Backend
         public abstract string Name { get; }
 
         public override string ToString() => (White ? "White " : "Black ") + Name + " on " + Pos;
+
+        public abstract bool IsKing { get; }
+        public abstract bool IsRook { get; }
+        public abstract bool IsPawn { get; }
     }
 
     public class Pawn : Piece
@@ -58,6 +65,10 @@ namespace Blackmitten.Elliot.Backend
         public override IPiece Copy() => new Pawn(Pos, White);
 
         public override string Name => "Pawn";
+
+        public override bool IsKing => false;
+        public override bool IsRook => false;
+        public override bool IsPawn => true;
     }
 
     public class Rook : Piece
@@ -72,6 +83,10 @@ namespace Blackmitten.Elliot.Backend
         public override IPiece Copy() => new Rook(Pos, White);
 
         public override string Name => "Rook";
+
+        public override bool IsKing => false;
+        public override bool IsRook => true;
+        public override bool IsPawn => false;
     }
 
     public class Knight : Piece
@@ -86,6 +101,10 @@ namespace Blackmitten.Elliot.Backend
         public override IPiece Copy() => new Knight(Pos, White);
 
         public override string Name => "Knight";
+
+        public override bool IsKing => false;
+        public override bool IsRook => false;
+        public override bool IsPawn => false;
     }
 
     public class Bishop : Piece
@@ -100,6 +119,10 @@ namespace Blackmitten.Elliot.Backend
         public override IPiece Copy() => new Bishop(Pos, White);
 
         public override string Name => "Bishop";
+
+        public override bool IsKing => false;
+        public override bool IsRook => false;
+        public override bool IsPawn => false;
     }
 
     public class Queen : Piece
@@ -114,6 +137,10 @@ namespace Blackmitten.Elliot.Backend
         public override IPiece Copy() => new Queen(Pos, White);
 
         public override string Name => "Queen";
+
+        public override bool IsKing => false;
+        public override bool IsRook => false;
+        public override bool IsPawn => false;
     }
 
     public class King : Piece
@@ -128,6 +155,10 @@ namespace Blackmitten.Elliot.Backend
         public override IPiece Copy() => new King(Pos, White);
 
         public override string Name => "King";
+
+        public override bool IsKing => true;
+        public override bool IsRook => false;
+        public override bool IsPawn => false;
     }
 
 }

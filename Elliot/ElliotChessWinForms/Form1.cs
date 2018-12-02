@@ -44,11 +44,13 @@ namespace BlackMitten.Elliot.Winforms
 
             IPlayer whiteHuman = new HumanPlayer(true, this);
             IPlayer blackHuman = new HumanPlayer(false, this);
-//            IPlayer whiteMachine = new MachinePlayer(true, this, new Falade());
-            IPlayer blackMachine = new MachinePlayer(false, this, StockfishBuilder.Build(
+            IPlayer whiteFalade = new MachinePlayer(true, this, new Falade());
+            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(
+                @"C:\Users\carl\Documents\dev\elliot\Elliot\StockfishBin\stockfish_9_x64.exe"));
+            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(
                 @"C:\Users\carl\Documents\dev\elliot\Elliot\StockfishBin\stockfish_9_x64.exe"));
 
-            _game = new Game(whiteHuman, blackMachine, this);
+            _game = new Game(whiteStockfish, blackStockfish, this);
 
 
             this.boardControl1.Log = _log;

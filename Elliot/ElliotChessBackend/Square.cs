@@ -6,21 +6,38 @@ using System.Threading.Tasks;
 
 namespace Blackmitten.Elliot.Backend
 {
+
     public struct Square
     {
         //   a b c d e f g h
-        // 8   ■   ■   ■   ■
-        // 7 ■   ■   ■   ■
+        // 8 r n b q k b n r 
+        // 7 p p p p p p p p
         // 6   ■   ■   ■   ■
         // 5 ■   ■   ■   ■
         // 4   ■   ■   ■   ■
         // 3 ■   ■   ■   ■
-        // 2   ■   ■   ■   ■
-        // 1 ■   ■   ■   ■
+        // 2 P P P P P P P P 
+        // 1 R N B Q K B N R
         //   1 2 3 4 5 6 7 8
 
         public int x;
         public int y;
+
+        public static Square WhiteKingStart { get; } = new Square(5, 1);
+        public static Square WhiteKingCastledQueenside { get; } = new Square(3, 1);
+        public static Square WhiteKingCastledKingside { get; } = new Square(7, 1);
+        public static Square WhiteQueensRookStart { get; } = new Square(1, 1);
+        public static Square WhiteKingsRookStart { get; } = new Square(8, 1);
+        public static Square WhiteQueensRookCastled { get; } = new Square(4, 1);
+        public static Square WhiteKingsRookCastled { get; } = new Square(6, 1);
+
+        public static Square BlackKingStart { get; } = new Square(5, 8);
+        public static Square BlackKingCastledQueenside { get; } = new Square(3, 8);
+        public static Square BlackKingCastledKingside { get; } = new Square(7, 8);
+        public static Square BlackQueensRookStart { get; } = new Square(1, 8);
+        public static Square BlackKingsRookStart { get; } = new Square(8, 8);
+        public static Square BlackQueensRookCastled { get; } = new Square(4, 8);
+        public static Square BlackKingsRookCastled { get; } = new Square(6, 8);
 
         public bool InBounds => x >= 1 && x <= 8 && y >= 1 && y <= 8;
 
@@ -40,6 +57,10 @@ namespace Blackmitten.Elliot.Backend
             int r = char.ConvertToUtf32(s, 1);
             x = c - 96;
             y = r - 48;
+            if (!InBounds)
+            {
+                throw new InvalidOperationException("Bad square");
+            }
         }
 
         public Square(int x, int y)

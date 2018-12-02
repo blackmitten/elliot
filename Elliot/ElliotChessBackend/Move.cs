@@ -10,6 +10,7 @@ namespace Blackmitten.Elliot.Backend
     {
         public Square Start { get; }
         public Square End { get; }
+        public IPiece Promoted { get; }
 
         public Move(string moveString)
         {
@@ -17,6 +18,20 @@ namespace Blackmitten.Elliot.Backend
             {
                 Start = new Square(moveString.Substring(0, 2));
                 End = new Square(moveString.Substring(2));
+            }
+            else if(moveString.Length == 5)
+            {
+                Start = new Square(moveString.Substring(0, 2));
+                End = new Square(moveString.Substring(2));
+                throw new NotImplementedException("promotion");
+            }
+            else if ( moveString == "(none)")
+            {
+                throw new NotImplementedException();
+            }
+            else
+            {
+                throw new NotImplementedException();
             }
         }
 

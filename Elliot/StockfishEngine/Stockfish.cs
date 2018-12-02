@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlackMitten.Elliot.StockfishEngine
 {
-    internal class Stockfish : IEngine
+    public class Stockfish : IEngine
     {
         Process _process;
         ManualResetEvent _fishReady = new ManualResetEvent(false);

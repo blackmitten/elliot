@@ -13,13 +13,15 @@ namespace Blackmitten.Elliot.Backend
 
         public bool WhitesTurn { get; set; }
 
+        public IEnumerable<IPiece> Pieces => m_pieces;
+
         public Board()
         {
         }
 
         public Board(Board board)
         {
-            this.WhitesTurn = board.WhitesTurn;
+            WhitesTurn = board.WhitesTurn;
             foreach (var piece in board.Pieces)
             {
                 this.m_pieces.Add(piece.Copy());
@@ -56,23 +58,82 @@ namespace Blackmitten.Elliot.Backend
             return b;
         }
 
-        internal void Move(Move move)
+        internal void Move(Move move, bool switchSides = true)
         {
             IPiece piece = GetPieceOnSquare(move.Start);
+            IPiece capturedPiece = GetPieceOnSquare(move.End);
+            if (capturedPiece != null)
+            {
+                m_pieces.Remove(capturedPiece);
+            }
+            if (piece.IsKing)
+            {
+                if (move.Start == Square.WhiteKingStart)
+                {
+                    if (move.End == Square.WhiteKingCastledQueenside)
+                    {
+                        Move(new Move(Square.WhiteQueensRookStart, Square.WhiteQueensRookCastled), false);
+                        WhiteCanCastleKingside = false;
+                        WhiteCanCastleQueenside = false;
+                    }
+                    else if (move.End == Square.WhiteKingCastledKingside)
+                    {
+                        Move(new Move(Square.WhiteKingsRookStart, Square.WhiteKingsRookCastled), false);
+                        WhiteCanCastleKingside = false;
+                        WhiteCanCastleQueenside = false;
+                    }
+                }
+                else if (move.Start == Square.BlackKingStart)
+                {
+                    if (move.End == Square.BlackKingCastledQueenside)
+                    {
+                        Move(new Move(Square.BlackQueensRookStart, Square.BlackQueensRookCastled), false);
+                        BlackCanCastleKingside = false;
+                        BlackCanCastleQueenside = false;
+                    }
+                    else if (move.End == Square.BlackKingCastledKingside)
+                    {
+                        Move(new Move(Square.BlackKingsRookStart, Square.BlackKingsRookCastled), false);
+                        BlackCanCastleKingside = false;
+                        BlackCanCastleQueenside = false;
+                    }
+                }
+            }
+            else if (piece.IsRook)
+            {
+                if (move.Start == Square.WhiteKingsRookStart)
+                {
+                    WhiteCanCastleKingside = false;
+                }
+                else if (move.Start == Square.WhiteQueensRookStart)
+                {
+                    WhiteCanCastleQueenside = false;
+                }
+                else if (move.Start == Square.BlackKingsRookStart)
+                {
+                    BlackCanCastleKingside = false;
+                }
+                else if (move.Start == Square.BlackQueensRookStart)
+                {
+                    BlackCanCastleQueenside = false;
+                }
+            }
             piece.Pos = move.End;
-            WhitesTurn = !WhitesTurn;
-        }
+            if (switchSides)
+            {
+                WhitesTurn = !WhitesTurn;
+                if (WhitesTurn)
+                {
+                    FullMoveClock++;
+                }
+                HalfMoveClock++;
+            }
+            if (capturedPiece != null || piece.IsPawn)
+            {
+                HalfMoveClock = 0;
+            }
 
-        public IList<IPiece> Pieces => m_pieces;
-
-        /*
-        public void MovePiece(Square startSquare, Square endSquare)
-        {
-            IPiece piece = GetPieceOnSquare(startSquare);
-            piece.Pos = endSquare;
-            WhitesTurn = !WhitesTurn;
         }
-        */
 
         public IPiece GetPieceOnSquare(Square square)
         {
