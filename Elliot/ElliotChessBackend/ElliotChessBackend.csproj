@@ -50,6 +50,7 @@
     <Compile Include="IUserInterface.cs" />
     <Compile Include="MachinePlayer.cs" />
     <Compile Include="Move.cs" />
+    <Compile Include="NoMovesException.cs" />
     <Compile Include="Pieces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Square.cs" />

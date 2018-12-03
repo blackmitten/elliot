@@ -6,11 +6,22 @@ using System.Threading.Tasks;
 
 namespace Blackmitten.Elliot.Backend
 {
+    public enum PieceType
+    {
+        None,
+        Pawn,
+        Rook,
+        Knight,
+        Bishop,
+        Queen,
+        King
+    }
+
     public class Move
     {
         public Square Start { get; }
         public Square End { get; }
-        public IPiece Promoted { get; }
+        public PieceType Promoted { get; private set; }
 
         public Move(string moveString)
         {
@@ -19,15 +30,24 @@ namespace Blackmitten.Elliot.Backend
                 Start = new Square(moveString.Substring(0, 2));
                 End = new Square(moveString.Substring(2));
             }
-            else if(moveString.Length == 5)
+            else if (moveString.Length == 5)
             {
                 Start = new Square(moveString.Substring(0, 2));
                 End = new Square(moveString.Substring(2));
-                throw new NotImplementedException("promotion");
+                switch (moveString[4])
+                {
+                    case 'q': Promoted = PieceType.Queen; break;
+                    case 'k': Promoted = PieceType.King; break;
+                    case 'n': Promoted = PieceType.Knight; break;
+                    case 'b': Promoted = PieceType.Bishop; break;
+                    case 'r': Promoted = PieceType.Rook; break;
+                    default:
+                        throw new NotImplementedException();
+                }
             }
-            else if ( moveString == "(none)")
+            else if (moveString == "(none)")
             {
-                throw new NotImplementedException();
+                throw new NoMovesException();
             }
             else
             {
@@ -41,9 +61,22 @@ namespace Blackmitten.Elliot.Backend
             End = end;
         }
 
+        string PromotionCode()
+        {
+            switch(Promoted)
+            {
+                case PieceType.Bishop: return "b";
+                case PieceType.Rook: return "r";
+                case PieceType.Knight: return "k";
+                case PieceType.Queen: return "q";
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+
         public override string ToString()
         {
-            return Start.ToString() + End.ToString();
+            return Start.ToString() + End.ToString() + PromotionCode();
         }
 
     }

@@ -118,6 +118,25 @@ namespace Blackmitten.Elliot.Backend
                     BlackCanCastleQueenside = false;
                 }
             }
+            else if (piece.IsPawn)
+            {
+                switch (move.Promoted)
+                {
+                    case PieceType.None:
+                        break;
+                    case PieceType.Bishop:
+                        m_pieces.Remove(piece);
+                        m_pieces.Add(new Bishop(move.End, piece.White));
+                        break;
+                    case PieceType.Queen:
+                        m_pieces.Remove(piece);
+                        m_pieces.Add(new Queen(move.End, piece.White));
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+
+            }
             piece.Pos = move.End;
             if (switchSides)
             {
