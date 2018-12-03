@@ -5,6 +5,7 @@ using BlackMitten.Elliot.StockfishEngine;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -42,13 +43,13 @@ namespace BlackMitten.Elliot.Winforms
 
             _log = new Log();
 
+            var path = ConfigurationManager.AppSettings["StockfishBinPath"];
+
             IPlayer whiteHuman = new HumanPlayer(true, this);
             IPlayer blackHuman = new HumanPlayer(false, this);
             IPlayer whiteFalade = new MachinePlayer(true, this, new Falade());
-            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(
-                @"C:\Users\carl\Documents\dev\elliot\Elliot\StockfishBin\stockfish_9_x64.exe", 15));
-            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(
-                @"C:\Users\carl\Documents\dev\elliot\Elliot\StockfishBin\stockfish_9_x64.exe", 1));
+            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(path, 15));
+            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(path, 1));
 
 
 
