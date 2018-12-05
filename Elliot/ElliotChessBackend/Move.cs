@@ -82,12 +82,23 @@ namespace Blackmitten.Elliot.Backend
 
         internal string ToLongString(Board board)
         {
+            string promotion = "";
+            switch (Promoted)
+            {
+                case PieceType.Bishop: promotion = " promoted to Bishop"; break;
+                case PieceType.Rook: promotion = " promoted to Rook"; break;
+                case PieceType.Knight: promotion = " promoted to Knight"; break;
+                case PieceType.Queen: promotion = " promoted to Queen"; break;
+                case PieceType.None: break;
+                default:
+                    throw new InvalidOperationException();
+            }
             IPiece capturedPiece = board.GetPieceOnSquare(End);
             if (capturedPiece != null)
             {
-                return board.GetPieceOnSquare(this.Start).ToString() + " captures " + capturedPiece.ToString();
+                return board.GetPieceOnSquare(this.Start).ToString() + " captures " + capturedPiece.ToString() + promotion;
             }
-            return board.GetPieceOnSquare(this.Start).ToString() + " to " + End.ToString();
+            return board.GetPieceOnSquare(this.Start).ToString() + " to " + End.ToString() + promotion;
         }
     }
 

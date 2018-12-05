@@ -46,8 +46,8 @@ namespace BlackMitten.Elliot.Winforms
             IPlayer whiteHuman = new HumanPlayer(true, this);
             IPlayer blackHuman = new HumanPlayer(false, this);
             IPlayer whiteFalade = new MachinePlayer(true, this, new Falade());
-            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(path, 15));
-            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(path, 1));
+            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(path, 20));
+            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(path, 20));
 
 
 
@@ -98,8 +98,6 @@ namespace BlackMitten.Elliot.Winforms
         {
 //            _instructToMove.WaitOne();
         }
-
-        public void DoTheMove() => throw new NotImplementedException();
 
         private void buttonInstructToMove_Click(object sender, EventArgs e)
         {

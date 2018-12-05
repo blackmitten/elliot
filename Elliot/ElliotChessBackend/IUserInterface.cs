@@ -6,10 +6,6 @@ namespace Blackmitten.Elliot.Backend
     {
         public Board Board { get; }
 
-        public BoardUpdateEventArgs(Board board)
-        {
-            Board = board;
-        }
     }
 
     public interface IUserInterface
@@ -24,12 +20,6 @@ namespace Blackmitten.Elliot.Backend
         void Redraw();
 
         void WaitForInstructionToMove();
-        void DoTheMove();
 
-        /*
-        bool MachineThinking { set; }
-
-        event EventHandler<BoardUpdateEventArgs> BoardUpdated;
-        */
     }
 }

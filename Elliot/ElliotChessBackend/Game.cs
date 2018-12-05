@@ -87,12 +87,6 @@ namespace Blackmitten.Elliot.Backend
             _gameThread.Start();
         }
 
-        private void BoardUpdated(object sender, BoardUpdateEventArgs e)
-        {
-            _board = e.Board;
-            Play();
-        }
-
         public void Stop()
         {
             _gameOver = true;
