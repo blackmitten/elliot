@@ -3,14 +3,8 @@ using Blackmitten.Menzel;
 using BlackMitten.Elliot.FaladeEngine;
 using BlackMitten.Elliot.StockfishEngine;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace BlackMitten.Elliot.Winforms
@@ -19,18 +13,22 @@ namespace BlackMitten.Elliot.Winforms
     {
         ILog _log;
         Game _game;
+        AutoResetEvent _instructToMove = new AutoResetEvent(false);
 
         public Board Board { set => boardControl1.Board = value; }
+
         public bool WaitingForWhiteHuman
         {
             get => boardControl1.WaitingForWhiteHuman;
             set => boardControl1.WaitingForWhiteHuman = value;
         }
+
         public bool WaitingForBlackHuman
         {
             get => boardControl1.WaitingForBlackHuman;
             set => boardControl1.WaitingForBlackHuman = value;
         }
+
         public bool MachineThinking
         {
             get => boardControl1.MachineThinking;
@@ -41,7 +39,7 @@ namespace BlackMitten.Elliot.Winforms
         {
             InitializeComponent();
 
-            _log = new Log();
+            _log = LogBuilder.Build();
 
             var path = ConfigurationManager.AppSettings["StockfishBinPath"];
 
@@ -58,7 +56,7 @@ namespace BlackMitten.Elliot.Winforms
             this.timer1.Tick += Timer1_Tick;
             this.timer1.Start();
 
-            _game = new Game(whiteStockfish, blackStockfish, this);
+            _game = new Game(whiteStockfish, blackStockfish, this, _log);
             _game.Play();
         }
 
@@ -93,8 +91,19 @@ namespace BlackMitten.Elliot.Winforms
             else
             {
                 Invalidate(true);
-            }            
+            }
         }
 
+        public void WaitForInstructionToMove()
+        {
+//            _instructToMove.WaitOne();
+        }
+
+        public void DoTheMove() => throw new NotImplementedException();
+
+        private void buttonInstructToMove_Click(object sender, EventArgs e)
+        {
+            _instructToMove.Set();
+        }
     }
 }

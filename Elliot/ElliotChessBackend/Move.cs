@@ -63,12 +63,13 @@ namespace Blackmitten.Elliot.Backend
 
         string PromotionCode()
         {
-            switch(Promoted)
+            switch (Promoted)
             {
                 case PieceType.Bishop: return "b";
                 case PieceType.Rook: return "r";
                 case PieceType.Knight: return "k";
                 case PieceType.Queen: return "q";
+                case PieceType.None: return "";
                 default:
                     throw new InvalidOperationException();
             }
@@ -79,6 +80,15 @@ namespace Blackmitten.Elliot.Backend
             return Start.ToString() + End.ToString() + PromotionCode();
         }
 
+        internal string ToLongString(Board board)
+        {
+            IPiece capturedPiece = board.GetPieceOnSquare(End);
+            if (capturedPiece != null)
+            {
+                return board.GetPieceOnSquare(this.Start).ToString() + " captures " + capturedPiece.ToString();
+            }
+            return board.GetPieceOnSquare(this.Start).ToString() + " to " + End.ToString();
+        }
     }
 
 }

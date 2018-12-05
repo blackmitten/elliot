@@ -29,28 +29,20 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.boardControl1 = new Blackmitten.Elliot.WinForms.BoardControl();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.labelWhosTurn = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.labelWhosTurn = new System.Windows.Forms.Label();
+            this.buttonInstructToMove = new System.Windows.Forms.Button();
+            this.boardControl1 = new Blackmitten.Elliot.WinForms.BoardControl();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // boardControl1
-            // 
-            this.boardControl1.Board = null;
-            this.boardControl1.Location = new System.Drawing.Point(3, 3);
-            this.boardControl1.Name = "boardControl1";
-            this.boardControl1.Size = new System.Drawing.Size(407, 404);
-            this.boardControl1.TabIndex = 0;
-            this.boardControl1.WaitingForBlackHuman = false;
-            this.boardControl1.WaitingForWhiteHuman = false;
-            // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.buttonInstructToMove);
             this.panel1.Controls.Add(this.labelWhosTurn);
             this.panel1.Controls.Add(this.boardControl1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -58,6 +50,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 407);
             this.panel1.TabIndex = 1;
+            // 
+            // labelWhosTurn
+            // 
+            this.labelWhosTurn.AutoSize = true;
+            this.labelWhosTurn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelWhosTurn.Location = new System.Drawing.Point(427, 35);
+            this.labelWhosTurn.Name = "labelWhosTurn";
+            this.labelWhosTurn.Size = new System.Drawing.Size(110, 24);
+            this.labelWhosTurn.TabIndex = 1;
+            this.labelWhosTurn.Text = "Who\'s turn?";
             // 
             // panel2
             // 
@@ -77,15 +79,25 @@
             this.listBox1.Size = new System.Drawing.Size(800, 159);
             this.listBox1.TabIndex = 0;
             // 
-            // labelWhosTurn
+            // buttonInstructToMove
             // 
-            this.labelWhosTurn.AutoSize = true;
-            this.labelWhosTurn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelWhosTurn.Location = new System.Drawing.Point(427, 35);
-            this.labelWhosTurn.Name = "labelWhosTurn";
-            this.labelWhosTurn.Size = new System.Drawing.Size(110, 24);
-            this.labelWhosTurn.TabIndex = 1;
-            this.labelWhosTurn.Text = "Who\'s turn?";
+            this.buttonInstructToMove.Location = new System.Drawing.Point(431, 98);
+            this.buttonInstructToMove.Name = "buttonInstructToMove";
+            this.buttonInstructToMove.Size = new System.Drawing.Size(106, 35);
+            this.buttonInstructToMove.TabIndex = 2;
+            this.buttonInstructToMove.Text = "Proceed with move";
+            this.buttonInstructToMove.UseVisualStyleBackColor = true;
+            this.buttonInstructToMove.Click += new System.EventHandler(this.buttonInstructToMove_Click);
+            // 
+            // boardControl1
+            // 
+            this.boardControl1.Board = null;
+            this.boardControl1.Location = new System.Drawing.Point(3, 3);
+            this.boardControl1.Name = "boardControl1";
+            this.boardControl1.Size = new System.Drawing.Size(407, 404);
+            this.boardControl1.TabIndex = 0;
+            this.boardControl1.WaitingForBlackHuman = false;
+            this.boardControl1.WaitingForWhiteHuman = false;
             // 
             // Form1
             // 
@@ -112,6 +124,7 @@
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label labelWhosTurn;
+        private System.Windows.Forms.Button buttonInstructToMove;
     }
 }
 

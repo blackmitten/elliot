@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Blackmitten.Menzel;
+using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Blackmitten.Elliot.Backend
 {
@@ -17,11 +14,13 @@ namespace Blackmitten.Elliot.Backend
         bool _gameOver = false;
         //        TranspositionTable m_transpositionTable = new TranspositionTable();
         Thread _gameThread;
+        ILogWriter _log;
 
         public event EventHandler<EventArgs> GameDone;
 
-        public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface)
+        public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface, ILogWriter log)
         {
+            _log = log;
             Begin(whitePlayer, blackPlayer, userInterface, Board.InitNewGame());
         }
 
@@ -50,31 +49,40 @@ namespace Blackmitten.Elliot.Backend
                 while (!_gameOver)
                 {
                     Move move;
-                    if (_board.WhitesTurn)
+                    try
                     {
-                        if (!_whitePlayer.Human)
+                        if (_board.WhitesTurn)
                         {
-                            _userInterface.MachineThinking = true;
+                            if (!_whitePlayer.Human)
+                            {
+                                _userInterface.MachineThinking = true;
+                            }
+                            move = _whitePlayer.Play(_board);
+                            _userInterface.MachineThinking = false;
                         }
-                        move = _whitePlayer.Play(_board);
-                        _userInterface.MachineThinking = false;
-                    }
-                    else
-                    {
-                        if (!_blackPlayer.Human)
+                        else
                         {
-                            _userInterface.MachineThinking = true;
+                            if (!_blackPlayer.Human)
+                            {
+                                _userInterface.MachineThinking = true;
+                            }
+                            move = _blackPlayer.Play(_board);
+                            _userInterface.MachineThinking = false;
                         }
-                        move = _blackPlayer.Play(_board);
-                        _userInterface.MachineThinking = false;
-                    }
-                    if (!_gameOver)
-                    {
-                        _board.Move(move);
                         _userInterface.Redraw();
+                        if (!_gameOver)
+                        {
+                            _log.Write(move.ToLongString(_board));
+                            _userInterface.WaitForInstructionToMove();
+                            _board.Move(move);
+                            _userInterface.Redraw();
+                        }
+                    }
+                    catch(NoMovesException)
+                    {
+                        _gameOver = true;
                     }
                 }
-                GameDone.Invoke(this, new EventArgs());
             });
             _gameThread.Start();
         }

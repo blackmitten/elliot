@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Blackmitten.Elliot.Backend;
 using Blackmitten.Menzel;
@@ -111,7 +104,7 @@ namespace Blackmitten.Elliot.WinForms
             _quitting.Set();
         }
 
-        public ILog Log { private get; set; }
+        public ILogWriter Log { private get; set; }
         public bool WaitingForWhiteHuman { get; set; }
         public bool WaitingForBlackHuman { get; set; }
         public bool MachineThinking { get; internal set; }

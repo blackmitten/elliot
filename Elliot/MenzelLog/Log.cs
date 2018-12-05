@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Blackmitten.Menzel
 {
-    public interface ILog
-    {
-        void Write(string s);
-        IEnumerable<string> Read();
-    }
 
-    public class Log : ILog
+    internal class Log : ILog
     {
         List<string> _log = new List<string>();
         object _lock = new object();

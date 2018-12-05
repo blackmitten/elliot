@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blackmitten.Elliot.Backend
 {
@@ -26,6 +22,9 @@ namespace Blackmitten.Elliot.Backend
         Move WaitForHuman();
         void StopWaiting();
         void Redraw();
+
+        void WaitForInstructionToMove();
+        void DoTheMove();
 
         /*
         bool MachineThinking { set; }

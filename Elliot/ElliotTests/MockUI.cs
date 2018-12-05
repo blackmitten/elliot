@@ -28,6 +28,8 @@ namespace ElliotTests
             }
         }
 
+        public void DoTheMove() => throw new NotImplementedException();
+
         public void Redraw()
         {
             Trace.WriteLine(_board.GetFenString());
@@ -35,5 +37,9 @@ namespace ElliotTests
 
         public void StopWaiting() => throw new NotImplementedException();
         public Move WaitForHuman() => throw new NotImplementedException();
+        public void WaitForInstructionToMove()
+        {
+
+        }
     }
 }
