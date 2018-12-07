@@ -24,8 +24,9 @@ namespace Blackmitten.Elliot.Backend
             Begin(whitePlayer, blackPlayer, userInterface, Board.InitNewGame());
         }
 
-        public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface, Board board)
+        public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface, Board board, ILogWriter log)
         {
+            _log = log;
             Begin(whitePlayer, blackPlayer, userInterface, board);
         }
 
@@ -48,43 +49,48 @@ namespace Blackmitten.Elliot.Backend
             {
                 while (!_gameOver)
                 {
-                    Move move;
-                    try
-                    {
-                        if (_board.WhitesTurn)
-                        {
-                            if (!_whitePlayer.Human)
-                            {
-                                _userInterface.MachineThinking = true;
-                            }
-                            move = _whitePlayer.Play(_board);
-                            _userInterface.MachineThinking = false;
-                        }
-                        else
-                        {
-                            if (!_blackPlayer.Human)
-                            {
-                                _userInterface.MachineThinking = true;
-                            }
-                            move = _blackPlayer.Play(_board);
-                            _userInterface.MachineThinking = false;
-                        }
-                        _userInterface.Redraw();
-                        if (!_gameOver)
-                        {
-                            _log.Write(move.ToLongString(_board));
-                            _userInterface.WaitForInstructionToMove();
-                            _board.Move(move);
-                            _userInterface.Redraw();
-                        }
-                    }
-                    catch(NoMovesException)
-                    {
-                        _gameOver = true;
-                    }
+                    PlaySingleMove();
                 }
             });
             _gameThread.Start();
+        }
+
+        public void PlaySingleMove()
+        {
+            Move move;
+            try
+            {
+                if (_board.WhitesTurn)
+                {
+                    if (!_whitePlayer.Human)
+                    {
+                        _userInterface.MachineThinking = true;
+                    }
+                    move = _whitePlayer.Play(_board);
+                    _userInterface.MachineThinking = false;
+                }
+                else
+                {
+                    if (!_blackPlayer.Human)
+                    {
+                        _userInterface.MachineThinking = true;
+                    }
+                    move = _blackPlayer.Play(_board);
+                    _userInterface.MachineThinking = false;
+                }
+                _userInterface.Redraw();
+                if (!_gameOver)
+                {
+                    _log.Write(move.ToLongString(_board));
+                    _userInterface.WaitForInstructionToMove();
+                    _board.Move(move);
+                    _userInterface.Redraw();
+                }
+            }
+            catch (NoMovesException)
+            {
+                _gameOver = true;
+            }
         }
 
         public void Stop()

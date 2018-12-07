@@ -16,6 +16,7 @@ namespace Blackmitten.Elliot.Backend
         bool IsKing { get; }
         bool IsRook { get; }
         bool IsPawn { get; }
+        bool IsQueen { get; }
     }
 
     public interface IPieceVisitor
@@ -51,6 +52,7 @@ namespace Blackmitten.Elliot.Backend
         public abstract bool IsKing { get; }
         public abstract bool IsRook { get; }
         public abstract bool IsPawn { get; }
+        public abstract bool IsQueen { get; }
     }
 
     public class Pawn : Piece
@@ -69,6 +71,7 @@ namespace Blackmitten.Elliot.Backend
         public override bool IsKing => false;
         public override bool IsRook => false;
         public override bool IsPawn => true;
+        public override bool IsQueen => false;
     }
 
     public class Rook : Piece
@@ -87,6 +90,7 @@ namespace Blackmitten.Elliot.Backend
         public override bool IsKing => false;
         public override bool IsRook => true;
         public override bool IsPawn => false;
+        public override bool IsQueen => false;
     }
 
     public class Knight : Piece
@@ -105,6 +109,7 @@ namespace Blackmitten.Elliot.Backend
         public override bool IsKing => false;
         public override bool IsRook => false;
         public override bool IsPawn => false;
+        public override bool IsQueen => false;
     }
 
     public class Bishop : Piece
@@ -123,6 +128,7 @@ namespace Blackmitten.Elliot.Backend
         public override bool IsKing => false;
         public override bool IsRook => false;
         public override bool IsPawn => false;
+        public override bool IsQueen => false;
     }
 
     public class Queen : Piece
@@ -141,6 +147,7 @@ namespace Blackmitten.Elliot.Backend
         public override bool IsKing => false;
         public override bool IsRook => false;
         public override bool IsPawn => false;
+        public override bool IsQueen => true;
     }
 
     public class King : Piece
@@ -159,6 +166,7 @@ namespace Blackmitten.Elliot.Backend
         public override bool IsKing => true;
         public override bool IsRook => false;
         public override bool IsPawn => false;
+        public override bool IsQueen => false;
     }
 
 }

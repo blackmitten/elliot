@@ -111,19 +111,12 @@ namespace ElliotTests
             board.WhiteCanCastleKingside = false;
             board.WhiteCanCastleQueenside = false;
 
-            Game game = new Game(whiteStockfish, blackStockfish, ui, board);
-            ManualResetEvent done = new ManualResetEvent(false);
-            game.GameDone += Game_GameDone;
+            Game game = new Game(whiteStockfish, blackStockfish, ui, board, new MockLog());
 
-            game.Play();
-            done.WaitOne();
+            game.PlaySingleMove();
 
-
-            void Game_GameDone(object sender, System.EventArgs e)
-            {
-                done.Set();
-            }
-
+            Assert.IsTrue(board.GetPieceOnSquare(new Square(2, 8)).IsQueen);
+            int i = 1;
         }
 
     }
