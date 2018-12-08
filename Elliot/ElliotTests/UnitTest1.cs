@@ -103,9 +103,9 @@ namespace ElliotTests
                 @"C:\Users\carl\Documents\dev\elliot\Elliot\StockfishBin\stockfish_9_x64.exe", 10));
 
             Board board = new Board();
-            board.AddPiece(new King(new Square(4, 1), true));
-            board.AddPiece(new Pawn(new Square(2, 7), true));
-            board.AddPiece(new King(new Square(4, 8), false));
+            board.Add(new King(new Square(4, 1), true));
+            board.Add(new Pawn(new Square(2, 7), true));
+            board.Add(new King(new Square(4, 8), false));
             board.BlackCanCastleKingside = false;
             board.BlackCanCastleQueenside = false;
             board.WhiteCanCastleKingside = false;

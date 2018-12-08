@@ -50,7 +50,11 @@ namespace Blackmitten.Elliot.WinForms
             graphics.DrawRectangle(Pens.Black, 0, 0, m_width, m_width);
             if (board != null)
             {
-                foreach (var piece in board.Pieces)
+                foreach (var piece in board.BlackPieces)
+                {
+                    piece.Accept(this, graphics);
+                }
+                foreach (var piece in board.WhitePieces)
                 {
                     piece.Accept(this, graphics);
                 }

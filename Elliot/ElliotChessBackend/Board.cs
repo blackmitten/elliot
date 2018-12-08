@@ -9,11 +9,13 @@ namespace Blackmitten.Elliot.Backend
 {
     public class Board
     {
-        List<IPiece> m_pieces = new List<IPiece>();
+        List<IPiece> m_blackPieces = new List<IPiece>();
+        List<IPiece> m_whitePieces = new List<IPiece>();
 
         public bool WhitesTurn { get; set; } = true;
 
-        public IEnumerable<IPiece> Pieces => m_pieces;
+        public IEnumerable<IPiece> BlackPieces => m_blackPieces;
+        public IEnumerable<IPiece> WhitePieces => m_whitePieces;
 
         public Board()
         {
@@ -22,9 +24,13 @@ namespace Blackmitten.Elliot.Backend
         public Board(Board board)
         {
             WhitesTurn = board.WhitesTurn;
-            foreach (var piece in board.Pieces)
+            foreach (var piece in board.m_whitePieces)
             {
-                this.m_pieces.Add(piece.Copy());
+                m_whitePieces.Add(piece.Copy());
+            }
+            foreach (var piece in board.m_blackPieces)
+            {
+                m_blackPieces.Add(piece.Copy());
             }
         }
 
@@ -33,28 +39,29 @@ namespace Blackmitten.Elliot.Backend
             Board b = new Board();
             for (int i = 1; i < 9; i++)
             {
-                b.m_pieces.Add(new Pawn(new Square(i, 7), false));
-                b.m_pieces.Add(new Pawn(new Square(i, 2), true));
+                b.m_blackPieces.Add(new Pawn(new Square(i, 7), false));
+                b.m_whitePieces.Add(new Pawn(new Square(i, 2), true));
             }
-            b.m_pieces.Add(new Rook(new Square(1, 8), false));
-            b.m_pieces.Add(new Rook(new Square(8, 8), false));
-            b.m_pieces.Add(new Knight(new Square(2, 8), false));
-            b.m_pieces.Add(new Knight(new Square(7, 8), false));
-            b.m_pieces.Add(new Bishop(new Square(3, 8), false));
-            b.m_pieces.Add(new Bishop(new Square(6, 8), false));
-            b.m_pieces.Add(new Queen(new Square(4, 8), false));
-            b.m_pieces.Add(new King(new Square(5, 8), false));
+            b.m_blackPieces.Add(new Rook(new Square(1, 8), false));
+            b.m_blackPieces.Add(new Rook(new Square(8, 8), false));
+            b.m_blackPieces.Add(new Knight(new Square(2, 8), false));
+            b.m_blackPieces.Add(new Knight(new Square(7, 8), false));
+            b.m_blackPieces.Add(new Bishop(new Square(3, 8), false));
+            b.m_blackPieces.Add(new Bishop(new Square(6, 8), false));
+            b.m_blackPieces.Add(new Queen(new Square(4, 8), false));
+            b.m_blackPieces.Add(new King(new Square(5, 8), false));
 
-            b.m_pieces.Add(new Rook(new Square(1, 1), true));
-            b.m_pieces.Add(new Rook(new Square(8, 1), true));
-            b.m_pieces.Add(new Knight(new Square(2, 1), true));
-            b.m_pieces.Add(new Knight(new Square(7, 1), true));
-            b.m_pieces.Add(new Bishop(new Square(3, 1), true));
-            b.m_pieces.Add(new Bishop(new Square(6, 1), true));
-            b.m_pieces.Add(new Queen(new Square(4, 1), true));
-            b.m_pieces.Add(new King(new Square(5, 1), true));
+            b.m_whitePieces.Add(new Rook(new Square(1, 1), true));
+            b.m_whitePieces.Add(new Rook(new Square(8, 1), true));
+            b.m_whitePieces.Add(new Knight(new Square(2, 1), true));
+            b.m_whitePieces.Add(new Knight(new Square(7, 1), true));
+            b.m_whitePieces.Add(new Bishop(new Square(3, 1), true));
+            b.m_whitePieces.Add(new Bishop(new Square(6, 1), true));
+            b.m_whitePieces.Add(new Queen(new Square(4, 1), true));
+            b.m_whitePieces.Add(new King(new Square(5, 1), true));
             b.WhitesTurn = true;
-            b.m_pieces = b.m_pieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();
+            b.m_whitePieces = b.m_whitePieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();
+            b.m_blackPieces = b.m_blackPieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();
             return b;
         }
 
@@ -64,7 +71,7 @@ namespace Blackmitten.Elliot.Backend
             IPiece capturedPiece = GetPieceOnSquare(move.End);
             if (capturedPiece != null)
             {
-                m_pieces.Remove(capturedPiece);
+                Remove(capturedPiece);
             }
             if (piece.IsKing)
             {
@@ -72,13 +79,13 @@ namespace Blackmitten.Elliot.Backend
                 {
                     if (move.End == Square.WhiteKingCastledQueenside)
                     {
-                        Move(new Move(Square.WhiteQueensRookStart, Square.WhiteQueensRookCastled), false);
+                        Move(new Move(this, Square.WhiteQueensRookStart, Square.WhiteQueensRookCastled), false);
                         WhiteCanCastleKingside = false;
                         WhiteCanCastleQueenside = false;
                     }
                     else if (move.End == Square.WhiteKingCastledKingside)
                     {
-                        Move(new Move(Square.WhiteKingsRookStart, Square.WhiteKingsRookCastled), false);
+                        Move(new Move(this, Square.WhiteKingsRookStart, Square.WhiteKingsRookCastled), false);
                         WhiteCanCastleKingside = false;
                         WhiteCanCastleQueenside = false;
                     }
@@ -87,13 +94,13 @@ namespace Blackmitten.Elliot.Backend
                 {
                     if (move.End == Square.BlackKingCastledQueenside)
                     {
-                        Move(new Move(Square.BlackQueensRookStart, Square.BlackQueensRookCastled), false);
+                        Move(new Move(this, Square.BlackQueensRookStart, Square.BlackQueensRookCastled), false);
                         BlackCanCastleKingside = false;
                         BlackCanCastleQueenside = false;
                     }
                     else if (move.End == Square.BlackKingCastledKingside)
                     {
-                        Move(new Move(Square.BlackKingsRookStart, Square.BlackKingsRookCastled), false);
+                        Move(new Move(this, Square.BlackKingsRookStart, Square.BlackKingsRookCastled), false);
                         BlackCanCastleKingside = false;
                         BlackCanCastleQueenside = false;
                     }
@@ -125,12 +132,12 @@ namespace Blackmitten.Elliot.Backend
                     case PieceType.None:
                         break;
                     case PieceType.Bishop:
-                        m_pieces.Remove(piece);
-                        m_pieces.Add(new Bishop(move.End, piece.White));
+                        Remove(piece);
+                        Add(new Bishop(move.End, piece.White));
                         break;
                     case PieceType.Queen:
-                        m_pieces.Remove(piece);
-                        m_pieces.Add(new Queen(move.End, piece.White));
+                        Remove(piece);
+                        Add(new Queen(move.End, piece.White));
                         break;
                     default:
                         throw new NotImplementedException();
@@ -154,9 +161,29 @@ namespace Blackmitten.Elliot.Backend
 
         }
 
-        public void AddPiece(IPiece piece)
+        void Remove(IPiece piece)
         {
-            m_pieces.Add(piece);
+            if(piece.White)
+            {
+                m_whitePieces.Remove(piece);
+            }
+            else
+            {
+                m_blackPieces.Remove(piece);
+            }
+        }
+
+
+        public void Add(IPiece piece)
+        {
+            if (piece.White)
+            {
+                m_whitePieces.Add(piece);
+            }
+            else
+            {
+                m_blackPieces.Add(piece);
+            }
         }
 
         public IPiece GetPieceOnSquare(Square square)
@@ -165,7 +192,14 @@ namespace Blackmitten.Elliot.Backend
             {
                 throw new InvalidOperationException("Out of bounds square in GetPieceOnSquare " + square.ToString());
             }
-            foreach (var piece in m_pieces)
+            foreach (var piece in m_blackPieces)
+            {
+                if (square == piece.Pos)
+                {
+                    return piece;
+                }
+            }
+            foreach (var piece in m_whitePieces)
             {
                 if (square == piece.Pos)
                 {

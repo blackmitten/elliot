@@ -74,7 +74,7 @@ namespace Blackmitten.Elliot.WinForms
                     }
                     else
                     {
-                        _humansMove = new Move(_moveStartSquare, clickedSquare);
+                        _humansMove = new Move(_board, _moveStartSquare, clickedSquare);
                         _moveStartSquare = new Square();
                         _humanMoved.Set();
                     }

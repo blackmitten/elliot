@@ -22,9 +22,11 @@ namespace Blackmitten.Elliot.Backend
         public Square Start { get; }
         public Square End { get; }
         public PieceType Promoted { get; private set; }
+        public Board Board { get; private set; }
 
-        public Move(string moveString)
+        public Move(Board board, string moveString)
         {
+            Board = board;
             if (moveString.Length == 4)
             {
                 Start = new Square(moveString.Substring(0, 2));
@@ -55,8 +57,9 @@ namespace Blackmitten.Elliot.Backend
             }
         }
 
-        public Move(Square start, Square end)
+        public Move(Board board, Square start, Square end)
         {
+            Board = board;
             Start = start;
             End = end;
         }
@@ -80,7 +83,7 @@ namespace Blackmitten.Elliot.Backend
             return Start.ToString() + End.ToString() + PromotionCode();
         }
 
-        internal string ToLongString(Board board)
+        internal string ToLongString()
         {
             string promotion = "";
             switch (Promoted)
@@ -93,12 +96,12 @@ namespace Blackmitten.Elliot.Backend
                 default:
                     throw new InvalidOperationException();
             }
-            IPiece capturedPiece = board.GetPieceOnSquare(End);
+            IPiece capturedPiece = Board.GetPieceOnSquare(End);
             if (capturedPiece != null)
             {
-                return board.GetPieceOnSquare(this.Start).ToString() + " captures " + capturedPiece.ToString() + promotion;
+                return Board.GetPieceOnSquare(this.Start).ToString() + " captures " + capturedPiece.ToString() + promotion;
             }
-            return board.GetPieceOnSquare(this.Start).ToString() + " to " + End.ToString() + promotion;
+            return Board.GetPieceOnSquare(this.Start).ToString() + " to " + End.ToString() + promotion;
         }
     }
 

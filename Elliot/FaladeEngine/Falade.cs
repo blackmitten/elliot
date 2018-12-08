@@ -21,7 +21,17 @@ namespace BlackMitten.Elliot.FaladeEngine
         {
             Thread.Sleep(1000);
             Move move = null;
-            foreach (var piece in board.Pieces)
+
+            IEnumerable<IPiece> pieces;
+            if (board.WhitesTurn)
+            {
+                pieces = board.WhitePieces;
+            }
+            else
+            {
+                pieces = board.BlackPieces;
+            }
+            foreach (var piece in pieces)
             {
                 if (piece.White == board.WhitesTurn)
                 {
@@ -31,7 +41,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                         s = Square.Random;
 
                     } while (board.GetPieceOnSquare(s) != null);
-                    move = new Move(piece.Pos, s);
+                    move = new Move(board, piece.Pos, s);
                     break;
                 }
             }

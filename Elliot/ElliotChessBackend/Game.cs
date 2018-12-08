@@ -77,9 +77,9 @@ namespace Blackmitten.Elliot.Backend
                 _userInterface.Redraw();
                 if (!_gameOver)
                 {
-                    _log.Write(move.ToLongString(_board));
+                    _log.Write(move.ToLongString());
                     _userInterface.WaitForInstructionToMove();
-                    _moveValidator.Validate(_board, move);
+                    _moveValidator.Validate(move);
                     _board.Move(move);
                     _userInterface.Redraw();
                 }
