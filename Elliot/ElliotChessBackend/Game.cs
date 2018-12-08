@@ -15,32 +15,28 @@ namespace Blackmitten.Elliot.Backend
         //        TranspositionTable m_transpositionTable = new TranspositionTable();
         Thread _gameThread;
         ILogWriter _log;
+        IMoveValidator _moveValidator;
 
         public event EventHandler<EventArgs> GameDone;
 
-        public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface, ILogWriter log)
+        public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface, ILogWriter log, 
+            IMoveValidator moveValidator, Board board = null)
         {
-            _log = log;
-            Begin(whitePlayer, blackPlayer, userInterface, Board.InitNewGame());
-        }
+            if ( board == null )
+            {
+                board = Board.InitNewGame();
+            }
 
-        public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface, Board board, ILogWriter log)
-        {
-            _log = log;
-            Begin(whitePlayer, blackPlayer, userInterface, board);
-        }
-
-        void Begin(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface, Board board)
-        {
             Trace.Assert(whitePlayer.White);
             Trace.Assert(!blackPlayer.White);
             _whitePlayer = whitePlayer;
             _blackPlayer = blackPlayer;
             _userInterface = userInterface;
+            _log = log;
+            _moveValidator = moveValidator;
             _board = board;
 
             userInterface.Board = _board;
-
         }
 
         public void Play()
@@ -83,6 +79,7 @@ namespace Blackmitten.Elliot.Backend
                 {
                     _log.Write(move.ToLongString(_board));
                     _userInterface.WaitForInstructionToMove();
+                    _moveValidator.Validate(_board, move);
                     _board.Move(move);
                     _userInterface.Redraw();
                 }

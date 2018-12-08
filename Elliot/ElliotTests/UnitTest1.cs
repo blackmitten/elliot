@@ -111,7 +111,7 @@ namespace ElliotTests
             board.WhiteCanCastleKingside = false;
             board.WhiteCanCastleQueenside = false;
 
-            Game game = new Game(whiteStockfish, blackStockfish, ui, board, new MockLog());
+            Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
             game.PlaySingleMove();
 

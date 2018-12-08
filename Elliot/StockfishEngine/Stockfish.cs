@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlackMitten.Elliot.StockfishEngine
 {
-    public class Stockfish : IEngine
+    public class Stockfish : IEngine, IMoveValidator
     {
         Process _process;
         ManualResetEvent _fishReady = new ManualResetEvent(false);
@@ -123,5 +123,10 @@ namespace BlackMitten.Elliot.StockfishEngine
             }
         }
 
+        public void Validate(Board board, Move move)
+        {
+            SendCommand("position " + board.GetFenString() + " moves " + move);
+            WaitForReady();
+        }
     }
 }

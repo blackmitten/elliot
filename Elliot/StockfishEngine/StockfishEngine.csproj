@@ -7,7 +7,7 @@
     <ProjectGuid>{F17F8D65-A74C-465A-8F5E-E3D3C2F51FC1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StockfishEngine</RootNamespace>
+    <RootNamespace>BlackMitten.Elliot.StockfishEngine</RootNamespace>
     <AssemblyName>StockfishEngine</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
