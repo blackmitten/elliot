@@ -47,10 +47,12 @@
     <Compile Include="HumanPlayer.cs" />
     <Compile Include="IEngine.cs" />
     <Compile Include="IMoveValidator.cs" />
+    <Compile Include="InvalidMoveException.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="IUserInterface.cs" />
     <Compile Include="MachinePlayer.cs" />
     <Compile Include="Move.cs" />
+    <Compile Include="MoveValidator.cs" />
     <Compile Include="NoMovesException.cs" />
     <Compile Include="Pieces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

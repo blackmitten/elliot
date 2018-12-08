@@ -56,7 +56,7 @@ namespace BlackMitten.Elliot.Winforms
             this.timer1.Tick += Timer1_Tick;
             this.timer1.Start();
 
-            _game = new Game(whiteStockfish, blackHuman, this, _log, new Stockfish(path, 10));
+            _game = new Game(whiteStockfish, blackHuman, this, _log, new MoveValidator());
             _game.Play();
         }
 
