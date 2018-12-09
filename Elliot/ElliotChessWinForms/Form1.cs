@@ -76,7 +76,7 @@ namespace BlackMitten.Elliot.Winforms
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _game.Stop();
+            _game.ApplicationClosing();
         }
 
         public Move WaitForHuman() => boardControl1.WaitForHuman();

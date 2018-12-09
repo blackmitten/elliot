@@ -71,13 +71,44 @@ namespace Blackmitten.Elliot.Backend
 
         }
 
-        public void Visit(Rook rook, object data) => throw new InvalidMoveException("not implemented");
-        public void Visit(Knight knight, object data) => throw new InvalidMoveException("not implemented");
+        public void Visit(Rook rook, object data)
+        {
+            Move move = (Move)data;
+            int dx = move.End.x - move.Start.x;
+            int dy = move.End.y - move.Start.y;
+            if (dx != 0 && dy != 0)
+            {
+                throw new InvalidMoveException("Rooks can only move horizontally/vertically");
+            }
+            if (dx == 0 && dy == 0)
+            {
+                throw new InvalidMoveException("Rook didn't move");
+            }
+            CheckNothingInTheWay(rook, move);
+        }
+
+        public void Visit(Knight knight, object data)
+        {
+            Move move = (Move)data;
+            int absDx = Math.Abs(move.End.x - move.Start.x);
+            int absDy = Math.Abs(move.End.y - move.Start.y);
+            if (!(absDx == 1 && absDy == 2) && !(absDx == 2 && absDy == 1))
+            {
+                throw new InvalidMoveException("Knight must move in knightly fashion");
+            }
+            IPiece capturedPiece = move.Board.GetPieceOnSquare(move.End);
+            if (capturedPiece != null)
+            {
+                if (capturedPiece.White == knight.White)
+                {
+                    throw new InvalidMoveException("Can only take a piece of other side");
+                }
+            }
+        }
 
         public void Visit(Bishop bishop, object data)
         {
             Move move = (Move)data;
-            Board board = move.Board;
             int dx = move.End.x - move.Start.x;
             int dy = move.End.y - move.Start.y;
             if (Math.Abs(dx) != Math.Abs(dy))
@@ -88,31 +119,78 @@ namespace Blackmitten.Elliot.Backend
             {
                 throw new InvalidMoveException("Bishop didn't move");
             }
+            CheckNothingInTheWay(bishop, move);
+
+        }
+
+        public void Visit(Queen queen, object data)
+        {
+            Move move = (Move)data;
+            int dx = move.End.x - move.Start.x;
+            int dy = move.End.y - move.Start.y;
+            if (dx != 0 && dy != 0)
+            {
+                if (Math.Abs(dx) != Math.Abs(dy))
+                {
+                    throw new InvalidMoveException("Queens can only move diagonally/horizontally/vertically");
+                }
+            }
+            if (dx == 0 && dy == 0)
+            {
+                throw new InvalidMoveException("Queen didn't move");
+            }
+            CheckNothingInTheWay(queen, move);
+        }
+
+        public void Visit(King king, object data)
+        {
+            Move move = (Move)data;
+            int absDx = Math.Abs(move.End.x - move.Start.x);
+            int absDy = Math.Abs(move.End.y - move.Start.y);
+            if (absDx == 0 && absDy == 0)
+            {
+                throw new InvalidMoveException("King didn't move");
+            }
+            if (absDx > 1 || absDy > 1)
+            {
+                throw new InvalidMoveException("King can only move one space");
+            }
+            IPiece capturedPiece = move.Board.GetPieceOnSquare(move.End);
+            if (capturedPiece != null)
+            {
+                if (capturedPiece.White == king.White)
+                {
+                    throw new InvalidMoveException("Can only take a piece of other side");
+                }
+            }
+        }
+
+        void CheckNothingInTheWay(IPiece piece, Move move)
+        {
+            int dx = move.End.x - move.Start.x;
+            int dy = move.End.y - move.Start.y;
             int xdir = Math.Sign(dx);
             int ydir = Math.Sign(dy);
             Square s = move.Start;
             while (s != move.End)
             {
                 s = s.Offset(xdir, ydir);
-                IPiece capturedPiece = board.GetPieceOnSquare(s);
+                IPiece capturedPiece = move.Board.GetPieceOnSquare(s);
                 if (capturedPiece != null)
                 {
                     if (s == move.End)
                     {
-                        if (capturedPiece.White == bishop.White)
+                        if (capturedPiece.White == piece.White)
                         {
                             throw new InvalidMoveException("Can only take a piece of other side");
                         }
                     }
                     else
                     {
-                        throw new InvalidMoveException("There's a piece in the way of this bishop");
+                        throw new InvalidMoveException("There's a piece in the way of this " + piece.Name);
                     }
                 }
             }
         }
-
-        public void Visit(Queen queen, object data) => throw new InvalidMoveException("not implemented");
-        public void Visit(King king, object data) => throw new InvalidMoveException("not implemented");
     }
 }

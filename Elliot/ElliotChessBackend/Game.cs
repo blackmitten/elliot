@@ -13,12 +13,11 @@ namespace Blackmitten.Elliot.Backend
         IPlayer _whitePlayer;
         IPlayer _blackPlayer;
         bool _gameOver = false;
-        //        TranspositionTable m_transpositionTable = new TranspositionTable();
+        bool _applicationClosing = false;
         Thread _gameThread;
         ILogWriter _log;
         IMoveValidator _moveValidator;
 
-        public event EventHandler<EventArgs> GameDone;
 
         public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface, ILogWriter log,
             IMoveValidator moveValidator, Board board = null)
@@ -75,7 +74,10 @@ namespace Blackmitten.Elliot.Backend
                     move = _blackPlayer.Play(_board);
                     _userInterface.MachineThinking = false;
                 }
-                _userInterface.Redraw();
+                if (!_applicationClosing)
+                {
+                    _userInterface.Redraw();
+                }
                 if (!_gameOver)
                 {
                     _log.Write(move.ToLongString());
@@ -98,8 +100,9 @@ namespace Blackmitten.Elliot.Backend
             }
         }
 
-        public void Stop()
+        public void ApplicationClosing()
         {
+            _applicationClosing = true;
             _gameOver = true;
             _userInterface.StopWaiting();
         }
