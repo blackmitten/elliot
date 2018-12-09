@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace Blackmitten.Elliot.Backend
 {
@@ -19,10 +20,10 @@ namespace Blackmitten.Elliot.Backend
 
         public event EventHandler<EventArgs> GameDone;
 
-        public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface, ILogWriter log, 
+        public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface, ILogWriter log,
             IMoveValidator moveValidator, Board board = null)
         {
-            if ( board == null )
+            if (board == null)
             {
                 board = Board.InitNewGame();
             }
@@ -79,8 +80,15 @@ namespace Blackmitten.Elliot.Backend
                 {
                     _log.Write(move.ToLongString());
                     _userInterface.WaitForInstructionToMove();
-                    _moveValidator.Validate(move);
-                    _board.Move(move);
+                    try
+                    {
+                        _moveValidator.Validate(move);
+                        _board.Move(move);
+                    }
+                    catch (InvalidMoveException e)
+                    {
+                        MessageBox.Show(e.Message, "Invalid move");
+                    }
                     _userInterface.Redraw();
                 }
             }

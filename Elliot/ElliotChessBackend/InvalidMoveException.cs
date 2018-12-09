@@ -8,8 +8,13 @@ namespace Blackmitten.Elliot.Backend
 {
     class InvalidMoveException : Exception
     {
-        public InvalidMoveException(string message) : base(message)
+        string _message;
+
+        public InvalidMoveException(string message)
         {
+            _message = message;
         }
+
+        public override string Message => _message;
     }
 }
