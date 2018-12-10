@@ -46,8 +46,8 @@ namespace BlackMitten.Elliot.Winforms
             IPlayer whiteHuman = new HumanPlayer(true, this);
             IPlayer blackHuman = new HumanPlayer(false, this);
             IPlayer whiteFalade = new MachinePlayer(true, this, new Falade());
-            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(path, 10));
-            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(path, 10));
+            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(path, 15));
+            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(path, 15));
 
 
 
@@ -56,7 +56,7 @@ namespace BlackMitten.Elliot.Winforms
             this.timer1.Tick += Timer1_Tick;
             this.timer1.Start();
 
-            _game = new Game(whiteStockfish, blackHuman, this, _log, new MoveValidator());
+            _game = new Game(whiteStockfish, blackStockfish, this, _log, new MoveValidator());
             _game.Play();
         }
 

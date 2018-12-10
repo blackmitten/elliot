@@ -153,7 +153,58 @@ namespace Blackmitten.Elliot.Backend
             }
             if (absDx > 1 || absDy > 1)
             {
-                throw new InvalidMoveException("King can only move one space");
+                Board board = move.Board;
+                bool castleOk = false;
+                if (king.White &&
+                    move.Start == Square.WhiteKingStart)
+                {
+                    if (move.End == Square.WhiteKingCastledKingside &&
+                        board.WhiteCanCastleKingside)
+                    {
+                        if (board.GetPieceOnSquare(new Square(6, 1)) == null &&
+                            board.GetPieceOnSquare(new Square(7, 1)) == null)
+                        {
+                            castleOk = true;
+                        }
+                    }
+                    else if (move.End == Square.WhiteKingCastledQueenside &&
+                        board.WhiteCanCastleQueenside)
+                    {
+                        if (board.GetPieceOnSquare(new Square(4, 1)) == null &&
+                            board.GetPieceOnSquare(new Square(3, 1)) == null &&
+                            board.GetPieceOnSquare(new Square(2, 1)) == null)
+                        {
+                            castleOk = true;
+                        }
+                    }
+                }
+                else if (!king.White &&
+                    move.Start == Square.BlackKingStart)
+                {
+                    if (move.End == Square.BlackKingCastledKingside &&
+                        board.BlackCanCastleKingside)
+                    {
+                        if (board.GetPieceOnSquare(new Square(6, 8)) == null &&
+                            board.GetPieceOnSquare(new Square(7, 8)) == null)
+                        {
+                            castleOk = true;
+                        }
+                    }
+                    else if (move.End == Square.BlackKingCastledQueenside &&
+                        board.BlackCanCastleQueenside)
+                    {
+                        if (board.GetPieceOnSquare(new Square(4, 8)) == null &&
+                            board.GetPieceOnSquare(new Square(3, 8)) == null &&
+                            board.GetPieceOnSquare(new Square(2, 8)) == null)
+                        {
+                            castleOk = true;
+                        }
+                    }
+                }
+                if (!castleOk)
+                {
+                    throw new InvalidMoveException("King can only move one space");
+                }
             }
             IPiece capturedPiece = move.Board.GetPieceOnSquare(move.End);
             if (capturedPiece != null)
