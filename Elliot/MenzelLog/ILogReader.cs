@@ -6,6 +6,6 @@ namespace Blackmitten.Menzel
 {
     public interface ILogReader
     {
-        IEnumerable<string> Read();
+        IList<string> Read();
     }
 }

@@ -22,6 +22,8 @@ namespace Blackmitten.Elliot.Backend
 
         public bool White { get; }
 
+        public void Kill() => _engine.Stop();
+
         public Move Play(Board board)
         {
             Move move = _engine.GetBestMove(board);

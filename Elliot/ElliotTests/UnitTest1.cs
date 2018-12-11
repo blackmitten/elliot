@@ -8,6 +8,8 @@ namespace ElliotTests
     [TestClass]
     public class UnitTest1
     {
+        string _stockFishBinPath = @"C:\bin\stockfish\stockfish_9_x64.exe";
+
         [TestMethod]
         public void SquareEquality()
         {
@@ -97,10 +99,8 @@ namespace ElliotTests
 
             MockUI ui = new MockUI();
 
-            IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(
-                @"C:\Users\carl\Documents\dev\elliot\Elliot\StockfishBin\stockfish_9_x64.exe", 10));
-            IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(
-                @"C:\Users\carl\Documents\dev\elliot\Elliot\StockfishBin\stockfish_9_x64.exe", 10));
+            IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(_stockFishBinPath, 10));
+            IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(_stockFishBinPath, 10));
 
             Board board = new Board();
             board.Add(new King(new Square(4, 1), true));
@@ -116,7 +116,31 @@ namespace ElliotTests
             game.PlaySingleMove();
 
             Assert.IsTrue(board.GetPieceOnSquare(new Square(2, 8)).IsQueen);
-            int i = 1;
+        }
+
+        [TestMethod]
+        public void PlayGame()
+        {
+            MockUI ui = new MockUI();
+
+
+            for (int i = 1; i < 8; i++)
+            {
+                IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(_stockFishBinPath, 5));
+                IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(_stockFishBinPath, 5));
+
+                Board board = Board.InitNewGame();
+                board.Remove(board.GetPieceOnSquare(new Square(i, 2)));
+                Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
+
+                game.Play();
+
+                whiteStockfish.Kill();
+                blackStockfish.Kill();
+
+
+            }
+
         }
 
     }

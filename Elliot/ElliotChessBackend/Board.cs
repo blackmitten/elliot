@@ -161,7 +161,7 @@ namespace Blackmitten.Elliot.Backend
 
         }
 
-        void Remove(IPiece piece)
+        public void Remove(IPiece piece)
         {
             if(piece.White)
             {

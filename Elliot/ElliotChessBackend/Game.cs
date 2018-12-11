@@ -2,7 +2,6 @@
 using System;
 using System.Diagnostics;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace Blackmitten.Elliot.Backend
 {
@@ -39,16 +38,18 @@ namespace Blackmitten.Elliot.Backend
             userInterface.Board = _board;
         }
 
+        public void StartPlay()
+        {
+            _gameThread = new Thread(Play);
+            _gameThread.Start();
+        }
+
         public void Play()
         {
-            _gameThread = new Thread(() =>
+            while (!_gameOver)
             {
-                while (!_gameOver)
-                {
-                    PlaySingleMove();
-                }
-            });
-            _gameThread.Start();
+                PlaySingleMove();
+            }
         }
 
         public void PlaySingleMove()
@@ -56,6 +57,10 @@ namespace Blackmitten.Elliot.Backend
             Move move;
             try
             {
+                if(_board.HalfMoveClock>50)
+                {
+                    _gameOver = true;
+                }
                 if (_board.WhitesTurn)
                 {
                     if (!_whitePlayer.Human)
@@ -89,7 +94,7 @@ namespace Blackmitten.Elliot.Backend
                     }
                     catch (InvalidMoveException e)
                     {
-                        MessageBox.Show(e.Message, "Invalid move");
+                        _userInterface.InvalidMove(e.Message);
                     }
                     _userInterface.Redraw();
                 }
@@ -97,6 +102,8 @@ namespace Blackmitten.Elliot.Backend
             catch (NoMovesException)
             {
                 _gameOver = true;
+                _userInterface.MachineThinking = false;
+                _userInterface.Redraw();
             }
         }
 

@@ -13,7 +13,7 @@ namespace Blackmitten.Menzel
 
         }
 
-        public IEnumerable<string> Read()
+        public IList<string> Read()
         {
             List<string> copy = new List<string>();
             lock (_lock)

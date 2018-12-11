@@ -49,6 +49,7 @@ namespace BlackMitten.Elliot.FaladeEngine
         }
 
         public void Move(string move) => throw new NotImplementedException();
+        public void Shutdown() => throw new NotImplementedException();
     }
 
 }

@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blackmitten.Elliot.Backend
 {
-    public interface IPlayer
+    public class StaleMateException : Exception
     {
-        bool Human { get; }
-        bool White { get; }
-        Move Play(Board board);
-        void Kill();
     }
 }

@@ -20,6 +20,6 @@ namespace Blackmitten.Elliot.Backend
         void Redraw();
 
         void WaitForInstructionToMove();
-
+        void InvalidMove(string message);
     }
 }

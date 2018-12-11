@@ -47,7 +47,7 @@ namespace Blackmitten.Elliot.Backend
 
         public abstract string Name { get; }
 
-        public override string ToString() => (White ? "White " : "Black ") + Name + " on " + Pos;
+        public override string ToString() => (White ? "White " : "Black ") + Name;
 
         public abstract bool IsKing { get; }
         public abstract bool IsRook { get; }

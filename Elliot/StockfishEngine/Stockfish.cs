@@ -123,5 +123,6 @@ namespace BlackMitten.Elliot.StockfishEngine
             }
         }
 
+        public void Shutdown() => throw new NotImplementedException();
     }
 }

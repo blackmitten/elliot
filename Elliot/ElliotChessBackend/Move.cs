@@ -99,9 +99,9 @@ namespace Blackmitten.Elliot.Backend
             IPiece capturedPiece = Board.GetPieceOnSquare(End);
             if (capturedPiece != null)
             {
-                return Board.GetPieceOnSquare(this.Start).ToString() + " captures " + capturedPiece.ToString() + promotion;
+                return Board.GetPieceOnSquare(this.Start).ToString() + " captures " + capturedPiece.ToString() + " " + Start + "->" + End + promotion;
             }
-            return Board.GetPieceOnSquare(this.Start).ToString() + " to " + End.ToString() + promotion;
+            return Board.GetPieceOnSquare(this.Start).ToString() + " " + Start + "->" + End + promotion;
         }
     }
 
