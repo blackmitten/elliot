@@ -124,21 +124,27 @@ namespace ElliotTests
             MockUI ui = new MockUI();
 
 
-            for (int i = 1; i < 8; i++)
+            for (int d = 1; d < 10; d++)
             {
-                IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(_stockFishBinPath, 5));
-                IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(_stockFishBinPath, 5));
+                for (int y = 2; y < 8; y += 5)
+                {
+                    for (int x = 1; x <= 8; x++)
+                    {
 
-                Board board = Board.InitNewGame();
-                board.Remove(board.GetPieceOnSquare(new Square(i, 2)));
-                Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
+                        IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(_stockFishBinPath, d));
+                        IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(_stockFishBinPath, d));
 
-                game.Play();
+                        Board board = Board.InitNewGame();
+                        board.Remove(board.GetPieceOnSquare(new Square(x, y)));
+                        Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
-                whiteStockfish.Kill();
-                blackStockfish.Kill();
+                        game.Play();
 
+                        whiteStockfish.Kill();
+                        blackStockfish.Kill();
+                    }
 
+                }
             }
 
         }

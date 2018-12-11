@@ -42,7 +42,7 @@ namespace BlackMitten.Elliot.StockfishEngine
 
             if (!_fishReady.WaitOne(5000))
             {
-                throw new TimeoutException("Stockfish did not respond");
+                throw new EngineTimeoutException("Stockfish did not respond");
             }
 
         }
@@ -64,7 +64,11 @@ namespace BlackMitten.Elliot.StockfishEngine
         {
             SendCommand("position fen " + board.GetFenString());
             SendCommand("go depth " + _depth.ToString(CultureInfo.InvariantCulture));
-            WaitHandle.WaitAny(new WaitHandle[] { _bestMoveReady, _errorEvent });
+            int eventIndex = WaitHandle.WaitAny(new WaitHandle[] { _bestMoveReady, _errorEvent });
+            if (eventIndex == 1)
+            {
+                throw new EngineErrorException();
+            }
             return new Move(board, _bestMove);
         }
 

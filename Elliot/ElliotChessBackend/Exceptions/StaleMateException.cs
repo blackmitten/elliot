@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blackmitten.Elliot.Backend
 {
-    public class NoMovesException : Exception
+    public class StaleMateException : ElliotChessException
     {
     }
 }

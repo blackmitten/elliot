@@ -36,7 +36,7 @@ namespace ElliotTests
 
         public void Redraw()
         {
-            Trace.WriteLine(_board.GetFenString());
+//            Trace.WriteLine(_board.GetFenString());
         }
 
         public void StopWaiting() => throw new NotImplementedException();

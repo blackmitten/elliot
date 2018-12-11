@@ -17,6 +17,7 @@ namespace Blackmitten.Elliot.Backend
         public IEnumerable<IPiece> BlackPieces => m_blackPieces;
         public IEnumerable<IPiece> WhitePieces => m_whitePieces;
 
+
         public Board()
         {
         }
@@ -80,30 +81,26 @@ namespace Blackmitten.Elliot.Backend
                     if (move.End == Square.WhiteKingCastledQueenside)
                     {
                         Move(new Move(this, Square.WhiteQueensRookStart, Square.WhiteQueensRookCastled), false);
-                        WhiteCanCastleKingside = false;
-                        WhiteCanCastleQueenside = false;
                     }
                     else if (move.End == Square.WhiteKingCastledKingside)
                     {
                         Move(new Move(this, Square.WhiteKingsRookStart, Square.WhiteKingsRookCastled), false);
-                        WhiteCanCastleKingside = false;
-                        WhiteCanCastleQueenside = false;
                     }
+                    WhiteCanCastleKingside = false;
+                    WhiteCanCastleQueenside = false;
                 }
                 else if (move.Start == Square.BlackKingStart)
                 {
                     if (move.End == Square.BlackKingCastledQueenside)
                     {
                         Move(new Move(this, Square.BlackQueensRookStart, Square.BlackQueensRookCastled), false);
-                        BlackCanCastleKingside = false;
-                        BlackCanCastleQueenside = false;
                     }
                     else if (move.End == Square.BlackKingCastledKingside)
                     {
                         Move(new Move(this, Square.BlackKingsRookStart, Square.BlackKingsRookCastled), false);
-                        BlackCanCastleKingside = false;
-                        BlackCanCastleQueenside = false;
                     }
+                    BlackCanCastleKingside = false;
+                    BlackCanCastleQueenside = false;
                 }
             }
             else if (piece.IsRook)
@@ -138,6 +135,10 @@ namespace Blackmitten.Elliot.Backend
                     case PieceType.Queen:
                         Remove(piece);
                         Add(new Queen(move.End, piece.White));
+                        break;
+                    case PieceType.Rook:
+                        Remove(piece);
+                        Add(new Rook(move.End, piece.White));
                         break;
                     default:
                         throw new NotImplementedException();

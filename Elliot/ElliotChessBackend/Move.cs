@@ -85,6 +85,7 @@ namespace Blackmitten.Elliot.Backend
 
         internal string ToLongString()
         {
+            IPiece piece = Board.GetPieceOnSquare(Start);
             string promotion = "";
             switch (Promoted)
             {
@@ -99,9 +100,9 @@ namespace Blackmitten.Elliot.Backend
             IPiece capturedPiece = Board.GetPieceOnSquare(End);
             if (capturedPiece != null)
             {
-                return Board.GetPieceOnSquare(this.Start).ToString() + " captures " + capturedPiece.ToString() + " " + Start + "->" + End + promotion;
+                return piece.ToString() + " captures " + capturedPiece.ToString() + " " + Start + "->" + End + promotion;
             }
-            return Board.GetPieceOnSquare(this.Start).ToString() + " " + Start + "->" + End + promotion;
+            return piece.ToString() + " " + Start + "->" + End + promotion;
         }
     }
 

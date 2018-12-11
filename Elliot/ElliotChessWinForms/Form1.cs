@@ -46,16 +46,15 @@ namespace BlackMitten.Elliot.Winforms
             IPlayer whiteHuman = new HumanPlayer(true, this);
             IPlayer blackHuman = new HumanPlayer(false, this);
             IPlayer whiteFalade = new MachinePlayer(true, this, new Falade());
-            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(path, 10));
-            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(path, 10));
+            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(path, 5));
+            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(path, 5));
 
-            this.boardControl1.Log = _log;
-            // this.boardControl1.Board = board;
-            this.timer1.Tick += Timer1_Tick;
-            this.timer1.Start();
+            boardControl1.Log = _log;
+            timer1.Tick += Timer1_Tick;
+            timer1.Start();
 
             Board board = Board.InitNewGame();
-            board.Remove(board.GetPieceOnSquare(new Square(3, 2)));
+            board.Remove(board.GetPieceOnSquare(new Square(7, 2)));
             _game = new Game(whiteStockfish, blackStockfish, this, _log, new MoveValidator(), board);
             _game.StartPlay();
         }
@@ -99,7 +98,7 @@ namespace BlackMitten.Elliot.Winforms
 
         public void WaitForInstructionToMove()
         {
-            //            _instructToMove.WaitOne();
+//            _instructToMove.WaitOne();
         }
 
         private void buttonInstructToMove_Click(object sender, EventArgs e)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blackmitten.Elliot.Backend
 {
-    class InvalidMoveException : Exception
+    public class InvalidMoveException : ElliotChessException
     {
         string _message;
 
