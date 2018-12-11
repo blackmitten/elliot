@@ -16,6 +16,7 @@ namespace BlackMitten.Elliot.StockfishEngine
         ManualResetEvent _fishReady = new ManualResetEvent(false);
         AutoResetEvent _bestMoveReady = new AutoResetEvent(false);
         AutoResetEvent _readyOk = new AutoResetEvent(false);
+        AutoResetEvent _errorEvent = new AutoResetEvent(false);
         private bool _quitting = false;
         int _depth;
 
@@ -63,7 +64,7 @@ namespace BlackMitten.Elliot.StockfishEngine
         {
             SendCommand("position fen " + board.GetFenString());
             SendCommand("go depth " + _depth.ToString(CultureInfo.InvariantCulture));
-            _bestMoveReady.WaitOne();
+            WaitHandle.WaitAny(new WaitHandle[] { _bestMoveReady, _errorEvent });
             return new Move(board, _bestMove);
         }
 
@@ -88,7 +89,7 @@ namespace BlackMitten.Elliot.StockfishEngine
             Console.WriteLine(e.Data);
             if (!_quitting)
             {
-                throw new Exception();
+                _errorEvent.Set();
             }
         }
 
@@ -123,6 +124,5 @@ namespace BlackMitten.Elliot.StockfishEngine
             }
         }
 
-        public void Shutdown() => throw new NotImplementedException();
     }
 }
