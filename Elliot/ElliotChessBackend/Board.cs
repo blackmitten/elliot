@@ -68,6 +68,7 @@ namespace Blackmitten.Elliot.Backend
 
         internal void Move(Move move, bool switchSides = true)
         {
+            EnPassantTarget = new Square();
             IPiece piece = GetPieceOnSquare(move.Start);
             IPiece capturedPiece = GetPieceOnSquare(move.End);
             if (capturedPiece != null)
@@ -143,7 +144,11 @@ namespace Blackmitten.Elliot.Backend
                     default:
                         throw new NotImplementedException();
                 }
-
+                int dy = move.End.y - move.Start.y;
+                if (Math.Abs(dy) == 2)
+                {
+                    EnPassantTarget = new Square(move.End.x, move.End.y - dy / 2);
+                }
             }
             piece.Pos = move.End;
             if (switchSides)
@@ -164,7 +169,7 @@ namespace Blackmitten.Elliot.Backend
 
         public void Remove(IPiece piece)
         {
-            if(piece.White)
+            if (piece.White)
             {
                 m_whitePieces.Remove(piece);
             }
