@@ -15,6 +15,7 @@ namespace Blackmitten.Elliot.Backend
 
             IPiece piece = move.Board.GetPieceOnSquare(move.Start);
             piece.Accept(this, move);
+#warning Check for check
             //throw new InvalidMoveException(moveString);
         }
 

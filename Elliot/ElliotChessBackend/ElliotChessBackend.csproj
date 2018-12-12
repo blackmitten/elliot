@@ -57,6 +57,7 @@
     <Compile Include="IUserInterface.cs" />
     <Compile Include="MachinePlayer.cs" />
     <Compile Include="Move.cs" />
+    <Compile Include="MoveGenerator.cs" />
     <Compile Include="MoveValidator.cs" />
     <Compile Include="Exceptions\NoMovesException.cs" />
     <Compile Include="Pieces.cs" />

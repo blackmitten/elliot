@@ -35,6 +35,19 @@ namespace Blackmitten.Elliot.Backend
             }
         }
 
+        public IList<Move> GetAllMoves()
+        {
+            List<IPiece> pieces = WhitesTurn ? m_whitePieces : m_blackPieces;
+            List<Move> moves = new List<Move>();
+            MoveGenerator generator = new MoveGenerator();
+            foreach (var piece in pieces)
+            {
+                piece.Accept(generator, this);
+            }
+            moves.AddRange(generator.Moves);
+            return moves;
+        }
+
         internal void Move(Move move, bool switchSides = true)
         {
             Square LastMoveEnPassantTaret = EnPassantTarget;

@@ -1,4 +1,5 @@
-﻿using Blackmitten.Elliot.Backend;
+﻿using System.Collections.Generic;
+using Blackmitten.Elliot.Backend;
 using BlackMitten.Elliot.StockfishEngine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading;
@@ -146,6 +147,18 @@ namespace ElliotTests
         }
 
         [TestMethod]
+        public void GetAllMoves()
+        {
+            Board board = BoardFactory.InitNewGame();
+            var moves = board.GetAllMoves();
+
+            int i = 1;
+        }
+
+        #region slow tests
+
+
+        [TestMethod]
         public void PlayGame()
         {
             MockUI ui = new MockUI();
@@ -175,6 +188,8 @@ namespace ElliotTests
             }
 
         }
+
+        #endregion
 
     }
 }
