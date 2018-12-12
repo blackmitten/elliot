@@ -23,7 +23,7 @@ namespace Blackmitten.Elliot.Backend
         {
             if (board == null)
             {
-                board = Board.InitNewGame();
+                board = BoardFactory.InitNewGame();
             }
 
             Trace.Assert(whitePlayer.White);

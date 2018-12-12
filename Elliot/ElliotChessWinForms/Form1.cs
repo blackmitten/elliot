@@ -53,8 +53,8 @@ namespace BlackMitten.Elliot.Winforms
             timer1.Tick += Timer1_Tick;
             timer1.Start();
 
-            Board board = Board.InitNewGame();
-            board.Remove(board.GetPieceOnSquare(new Square(7, 2)));
+            Board board = BoardFactory.BuildEnPassantTest();
+            
             _game = new Game(whiteStockfish, blackStockfish, this, _log, new MoveValidator(), board);
             _game.StartPlay();
         }
@@ -98,7 +98,7 @@ namespace BlackMitten.Elliot.Winforms
 
         public void WaitForInstructionToMove()
         {
-//            _instructToMove.WaitOne();
+            _instructToMove.WaitOne();
         }
 
         private void buttonInstructToMove_Click(object sender, EventArgs e)

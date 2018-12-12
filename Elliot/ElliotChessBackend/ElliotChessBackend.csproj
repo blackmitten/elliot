@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Board.cs" />
+    <Compile Include="BoardFactory.cs" />
     <Compile Include="Exceptions\ElliotChessException.cs" />
     <Compile Include="Exceptions\EngineErrorException.cs" />
     <Compile Include="Exceptions\EngineTimeoutException.cs" />

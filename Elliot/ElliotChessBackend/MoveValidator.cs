@@ -55,6 +55,10 @@ namespace Blackmitten.Elliot.Backend
             else if (Math.Abs(dx) == 1 && squaresAdvanced == 1)
             {
                 IPiece capturedPiece = board.GetPieceOnSquare(move.End);
+                if (board.EnPassantTarget == move.End)
+                {
+                    capturedPiece = board.GetPieceOnSquare(board.EnPassantTarget.Offset(0, -direction));
+                }
                 if (capturedPiece == null)
                 {
                     throw new InvalidMoveException("Can only move diagonally when taking");

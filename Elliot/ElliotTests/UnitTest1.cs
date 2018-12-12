@@ -75,12 +75,39 @@ namespace ElliotTests
         [TestMethod]
         public void FenString()
         {
-            Board board = Board.InitNewGame();
+            Board board = BoardFactory.InitNewGame();
             string fen = board.GetFenString();
 
             string startingFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
             Assert.AreEqual(fen, startingFen);
+        }
+
+        [TestMethod]
+        public void EnPassant()
+        {
+            //   a b c d e f g h
+            // 8   ■   k   ■   ■
+            // 7 ■   ■   ■   ■
+            // 6   ■   ■   ■   ■
+            // 5 ■   ■   ■   ■
+            // 4   ■   ■   p P ■
+            // 3 ■   ■   ■   ■
+            // 2   ■   ■   ■   ■
+            // 1 ■   ■ K ■   ■
+            //   1 2 3 4 5 6 7 8
+
+            MockUI ui = new MockUI();
+
+            IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(_stockFishBinPath, 10));
+            IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(_stockFishBinPath, 10));
+
+            Board board = BoardFactory.BuildEnPassantTest();
+
+            Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
+
+            game.PlaySingleMove();
+
         }
 
         [TestMethod]
@@ -134,7 +161,7 @@ namespace ElliotTests
                         IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(_stockFishBinPath, d));
                         IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(_stockFishBinPath, d));
 
-                        Board board = Board.InitNewGame();
+                        Board board = BoardFactory.InitNewGame();
                         board.Remove(board.GetPieceOnSquare(new Square(x, y)));
                         Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 

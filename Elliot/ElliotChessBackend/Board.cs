@@ -35,39 +35,9 @@ namespace Blackmitten.Elliot.Backend
             }
         }
 
-        public static Board InitNewGame()
-        {
-            Board b = new Board();
-            for (int i = 1; i < 9; i++)
-            {
-                b.m_blackPieces.Add(new Pawn(new Square(i, 7), false));
-                b.m_whitePieces.Add(new Pawn(new Square(i, 2), true));
-            }
-            b.m_blackPieces.Add(new Rook(new Square(1, 8), false));
-            b.m_blackPieces.Add(new Rook(new Square(8, 8), false));
-            b.m_blackPieces.Add(new Knight(new Square(2, 8), false));
-            b.m_blackPieces.Add(new Knight(new Square(7, 8), false));
-            b.m_blackPieces.Add(new Bishop(new Square(3, 8), false));
-            b.m_blackPieces.Add(new Bishop(new Square(6, 8), false));
-            b.m_blackPieces.Add(new Queen(new Square(4, 8), false));
-            b.m_blackPieces.Add(new King(new Square(5, 8), false));
-
-            b.m_whitePieces.Add(new Rook(new Square(1, 1), true));
-            b.m_whitePieces.Add(new Rook(new Square(8, 1), true));
-            b.m_whitePieces.Add(new Knight(new Square(2, 1), true));
-            b.m_whitePieces.Add(new Knight(new Square(7, 1), true));
-            b.m_whitePieces.Add(new Bishop(new Square(3, 1), true));
-            b.m_whitePieces.Add(new Bishop(new Square(6, 1), true));
-            b.m_whitePieces.Add(new Queen(new Square(4, 1), true));
-            b.m_whitePieces.Add(new King(new Square(5, 1), true));
-            b.WhitesTurn = true;
-            b.m_whitePieces = b.m_whitePieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();
-            b.m_blackPieces = b.m_blackPieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();
-            return b;
-        }
-
         internal void Move(Move move, bool switchSides = true)
         {
+            Square LastMoveEnPassantTaret = EnPassantTarget;
             EnPassantTarget = new Square();
             IPiece piece = GetPieceOnSquare(move.Start);
             IPiece capturedPiece = GetPieceOnSquare(move.End);
@@ -145,6 +115,12 @@ namespace Blackmitten.Elliot.Backend
                         throw new NotImplementedException();
                 }
                 int dy = move.End.y - move.Start.y;
+                if (LastMoveEnPassantTaret.x == move.End.x &&
+                    LastMoveEnPassantTaret.y == move.End.y)
+                {
+                    capturedPiece = GetPieceOnSquare(move.End.Offset(0, -dy));
+                    Remove(capturedPiece);
+                }
                 if (Math.Abs(dy) == 2)
                 {
                     EnPassantTarget = new Square(move.End.x, move.End.y - dy / 2);
