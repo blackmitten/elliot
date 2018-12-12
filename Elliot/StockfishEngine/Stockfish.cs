@@ -67,7 +67,7 @@ namespace BlackMitten.Elliot.StockfishEngine
             int eventIndex = WaitHandle.WaitAny(new WaitHandle[] { _bestMoveReady, _errorEvent });
             if (eventIndex == 1)
             {
-                throw new EngineErrorException();
+                throw new EngineErrorException("Engine error");
             }
             return new Move(board, _bestMove);
         }
@@ -124,7 +124,7 @@ namespace BlackMitten.Elliot.StockfishEngine
             }
             else
             {
-                throw new Exception(e.Data);
+                throw new EngineErrorException("Unknown engine return: " + e.Data);
             }
         }
 

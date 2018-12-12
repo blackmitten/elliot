@@ -42,18 +42,19 @@ namespace BlackMitten.Elliot.Winforms
             _log = LogBuilder.Build();
 
             var path = ConfigurationManager.AppSettings["StockfishBinPath"];
+            checkBoxWaitToProceed.Checked = bool.Parse( ConfigurationManager.AppSettings["WaitToProceed"] );
 
             IPlayer whiteHuman = new HumanPlayer(true, this);
             IPlayer blackHuman = new HumanPlayer(false, this);
             IPlayer whiteFalade = new MachinePlayer(true, this, new Falade());
-            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(path, 5));
-            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(path, 5));
+            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(path, 10));
+            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(path, 10));
 
             boardControl1.Log = _log;
             timer1.Tick += Timer1_Tick;
             timer1.Start();
 
-            Board board = BoardFactory.BuildEnPassantTest();
+            Board board = BoardFactory.InitNewGame();
             
             _game = new Game(whiteStockfish, blackStockfish, this, _log, new MoveValidator(), board);
             _game.StartPlay();
@@ -86,9 +87,9 @@ namespace BlackMitten.Elliot.Winforms
 
         public void Redraw()
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.Invoke(new MethodInvoker(() => Redraw()));
+                Invoke(new MethodInvoker(Redraw));
             }
             else
             {
@@ -98,7 +99,10 @@ namespace BlackMitten.Elliot.Winforms
 
         public void WaitForInstructionToMove()
         {
-            _instructToMove.WaitOne();
+            if (checkBoxWaitToProceed.Checked)
+            {
+                _instructToMove.WaitOne();
+            }
         }
 
         private void buttonInstructToMove_Click(object sender, EventArgs e)

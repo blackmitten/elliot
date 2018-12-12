@@ -8,6 +8,9 @@ namespace Blackmitten.Elliot.Backend
 {
     public class EngineErrorException : ElliotChessException
     {
+        public EngineErrorException(string message) : base(message)
+        {
 
+        }
     }
 }
