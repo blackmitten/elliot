@@ -56,7 +56,7 @@ namespace BlackMitten.Elliot.Winforms
 
             Board board = BoardFactory.InitNewGame();
             
-            _game = new Game(whiteStockfish, blackStockfish, this, _log, new MoveValidator(), board);
+            _game = new Game(whiteFalade, blackStockfish, this, _log, new MoveValidator(), board);
             _game.StartPlay();
         }
 
@@ -74,7 +74,28 @@ namespace BlackMitten.Elliot.Winforms
                     listBox1.SelectedIndex = listBox1.Items.Count - 1;
                 }
             }
-            labelWhosTurn.Text = _game.WhitesTurn ? "White's turn" : "Black's turn";
+            if(_game.WhitesTurn)
+            {
+                if(_game.CurrentPlayerInCheck)
+                {
+                    labelWhosTurn.Text = "White in check";
+                }
+                else
+                {
+                    labelWhosTurn.Text = "White's turn";
+                }
+            }
+            else
+            {
+                if (_game.CurrentPlayerInCheck)
+                {
+                    labelWhosTurn.Text = "Black in check";
+                }
+                else
+                {
+                    labelWhosTurn.Text = "Black's turn";
+                }
+            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)

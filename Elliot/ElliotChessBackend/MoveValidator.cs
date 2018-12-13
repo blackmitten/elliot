@@ -8,18 +8,26 @@ namespace Blackmitten.Elliot.Backend
 {
     public class MoveValidator : IMoveValidator, IPieceVisitor
     {
+        bool? _valid;
 
-        public void Validate(Move move)
+        public bool Validate(Move move)
         {
+            _valid = null;
             string moveString = move.ToLongString();
 
             IPiece piece = move.Board.GetPieceOnSquare(move.Start);
             piece.Accept(this, move);
-#warning Check for check
-            //throw new InvalidMoveException(moveString);
+
+            Board newBoard = new Board(move.Board);
+            newBoard.Move(move, false);
+            if (newBoard.CurrentPlayerInCheck)
+            {
+                _valid = false;
+            }
+            return _valid.Value;
         }
 
-        public void Visit(Pawn pawn, object data)
+        void IPieceVisitor.Visit(Pawn pawn, object data)
         {
             Move move = (Move)data;
             Board board = move.Board;
@@ -28,29 +36,34 @@ namespace Blackmitten.Elliot.Backend
             int dy = move.End.y - move.Start.y;
             int squaresAdvanced = dy * direction;
 
+            _valid = true;
             if (dx == 0)
             {
                 if (squaresAdvanced == 1)
                 {
                     if (board.GetPieceOnSquare(move.End) != null)
                     {
-                        throw new InvalidMoveException("Pawns can't take forwards");
+                        _valid = false;
+                        //throw new InvalidMoveException("Pawns can't take forwards");
                     }
                 }
                 else if (squaresAdvanced == 2)
                 {
                     if (board.GetPieceOnSquare(new Square(move.Start.x, move.Start.y + direction)) != null)
                     {
-                        throw new InvalidMoveException("Pawns can't take forwards");
+                        _valid = false;
+                        //throw new InvalidMoveException("Pawns can't take forwards");
                     }
                     if (board.GetPieceOnSquare(move.End) != null)
                     {
-                        throw new InvalidMoveException("Pawns can't take forwards");
+                        _valid = false;
+                        //throw new InvalidMoveException("Pawns can't take forwards");
                     }
                 }
                 else
                 {
-                    throw new InvalidMoveException("Pawns can only move 1 or 2 spaces forwards");
+                    _valid = false;
+                    //throw new InvalidMoveException("Pawns can only move 1 or 2 spaces forwards");
                 }
             }
             else if (Math.Abs(dx) == 1 && squaresAdvanced == 1)
@@ -62,99 +75,121 @@ namespace Blackmitten.Elliot.Backend
                 }
                 if (capturedPiece == null)
                 {
-                    throw new InvalidMoveException("Can only move diagonally when taking");
+                    _valid = false;
+                    //throw new InvalidMoveException("Can only move diagonally when taking");
                 }
                 else if (capturedPiece.White == pawn.White)
                 {
-                    throw new InvalidMoveException("Can only take a piece of other side");
+                    _valid = false;
+                    //throw new InvalidMoveException("Can only take a piece of other side");
                 }
             }
             else
             {
-                throw new InvalidMoveException("Can only move forward 1 or 2 spaces, 1 to either side while taking");
+                _valid = false;
+                //throw new InvalidMoveException("Can only move forward 1 or 2 spaces, 1 to either side while taking");
             }
 
         }
 
-        public void Visit(Rook rook, object data)
+        void IPieceVisitor.Visit(Rook rook, object data)
         {
             Move move = (Move)data;
             int dx = move.End.x - move.Start.x;
             int dy = move.End.y - move.Start.y;
+
+            _valid = true;
             if (dx != 0 && dy != 0)
             {
-                throw new InvalidMoveException("Rooks can only move horizontally/vertically");
+                _valid = false;
+                //throw new InvalidMoveException("Rooks can only move horizontally/vertically");
             }
             if (dx == 0 && dy == 0)
             {
-                throw new InvalidMoveException("Rook didn't move");
+                _valid = false;
+                //throw new InvalidMoveException("Rook didn't move");
             }
             CheckNothingInTheWay(rook, move);
         }
 
-        public void Visit(Knight knight, object data)
+        void IPieceVisitor.Visit(Knight knight, object data)
         {
             Move move = (Move)data;
             int absDx = Math.Abs(move.End.x - move.Start.x);
             int absDy = Math.Abs(move.End.y - move.Start.y);
+
+            _valid = true;
             if (!(absDx == 1 && absDy == 2) && !(absDx == 2 && absDy == 1))
             {
-                throw new InvalidMoveException("Knight must move in knightly fashion");
+                _valid = false;
+                //throw new InvalidMoveException("Knight must move in knightly fashion");
             }
             IPiece capturedPiece = move.Board.GetPieceOnSquare(move.End);
             if (capturedPiece != null)
             {
                 if (capturedPiece.White == knight.White)
                 {
-                    throw new InvalidMoveException("Can only take a piece of other side");
+                    _valid = false;
+                    //throw new InvalidMoveException("Can only take a piece of other side");
                 }
             }
         }
 
-        public void Visit(Bishop bishop, object data)
+        void IPieceVisitor.Visit(Bishop bishop, object data)
         {
             Move move = (Move)data;
             int dx = move.End.x - move.Start.x;
             int dy = move.End.y - move.Start.y;
+
+            _valid = true;
             if (Math.Abs(dx) != Math.Abs(dy))
             {
-                throw new InvalidMoveException("Bishops only move diagonally");
+                _valid = false;
+                //throw new InvalidMoveException("Bishops only move diagonally");
             }
             if (dx == 0)
             {
-                throw new InvalidMoveException("Bishop didn't move");
+                _valid = false;
+                //throw new InvalidMoveException("Bishop didn't move");
             }
             CheckNothingInTheWay(bishop, move);
 
         }
 
-        public void Visit(Queen queen, object data)
+        void IPieceVisitor.Visit(Queen queen, object data)
         {
             Move move = (Move)data;
             int dx = move.End.x - move.Start.x;
             int dy = move.End.y - move.Start.y;
+
+            _valid = true;
             if (dx != 0 && dy != 0)
             {
                 if (Math.Abs(dx) != Math.Abs(dy))
                 {
-                    throw new InvalidMoveException("Queens can only move diagonally/horizontally/vertically");
+                    _valid = false;
+                    //throw new InvalidMoveException("Queens can only move diagonally/horizontally/vertically");
                 }
             }
             if (dx == 0 && dy == 0)
             {
-                throw new InvalidMoveException("Queen didn't move");
+                _valid = false;
+                //throw new InvalidMoveException("Queen didn't move");
             }
             CheckNothingInTheWay(queen, move);
         }
 
-        public void Visit(King king, object data)
+        void IPieceVisitor.Visit(King king, object data)
         {
             Move move = (Move)data;
             int absDx = Math.Abs(move.End.x - move.Start.x);
             int absDy = Math.Abs(move.End.y - move.Start.y);
+
+            _valid = true;
             if (absDx == 0 && absDy == 0)
             {
-                throw new InvalidMoveException("King didn't move");
+                _valid = false;
+                //throw new InvalidMoveException("King didn't move");
             }
             if (absDx > 1 || absDy > 1)
             {
@@ -208,7 +243,8 @@ namespace Blackmitten.Elliot.Backend
                 }
                 if (!castleOk)
                 {
-                    throw new InvalidMoveException("King can only move one space");
+                    _valid = false;
+                    //throw new InvalidMoveException("King can only move one space");
                 }
             }
             IPiece capturedPiece = move.Board.GetPieceOnSquare(move.End);
@@ -216,7 +252,8 @@ namespace Blackmitten.Elliot.Backend
             {
                 if (capturedPiece.White == king.White)
                 {
-                    throw new InvalidMoveException("Can only take a piece of other side");
+                    _valid = false;
+                    //throw new InvalidMoveException("Can only take a piece of other side");
                 }
             }
         }
@@ -238,12 +275,14 @@ namespace Blackmitten.Elliot.Backend
                     {
                         if (capturedPiece.White == piece.White)
                         {
-                            throw new InvalidMoveException("Can only take a piece of other side");
+                            _valid = false;
+                            //throw new InvalidMoveException("Can only take a piece of other side");
                         }
                     }
                     else
                     {
-                        throw new InvalidMoveException("There's a piece in the way of this " + piece.Name);
+                        _valid = false;
+                        //throw new InvalidMoveException("There's a piece in the way of this " + piece.Name);
                     }
                 }
             }

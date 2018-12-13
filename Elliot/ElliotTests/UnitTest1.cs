@@ -152,7 +152,12 @@ namespace ElliotTests
             Board board = BoardFactory.InitNewGame();
             var moves = board.GetAllMoves();
 
-            int i = 1;
+            Assert.IsTrue(moves.Count == 20);
+            MoveValidator moveValidator = new MoveValidator();
+            foreach(var move in moves)
+            {
+                moveValidator.Validate(move);
+            }
         }
 
         #region slow tests

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blackmitten.Elliot.Backend
 {
-    class StaticRandom
+    public class StaticRandom
     {
         Random _random = new Random(28091978);
         static StaticRandom _instance;
@@ -15,18 +15,18 @@ namespace Blackmitten.Elliot.Backend
         {
         }
 
-        public static StaticRandom Instance()
+        public static StaticRandom Instance
         {
-            if(_instance == null)
+            get
             {
-                _instance = new StaticRandom();
+                if (_instance == null)
+                {
+                    _instance = new StaticRandom();
+                }
+                return _instance;
             }
-            return _instance;
         }
 
-        public int Next()
-        {
-            return _random.Next();
-        }
+        public int Next => _random.Next();
     }
 }

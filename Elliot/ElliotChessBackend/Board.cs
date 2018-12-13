@@ -11,6 +11,8 @@ namespace Blackmitten.Elliot.Backend
     {
         List<IPiece> m_blackPieces = new List<IPiece>();
         List<IPiece> m_whitePieces = new List<IPiece>();
+        IPiece _blackKing;
+        IPiece _whiteKing;
 
         public bool WhitesTurn { get; set; } = true;
 
@@ -27,11 +29,11 @@ namespace Blackmitten.Elliot.Backend
             WhitesTurn = board.WhitesTurn;
             foreach (var piece in board.m_whitePieces)
             {
-                m_whitePieces.Add(piece.Copy());
+                Add(piece.Copy());
             }
             foreach (var piece in board.m_blackPieces)
             {
-                m_blackPieces.Add(piece.Copy());
+                Add(piece.Copy());
             }
         }
 
@@ -45,6 +47,19 @@ namespace Blackmitten.Elliot.Backend
                 piece.Accept(generator, this);
             }
             moves.AddRange(generator.Moves);
+            MoveValidator validator = new MoveValidator();
+            var invalidMoves = new List<Move>();
+            foreach (var move in moves)
+            {
+                if (!validator.Validate(move))
+                {
+                    invalidMoves.Add(move);
+                }
+            }
+            foreach (var move in invalidMoves)
+            {
+                moves.Remove(move);
+            }
             return moves;
         }
 
@@ -168,23 +183,42 @@ namespace Blackmitten.Elliot.Backend
             }
         }
 
-
         public void Add(IPiece piece)
         {
             if (piece.White)
             {
                 m_whitePieces.Add(piece);
+                if (piece.IsKing)
+                {
+                    if (_whiteKing != null)
+                    {
+                        throw new InvalidOperationException("Already have a white king");
+                    }
+                    _whiteKing = piece;
+                }
             }
             else
             {
                 m_blackPieces.Add(piece);
+                if (piece.IsKing)
+                {
+                    if (_blackKing != null)
+                    {
+                        throw new InvalidOperationException("Already have a black king");
+                    }
+                    _blackKing = piece;
+                }
             }
         }
 
-        public IPiece GetPieceOnSquare(Square square)
+        public IPiece GetPieceOnSquare(Square square, bool suppressOutOfBoundsException = false)
         {
             if (!square.InBounds)
             {
+                if (suppressOutOfBoundsException)
+                {
+                    return null;
+                }
                 throw new InvalidOperationException("Out of bounds square in GetPieceOnSquare " + square.ToString());
             }
             foreach (var piece in m_blackPieces)
@@ -212,6 +246,77 @@ namespace Blackmitten.Elliot.Backend
         public int HalfMoveClock { get; set; } = 0;
         public int FullMoveClock { get; set; } = 1;
 
+        public bool CurrentPlayerInCheck
+        {
+            get
+            {
+                IPiece king = WhitesTurn ? _whiteKing : _blackKing;
+                return IsSquareThreatened(king.Pos);
+            }
+        }
+
+        private bool IsSquareThreatened(Square square)
+        {
+            if (GetPieceOnSquareOnSide(square.Offset(1, 2), !WhitesTurn) as Knight != null ||
+                GetPieceOnSquareOnSide(square.Offset(-1, 2), !WhitesTurn) as Knight != null ||
+                GetPieceOnSquareOnSide(square.Offset(1, -2), !WhitesTurn) as Knight != null ||
+                GetPieceOnSquareOnSide(square.Offset(-1, -2), !WhitesTurn) as Knight != null ||
+                GetPieceOnSquareOnSide(square.Offset(2, 1), !WhitesTurn) as Knight != null ||
+                GetPieceOnSquareOnSide(square.Offset(-2, 1), !WhitesTurn) as Knight != null ||
+                GetPieceOnSquareOnSide(square.Offset(2, -1), !WhitesTurn) as Knight != null ||
+                GetPieceOnSquareOnSide(square.Offset(-2, -1), !WhitesTurn) as Knight != null)
+            {
+                return true;
+            }
+            if (IsSquareThreatenedDiagonally(square, 1, 1))
+            {
+                return true;
+            }
+            if (IsSquareThreatenedDiagonally(square, -1, 1))
+            {
+                return true;
+            }
+            if (IsSquareThreatenedDiagonally(square, 1, -1))
+            {
+                return true;
+            }
+            if (IsSquareThreatenedDiagonally(square, -1, -1))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsSquareThreatenedDiagonally(Square square, int dx, int dy)
+        {
+            for (Square s = square.Offset(dx, dy); s.InBounds; s = s.Offset(dx, dy))
+            {
+                IPiece piece = GetPieceOnSquare(s);
+                if (piece != null)
+                {
+                    if (piece.White == WhitesTurn)
+                    {
+                        break;
+                    }
+                    else if (piece.IsDiagonalMover)
+                    {
+                        return true;
+                    }
+
+                }
+            }
+            return false;
+        }
+
+        private IPiece GetPieceOnSquareOnSide(Square square, bool side)
+        {
+            IPiece piece = GetPieceOnSquare(square, true);
+            if (piece != null && piece.White == side)
+            {
+                return piece;
+            }
+            return null;
+        }
 
         public string GetFenString()
         {

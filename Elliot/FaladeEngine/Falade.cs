@@ -19,7 +19,7 @@ namespace BlackMitten.Elliot.FaladeEngine
 
         public Move GetBestMove(Board board)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(200);
             Move move = null;
 
             IEnumerable<IPiece> pieces;
@@ -31,21 +31,9 @@ namespace BlackMitten.Elliot.FaladeEngine
             {
                 pieces = board.BlackPieces;
             }
-            foreach (var piece in pieces)
-            {
-                if (piece.White == board.WhitesTurn)
-                {
-                    Square s;
-                    do
-                    {
-                        s = Square.Random;
-
-                    } while (board.GetPieceOnSquare(s) != null);
-                    move = new Move(board, piece.Pos, s);
-                    break;
-                }
-            }
-            return move;
+            var moves = board.GetAllMoves();
+            int moveIndex = StaticRandom.Instance.Next % moves.Count;
+            return moves[moveIndex];
         }
 
         public void Move(string move) => throw new NotImplementedException();

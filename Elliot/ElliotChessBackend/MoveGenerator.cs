@@ -10,9 +10,9 @@ namespace Blackmitten.Elliot.Backend
     {
         public IList<Move> Moves { get; } = new List<Move>();
 
-        public void Visit( Pawn pawn, object data )
+        public void Visit(Pawn pawn, object data)
         {
-            var board = (Board) data;
+            var board = (Board)data;
             if (board.WhitesTurn != pawn.White)
             {
                 throw new InvalidOperationException();
@@ -69,17 +69,37 @@ namespace Blackmitten.Elliot.Backend
 #warning TODO en-passant
         }
 
-        public void Visit( Rook rook, object data )
+        public void Visit(Rook rook, object data)
         {
-            Board board = (Board) data;
+            Board board = (Board)data;
             if (board.WhitesTurn != rook.White)
             {
                 throw new InvalidOperationException();
             }
 
-            for (int x = rook.Pos.x; x <= 8; x++)
+            for (Square s = rook.Pos.Offset(0, 1); s.InBounds; s = s.Offset(0, 1))
             {
-                var s = new Square(x, rook.Pos.y);
+                if (AddMoveIfPossible(rook, board, s))
+                {
+                    break;
+                }
+            }
+            for (Square s = rook.Pos.Offset(0, -1); s.InBounds; s = s.Offset(0, -1))
+            {
+                if (AddMoveIfPossible(rook, board, s))
+                {
+                    break;
+                }
+            }
+            for (Square s = rook.Pos.Offset(1, 0); s.InBounds; s = s.Offset(1, 0))
+            {
+                if (AddMoveIfPossible(rook, board, s))
+                {
+                    break;
+                }
+            }
+            for (Square s = rook.Pos.Offset(-1, 0); s.InBounds; s = s.Offset(-1, 0))
+            {
                 if (AddMoveIfPossible(rook, board, s))
                 {
                     break;
@@ -93,9 +113,13 @@ namespace Blackmitten.Elliot.Backend
         /// <param name="piece"></param>
         /// <param name="board"></param>
         /// <param name="square"></param>
-        /// <returns>Returns true if no more moves</returns>
+        /// <returns>Returns true if square was occupied</returns>
         private bool AddMoveIfPossible(IPiece piece, Board board, Square square)
         {
+            if (!square.InBounds)
+            {
+                return true;
+            }
             var p = board.GetPieceOnSquare(square);
             if (p == null)
             {
@@ -114,24 +138,146 @@ namespace Blackmitten.Elliot.Backend
             return false;
         }
 
-        public void Visit( Knight knight, object data )
+        public void Visit(Knight knight, object data)
         {
-            throw new NotImplementedException();
+            Board board = (Board)data;
+            if (board.WhitesTurn != knight.White)
+            {
+                throw new InvalidOperationException();
+            }
+
+            AddMoveIfPossible(knight, board, knight.Pos.Offset(1, 2));
+            AddMoveIfPossible(knight, board, knight.Pos.Offset(-1, 2));
+            AddMoveIfPossible(knight, board, knight.Pos.Offset(1, -2));
+            AddMoveIfPossible(knight, board, knight.Pos.Offset(-1, -2));
+            AddMoveIfPossible(knight, board, knight.Pos.Offset(2, 1));
+            AddMoveIfPossible(knight, board, knight.Pos.Offset(-2, 1));
+            AddMoveIfPossible(knight, board, knight.Pos.Offset(2, -1));
+            AddMoveIfPossible(knight, board, knight.Pos.Offset(-2, -1));
         }
 
-        public void Visit( Bishop bishop, object data )
+        public void Visit(Bishop bishop, object data)
         {
-            throw new NotImplementedException();
+            Board board = (Board)data;
+            if (board.WhitesTurn != bishop.White)
+            {
+                throw new InvalidOperationException();
+            }
+
+            for (Square s = bishop.Pos.Offset(1, 1); s.InBounds; s = s.Offset(1, 1))
+            {
+                if (AddMoveIfPossible(bishop, board, s))
+                {
+                    break;
+                }
+            }
+            for (Square s = bishop.Pos.Offset(-1, 1); s.InBounds; s = s.Offset(-1, 1))
+            {
+                if (AddMoveIfPossible(bishop, board, s))
+                {
+                    break;
+                }
+            }
+            for (Square s = bishop.Pos.Offset(1, -1); s.InBounds; s = s.Offset(1, -1))
+            {
+                if (AddMoveIfPossible(bishop, board, s))
+                {
+                    break;
+                }
+            }
+            for (Square s = bishop.Pos.Offset(-1, -1); s.InBounds; s = s.Offset(-1, -1))
+            {
+                if (AddMoveIfPossible(bishop, board, s))
+                {
+                    break;
+                }
+            }
         }
 
-        public void Visit( Queen queen, object data )
+        public void Visit(Queen queen, object data)
         {
-            throw new NotImplementedException();
+            Board board = (Board)data;
+            if (board.WhitesTurn != queen.White)
+            {
+                throw new InvalidOperationException();
+            }
+
+            for (Square s = queen.Pos.Offset(1, 1); s.InBounds; s = s.Offset(1, 1))
+            {
+                if (AddMoveIfPossible(queen, board, s))
+                {
+                    break;
+                }
+            }
+            for (Square s = queen.Pos.Offset(-1, 1); s.InBounds; s = s.Offset(-1, 1))
+            {
+                if (AddMoveIfPossible(queen, board, s))
+                {
+                    break;
+                }
+            }
+            for (Square s = queen.Pos.Offset(1, -1); s.InBounds; s = s.Offset(1, -1))
+            {
+                if (AddMoveIfPossible(queen, board, s))
+                {
+                    break;
+                }
+            }
+            for (Square s = queen.Pos.Offset(-1, -1); s.InBounds; s = s.Offset(-1, -1))
+            {
+                if (AddMoveIfPossible(queen, board, s))
+                {
+                    break;
+                }
+            }
+            for (Square s = queen.Pos.Offset(0, 1); s.InBounds; s = s.Offset(0, 1))
+            {
+                if (AddMoveIfPossible(queen, board, s))
+                {
+                    break;
+                }
+            }
+            for (Square s = queen.Pos.Offset(0, -1); s.InBounds; s = s.Offset(0, -1))
+            {
+                if (AddMoveIfPossible(queen, board, s))
+                {
+                    break;
+                }
+            }
+            for (Square s = queen.Pos.Offset(1, 0); s.InBounds; s = s.Offset(1, 0))
+            {
+                if (AddMoveIfPossible(queen, board, s))
+                {
+                    break;
+                }
+            }
+            for (Square s = queen.Pos.Offset(-1, 0); s.InBounds; s = s.Offset(-1, 0))
+            {
+                if (AddMoveIfPossible(queen, board, s))
+                {
+                    break;
+                }
+            }
+
         }
 
-        public void Visit( King king, object data )
+        public void Visit(King king, object data)
         {
-            throw new NotImplementedException();
+            Board board = (Board)data;
+            if (board.WhitesTurn != king.White)
+            {
+                throw new InvalidOperationException();
+            }
+
+            AddMoveIfPossible(king, board, king.Pos.Offset(0, 1));
+            AddMoveIfPossible(king, board, king.Pos.Offset(0, -1));
+            AddMoveIfPossible(king, board, king.Pos.Offset(1, 1));
+            AddMoveIfPossible(king, board, king.Pos.Offset(1, -1));
+            AddMoveIfPossible(king, board, king.Pos.Offset(-1, 1));
+            AddMoveIfPossible(king, board, king.Pos.Offset(-1, -1));
+            AddMoveIfPossible(king, board, king.Pos.Offset(1, 0));
+            AddMoveIfPossible(king, board, king.Pos.Offset(-1, 0));
+#warning TODO castling
         }
     }
 }
