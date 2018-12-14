@@ -79,6 +79,10 @@ namespace Blackmitten.Elliot.Backend
                     move = _blackPlayer.Play(_board);
                     _userInterface.MachineThinking = false;
                 }
+                if (move == null)
+                {
+                    _gameOver = true;
+                }
                 if (!_applicationClosing)
                 {
                     _userInterface.Redraw();

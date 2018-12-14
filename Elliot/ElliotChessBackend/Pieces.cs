@@ -19,6 +19,7 @@ namespace Blackmitten.Elliot.Backend
         bool IsQueen { get; }
         bool IsBishop{ get; }
         bool IsDiagonalMover { get; }
+        bool IsStraightMover { get; }
     }
 
     public interface IPieceVisitor
@@ -59,6 +60,7 @@ namespace Blackmitten.Elliot.Backend
         public abstract bool IsBishop { get; }
 
         public bool IsDiagonalMover => IsBishop || IsQueen;
+        public bool IsStraightMover => IsRook || IsQueen;
     }
 
     public class Pawn : Piece

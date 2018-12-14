@@ -63,7 +63,7 @@ namespace Blackmitten.Elliot.Backend
             return moves;
         }
 
-        internal void Move(Move move, bool switchSides = true)
+        public void Move(Move move, bool switchSides = true)
         {
             Square LastMoveEnPassantTaret = EnPassantTarget;
             EnPassantTarget = new Square();
@@ -255,7 +255,7 @@ namespace Blackmitten.Elliot.Backend
             }
         }
 
-        private bool IsSquareThreatened(Square square)
+        public bool IsSquareThreatened(Square square)
         {
             if (GetPieceOnSquareOnSide(square.Offset(1, 2), !WhitesTurn) as Knight != null ||
                 GetPieceOnSquareOnSide(square.Offset(-1, 2), !WhitesTurn) as Knight != null ||
@@ -268,26 +268,43 @@ namespace Blackmitten.Elliot.Backend
             {
                 return true;
             }
-            if (IsSquareThreatenedDiagonally(square, 1, 1))
+            if (IsSquareThreatenedFromDirection(square, 1, 1, piece => piece.IsDiagonalMover))
             {
                 return true;
             }
-            if (IsSquareThreatenedDiagonally(square, -1, 1))
+            if (IsSquareThreatenedFromDirection(square, -1, 1, piece => piece.IsDiagonalMover))
             {
                 return true;
             }
-            if (IsSquareThreatenedDiagonally(square, 1, -1))
+            if (IsSquareThreatenedFromDirection(square, 1, -1, piece => piece.IsDiagonalMover))
             {
                 return true;
             }
-            if (IsSquareThreatenedDiagonally(square, -1, -1))
+            if (IsSquareThreatenedFromDirection(square, -1, -1, piece => piece.IsDiagonalMover))
             {
                 return true;
             }
+            if (IsSquareThreatenedFromDirection(square, 0, 1, piece => piece.IsStraightMover))
+            {
+                return true;
+            }
+            if (IsSquareThreatenedFromDirection(square, 0, -1, piece => piece.IsStraightMover))
+            {
+                return true;
+            }
+            if (IsSquareThreatenedFromDirection(square, 1, 0, piece => piece.IsStraightMover))
+            {
+                return true;
+            }
+            if (IsSquareThreatenedFromDirection(square, -1, 0, piece => piece.IsStraightMover))
+            {
+                return true;
+            }
+
             return false;
         }
 
-        private bool IsSquareThreatenedDiagonally(Square square, int dx, int dy)
+        private bool IsSquareThreatenedFromDirection(Square square, int dx, int dy, Func<IPiece, bool> pieceTest)
         {
             for (Square s = square.Offset(dx, dy); s.InBounds; s = s.Offset(dx, dy))
             {
@@ -296,11 +313,31 @@ namespace Blackmitten.Elliot.Backend
                 {
                     if (piece.White == WhitesTurn)
                     {
-                        break;
+                        return false;
                     }
-                    else if (piece.IsDiagonalMover)
+                    else if (pieceTest(piece))
                     {
                         return true;
+                    }
+                    else if (piece.IsKing)
+                    {
+                        Vector v = square - s;
+                        int distance = Math.Max(Math.Abs(v.x), Math.Abs(v.y));
+                        return (distance == 1);
+                    }
+                    else if (piece.IsPawn)
+                    {
+                        int pawnsDirection = piece.White ? 1 : -1;
+                        Vector v = square - s;
+                        if (Math.Abs(v.x) == 1 && v.y == pawnsDirection)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                    else
+                    {
+                        return false;
                     }
 
                 }

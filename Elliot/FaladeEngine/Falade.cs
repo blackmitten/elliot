@@ -32,6 +32,10 @@ namespace BlackMitten.Elliot.FaladeEngine
                 pieces = board.BlackPieces;
             }
             var moves = board.GetAllMoves();
+            if (moves.Count == 0)
+            {
+                return null;
+            }
             int moveIndex = StaticRandom.Instance.Next % moves.Count;
             return moves[moveIndex];
         }

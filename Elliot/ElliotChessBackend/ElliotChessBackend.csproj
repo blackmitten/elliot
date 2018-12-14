@@ -65,6 +65,7 @@
     <Compile Include="Square.cs" />
     <Compile Include="Exceptions\StaleMateException.cs" />
     <Compile Include="StaticRandom.cs" />
+    <Compile Include="Vector.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MenzelLog\MenzelLog.csproj">
