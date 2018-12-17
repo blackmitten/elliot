@@ -21,6 +21,7 @@ namespace Blackmitten.Elliot.Backend
         public bool Human => false;
 
         public bool White { get; }
+        public string Name => _engine.Name;
 
         public void Kill() => _engine.Stop();
 

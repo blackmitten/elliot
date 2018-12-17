@@ -9,15 +9,16 @@ namespace Blackmitten.Elliot.Backend
 {
     public class Board
     {
-        List<IPiece> m_blackPieces = new List<IPiece>();
-        List<IPiece> m_whitePieces = new List<IPiece>();
+        List<IPiece> _blackPieces = new List<IPiece>();
+        List<IPiece> _whitePieces = new List<IPiece>();
         IPiece _blackKing;
         IPiece _whiteKing;
+        PieceValuer _pieceValuer = new PieceValuer();
 
         public bool WhitesTurn { get; set; } = true;
 
-        public IEnumerable<IPiece> BlackPieces => m_blackPieces;
-        public IEnumerable<IPiece> WhitePieces => m_whitePieces;
+        public IEnumerable<IPiece> BlackPieces => _blackPieces;
+        public IEnumerable<IPiece> WhitePieces => _whitePieces;
 
 
         public Board()
@@ -27,11 +28,11 @@ namespace Blackmitten.Elliot.Backend
         public Board(Board board)
         {
             WhitesTurn = board.WhitesTurn;
-            foreach (var piece in board.m_whitePieces)
+            foreach (var piece in board._whitePieces)
             {
                 Add(piece.Copy());
             }
-            foreach (var piece in board.m_blackPieces)
+            foreach (var piece in board._blackPieces)
             {
                 Add(piece.Copy());
             }
@@ -39,7 +40,7 @@ namespace Blackmitten.Elliot.Backend
 
         public IList<Move> GetAllMoves()
         {
-            List<IPiece> pieces = WhitesTurn ? m_whitePieces : m_blackPieces;
+            List<IPiece> pieces = WhitesTurn ? _whitePieces : _blackPieces;
             List<Move> moves = new List<Move>();
             MoveGenerator generator = new MoveGenerator();
             foreach (var piece in pieces)
@@ -175,11 +176,11 @@ namespace Blackmitten.Elliot.Backend
         {
             if (piece.White)
             {
-                m_whitePieces.Remove(piece);
+                _whitePieces.Remove(piece);
             }
             else
             {
-                m_blackPieces.Remove(piece);
+                _blackPieces.Remove(piece);
             }
         }
 
@@ -187,7 +188,7 @@ namespace Blackmitten.Elliot.Backend
         {
             if (piece.White)
             {
-                m_whitePieces.Add(piece);
+                _whitePieces.Add(piece);
                 if (piece.IsKing)
                 {
                     if (_whiteKing != null)
@@ -199,7 +200,7 @@ namespace Blackmitten.Elliot.Backend
             }
             else
             {
-                m_blackPieces.Add(piece);
+                _blackPieces.Add(piece);
                 if (piece.IsKing)
                 {
                     if (_blackKing != null)
@@ -221,14 +222,14 @@ namespace Blackmitten.Elliot.Backend
                 }
                 throw new InvalidOperationException("Out of bounds square in GetPieceOnSquare " + square.ToString());
             }
-            foreach (var piece in m_blackPieces)
+            foreach (var piece in _blackPieces)
             {
                 if (square == piece.Pos)
                 {
                     return piece;
                 }
             }
-            foreach (var piece in m_whitePieces)
+            foreach (var piece in _whitePieces)
             {
                 if (square == piece.Pos)
                 {
@@ -442,6 +443,23 @@ namespace Blackmitten.Elliot.Backend
         }
 
         public override string ToString() => GetFenString();
+
+        public double CalculateWhitesScore()
+        {
+            double score = 0;
+            foreach (var piece in _whitePieces)
+            {
+                piece.Accept(_pieceValuer);
+                score += _pieceValuer.Value;
+            }
+            foreach (var piece in _blackPieces)
+            {
+                piece.Accept(_pieceValuer);
+                score += _pieceValuer.Value;
+            }
+
+            return score;
+        }
 
     }
 

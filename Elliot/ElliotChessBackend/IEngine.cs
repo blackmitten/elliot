@@ -11,5 +11,6 @@ namespace Blackmitten.Elliot.Backend
         void Stop();
         Move GetBestMove(Board board);
         //        void Move(string move);
+        string Name { get; }
     }
 }

@@ -10,6 +10,7 @@ namespace Blackmitten.Elliot.Backend
     {
         bool Human { get; }
         bool White { get; }
+        string Name { get; }
         Move Play(Board board);
         void Kill();
     }

@@ -40,6 +40,8 @@ namespace BlackMitten.Elliot.FaladeEngine
             return moves[moveIndex];
         }
 
+        public string Name { get; } = "Falade";
+
         public void Move(string move) => throw new NotImplementedException();
         public void Shutdown() => throw new NotImplementedException();
     }

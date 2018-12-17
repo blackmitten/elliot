@@ -26,6 +26,7 @@ namespace Blackmitten.Elliot.Backend
         IMoveValidator _moveValidator;
 
 
+
         public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface, ILogWriter log,
             IMoveValidator moveValidator, Board board = null)
         {

@@ -73,6 +73,8 @@ namespace BlackMitten.Elliot.StockfishEngine
             return new Move(board, _bestMove);
         }
 
+        public string Name { get; } = "Stockfish";
+
         public void Move(string move)
         {
             SendCommand("position startpos moves " + move);

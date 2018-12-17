@@ -61,6 +61,7 @@
     <Compile Include="MoveValidator.cs" />
     <Compile Include="Exceptions\NoMovesException.cs" />
     <Compile Include="Pieces.cs" />
+    <Compile Include="PieceValuer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Square.cs" />
     <Compile Include="Exceptions\StaleMateException.cs" />

@@ -51,12 +51,16 @@ namespace BlackMitten.Elliot.Winforms
             IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(path, 10));
             IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(path, 10));
 
+            IPlayer blackPlayer = blackStockfish;
+            IPlayer whitePlayer = whiteFalade;
+
             boardControl1.Log = _log;
 
             Board board = BoardFactory.InitNewGame();
             
-            _game = new Game(whiteFalade, blackFalade, this, _log, new MoveValidator(), board);
+            _game = new Game(whitePlayer, blackPlayer, this, _log, new MoveValidator(), board);
             _game.StartPlay();
+            labelPlayers.Text = "White " + whitePlayer.Name + " vs. black " + blackPlayer.Name;
 
             timer1.Tick += Timer1_Tick;
             timer1.Start();

@@ -30,19 +30,21 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkBoxWaitToProceed = new System.Windows.Forms.CheckBox();
             this.buttonInstructToMove = new System.Windows.Forms.Button();
             this.labelWhosTurn = new System.Windows.Forms.Label();
             this.boardControl1 = new Blackmitten.Elliot.WinForms.BoardControl();
             this.panel2 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.checkBoxWaitToProceed = new System.Windows.Forms.CheckBox();
+            this.labelPlayers = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.labelPlayers);
             this.panel1.Controls.Add(this.checkBoxWaitToProceed);
             this.panel1.Controls.Add(this.buttonInstructToMove);
             this.panel1.Controls.Add(this.labelWhosTurn);
@@ -53,9 +55,19 @@
             this.panel1.Size = new System.Drawing.Size(800, 407);
             this.panel1.TabIndex = 1;
             // 
+            // checkBoxWaitToProceed
+            // 
+            this.checkBoxWaitToProceed.AutoSize = true;
+            this.checkBoxWaitToProceed.Location = new System.Drawing.Point(431, 128);
+            this.checkBoxWaitToProceed.Name = "checkBoxWaitToProceed";
+            this.checkBoxWaitToProceed.Size = new System.Drawing.Size(102, 17);
+            this.checkBoxWaitToProceed.TabIndex = 3;
+            this.checkBoxWaitToProceed.Text = "Wait to proceed";
+            this.checkBoxWaitToProceed.UseVisualStyleBackColor = true;
+            // 
             // buttonInstructToMove
             // 
-            this.buttonInstructToMove.Location = new System.Drawing.Point(431, 98);
+            this.buttonInstructToMove.Location = new System.Drawing.Point(431, 75);
             this.buttonInstructToMove.Name = "buttonInstructToMove";
             this.buttonInstructToMove.Size = new System.Drawing.Size(106, 35);
             this.buttonInstructToMove.TabIndex = 2;
@@ -101,15 +113,14 @@
             this.listBox1.Size = new System.Drawing.Size(800, 159);
             this.listBox1.TabIndex = 0;
             // 
-            // checkBoxWaitToProceed
+            // labelPlayers
             // 
-            this.checkBoxWaitToProceed.AutoSize = true;
-            this.checkBoxWaitToProceed.Location = new System.Drawing.Point(431, 151);
-            this.checkBoxWaitToProceed.Name = "checkBoxWaitToProceed";
-            this.checkBoxWaitToProceed.Size = new System.Drawing.Size(102, 17);
-            this.checkBoxWaitToProceed.TabIndex = 3;
-            this.checkBoxWaitToProceed.Text = "Wait to proceed";
-            this.checkBoxWaitToProceed.UseVisualStyleBackColor = true;
+            this.labelPlayers.AutoSize = true;
+            this.labelPlayers.Location = new System.Drawing.Point(431, 228);
+            this.labelPlayers.Name = "labelPlayers";
+            this.labelPlayers.Size = new System.Drawing.Size(35, 13);
+            this.labelPlayers.TabIndex = 4;
+            this.labelPlayers.Text = "label1";
             // 
             // Form1
             // 
@@ -138,6 +149,7 @@
         private System.Windows.Forms.Label labelWhosTurn;
         private System.Windows.Forms.Button buttonInstructToMove;
         private System.Windows.Forms.CheckBox checkBoxWaitToProceed;
+        private System.Windows.Forms.Label labelPlayers;
     }
 }
 
