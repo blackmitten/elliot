@@ -5,13 +5,21 @@ using System.Threading;
 
 namespace Blackmitten.Elliot.Backend
 {
+    public enum GameState
+    {
+        InPlay,
+        StaleMate,
+        CheckMate,
+        Abandoned
+    };
+
     public class Game
     {
         IUserInterface _userInterface;
         Board _board;
         IPlayer _whitePlayer;
         IPlayer _blackPlayer;
-        bool _gameOver = false;
+        public GameState GameState { get; private set; } = GameState.InPlay;
         bool _applicationClosing = false;
         Thread _gameThread;
         ILogWriter _log;
@@ -46,7 +54,7 @@ namespace Blackmitten.Elliot.Backend
 
         public void Play()
         {
-            while (!_gameOver)
+            while (GameState == GameState.InPlay)
             {
                 PlaySingleMove();
             }
@@ -57,9 +65,9 @@ namespace Blackmitten.Elliot.Backend
             Move move;
             try
             {
-                if(_board.HalfMoveClock>50)
+                if (_board.HalfMoveClock > 50)
                 {
-                    _gameOver = true;
+                    GameState = GameState.StaleMate;
                 }
                 if (_board.WhitesTurn)
                 {
@@ -81,13 +89,13 @@ namespace Blackmitten.Elliot.Backend
                 }
                 if (move == null)
                 {
-                    _gameOver = true;
+                    GameState = GameState.CheckMate;
                 }
                 if (!_applicationClosing)
                 {
                     _userInterface.Redraw();
                 }
-                if (!_gameOver)
+                if (GameState == GameState.InPlay)
                 {
                     _log.Write(move.ToLongString());
                     _userInterface.WaitForInstructionToMove();
@@ -105,7 +113,8 @@ namespace Blackmitten.Elliot.Backend
             }
             catch (NoMovesException)
             {
-                _gameOver = true;
+                throw new InvalidOperationException("not sure this should happen, but could be wrong");
+                GameState = GameState.CheckMate;
                 _userInterface.MachineThinking = false;
                 _userInterface.Redraw();
             }
@@ -114,7 +123,7 @@ namespace Blackmitten.Elliot.Backend
         public void ApplicationClosing()
         {
             _applicationClosing = true;
-            _gameOver = true;
+            GameState = GameState.Abandoned;
             _userInterface.StopWaiting();
         }
 

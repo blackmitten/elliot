@@ -76,7 +76,11 @@ namespace BlackMitten.Elliot.Winforms
             }
             if(_game.WhitesTurn)
             {
-                if(_game.CurrentPlayerInCheck)
+                if(_game.GameState== GameState.CheckMate)
+                {
+                    labelWhosTurn.Text = "Black wins";
+                }
+                else if(_game.CurrentPlayerInCheck)
                 {
                     labelWhosTurn.Text = "White in check";
                 }
@@ -87,7 +91,11 @@ namespace BlackMitten.Elliot.Winforms
             }
             else
             {
-                if (_game.CurrentPlayerInCheck)
+                if (_game.GameState == GameState.CheckMate)
+                {
+                    labelWhosTurn.Text = "White wins";
+                }
+                else if(_game.CurrentPlayerInCheck)
                 {
                     labelWhosTurn.Text = "Black in check";
                 }
