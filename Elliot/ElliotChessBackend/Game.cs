@@ -114,7 +114,8 @@ namespace Blackmitten.Elliot.Backend
             }
             catch (NoMovesException)
             {
-                throw new InvalidOperationException("not sure this should happen, but could be wrong");
+// TODO does this only happen in the unit test???
+                //                throw new InvalidOperationException("not sure this should happen, but could be wrong");
                 GameState = GameState.CheckMate;
                 _userInterface.MachineThinking = false;
                 _userInterface.Redraw();

@@ -11,6 +11,8 @@ namespace Blackmitten.Elliot.Backend
     {
         List<IPiece> _blackPieces = new List<IPiece>();
         List<IPiece> _whitePieces = new List<IPiece>();
+        List<IPiece> _capturedPieces = new List<IPiece>();
+
         IPiece _blackKing;
         IPiece _whiteKing;
         PieceValuer _pieceValuer = new PieceValuer();
@@ -37,6 +39,8 @@ namespace Blackmitten.Elliot.Backend
                 Add(piece.Copy());
             }
         }
+
+        public void UndoLastmove() => throw new NotImplementedException();
 
         public IList<Move> GetAllMoves()
         {
@@ -177,10 +181,12 @@ namespace Blackmitten.Elliot.Backend
             if (piece.White)
             {
                 _whitePieces.Remove(piece);
+                _capturedPieces.Add(piece);
             }
             else
             {
                 _blackPieces.Remove(piece);
+                _capturedPieces.Add(piece);
             }
         }
 

@@ -36,6 +36,11 @@ namespace BlackMitten.Elliot.FaladeEngine
             {
                 return null;
             }
+            foreach(var m in moves)
+            {
+                board.Move(m);
+                board.UndoLastmove();
+            }
             int moveIndex = StaticRandom.Instance.Next % moves.Count;
             return moves[moveIndex];
         }

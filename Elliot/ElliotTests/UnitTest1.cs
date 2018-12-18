@@ -79,7 +79,7 @@ namespace ElliotTests
             Board board = BoardFactory.InitNewGame();
             string fen = board.GetFenString();
 
-            string startingFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+            string startingFen = "rnbkqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR w KQkq - 0 1";
 
             Assert.AreEqual(fen, startingFen);
         }
