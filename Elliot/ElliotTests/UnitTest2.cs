@@ -40,5 +40,19 @@ namespace ElliotTests
             int i = 1;
         }
 
+        [TestMethod]
+        public void TestStartingPositions()
+        {
+            Board b = BoardFactory.InitNewGame();
+            IPiece whiteKing = b.GetPieceOnSquare(Square.WhiteKingStart);
+            IPiece blackKing = b.GetPieceOnSquare(Square.BlackKingStart);
+            Assert.IsTrue(whiteKing.White);
+            Assert.IsTrue(whiteKing.IsKing);
+
+            Assert.IsTrue(!blackKing.White);
+            Assert.IsTrue(blackKing.IsKing);
+
+        }
+
     }
 }

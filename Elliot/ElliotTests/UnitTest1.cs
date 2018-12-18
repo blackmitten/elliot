@@ -184,7 +184,7 @@ namespace ElliotTests
                         board.Remove(board.GetPieceOnSquare(new Square(x, y)));
                         Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
-                        game.Play(200);
+                        game.Play(0);
 
                         whiteStockfish.Kill();
                         blackStockfish.Kill();
