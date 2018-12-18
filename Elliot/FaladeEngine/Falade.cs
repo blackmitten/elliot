@@ -19,7 +19,6 @@ namespace BlackMitten.Elliot.FaladeEngine
 
         public Move GetBestMove(Board board)
         {
-            Thread.Sleep(200);
             Move move = null;
 
             IEnumerable<IPiece> pieces;

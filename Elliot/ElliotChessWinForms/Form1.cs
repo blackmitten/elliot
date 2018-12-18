@@ -48,15 +48,16 @@ namespace BlackMitten.Elliot.Winforms
             IPlayer blackHuman = new HumanPlayer(false, this);
             IPlayer blackFalade = new MachinePlayer(false, this, new Falade());
             IPlayer whiteFalade = new MachinePlayer(true, this, new Falade());
-            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(path, 10));
-            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(path, 10));
+            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(path, 1));
+            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(path, 1));
 
             IPlayer blackPlayer = blackStockfish;
-            IPlayer whitePlayer = whiteFalade;
+            IPlayer whitePlayer = whiteStockfish;
 
             boardControl1.Log = _log;
 
             Board board = BoardFactory.InitNewGame();
+            board.Remove(board.GetPieceOnSquare(new Square(2, 2)));
             
             _game = new Game(whitePlayer, blackPlayer, this, _log, new MoveValidator(), board);
             _game.StartPlay();
@@ -110,6 +111,7 @@ namespace BlackMitten.Elliot.Winforms
                     labelWhosTurn.Text = "Black's turn";
                 }
             }
+            labelMoveNumber.Text = "Move " + _game.MoveNumber.ToString();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)

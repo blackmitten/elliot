@@ -69,7 +69,6 @@ namespace BlackMitten.Elliot.StockfishEngine
             {
                 throw new EngineErrorException("Engine error");
             }
-            Thread.Sleep(200);
             return new Move(board, _bestMove);
         }
 

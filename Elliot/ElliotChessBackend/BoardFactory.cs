@@ -22,8 +22,8 @@ namespace Blackmitten.Elliot.Backend
             b.Add(new Knight(new Square(7, 8), false));
             b.Add(new Bishop(new Square(3, 8), false));
             b.Add(new Bishop(new Square(6, 8), false));
-            b.Add(new Queen(new Square(5, 8), false));
-            b.Add(new King(new Square(4, 8), false));
+            b.Add(new Queen(new Square(4, 8), false));
+            b.Add(new King(new Square(5, 8), false));
 
             b.Add(new Rook(new Square(1, 1), true));
             b.Add(new Rook(new Square(8, 1), true));
@@ -31,8 +31,8 @@ namespace Blackmitten.Elliot.Backend
             b.Add(new Knight(new Square(7, 1), true));
             b.Add(new Bishop(new Square(3, 1), true));
             b.Add(new Bishop(new Square(6, 1), true));
-            b.Add(new Queen(new Square(5, 1), true));
-            b.Add(new King(new Square(4, 1), true));
+            b.Add(new Queen(new Square(4, 1), true));
+            b.Add(new King(new Square(5, 1), true));
             b.WhitesTurn = true;
 //            b.m_whitePieces = b.m_whitePieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();
 //            b.m_blackPieces = b.m_blackPieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();

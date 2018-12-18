@@ -132,5 +132,7 @@ namespace Blackmitten.Elliot.Backend
         public bool WhitesTurn => _board.WhitesTurn;
         public bool CurrentPlayerInCheck => _board.CurrentPlayerInCheck;
 
+        public int MoveNumber => _board.FullMoveClock;
+
     }
 }

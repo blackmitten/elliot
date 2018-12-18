@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.labelPlayers = new System.Windows.Forms.Label();
             this.checkBoxWaitToProceed = new System.Windows.Forms.CheckBox();
             this.buttonInstructToMove = new System.Windows.Forms.Button();
             this.labelWhosTurn = new System.Windows.Forms.Label();
@@ -37,13 +38,14 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.labelPlayers = new System.Windows.Forms.Label();
+            this.labelMoveNumber = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.labelMoveNumber);
             this.panel1.Controls.Add(this.labelPlayers);
             this.panel1.Controls.Add(this.checkBoxWaitToProceed);
             this.panel1.Controls.Add(this.buttonInstructToMove);
@@ -54,6 +56,15 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 407);
             this.panel1.TabIndex = 1;
+            // 
+            // labelPlayers
+            // 
+            this.labelPlayers.AutoSize = true;
+            this.labelPlayers.Location = new System.Drawing.Point(428, 175);
+            this.labelPlayers.Name = "labelPlayers";
+            this.labelPlayers.Size = new System.Drawing.Size(154, 13);
+            this.labelPlayers.TabIndex = 4;
+            this.labelPlayers.Text = "White human vs back machine";
             // 
             // checkBoxWaitToProceed
             // 
@@ -113,14 +124,14 @@
             this.listBox1.Size = new System.Drawing.Size(800, 159);
             this.listBox1.TabIndex = 0;
             // 
-            // labelPlayers
+            // labelMoveNumber
             // 
-            this.labelPlayers.AutoSize = true;
-            this.labelPlayers.Location = new System.Drawing.Point(431, 228);
-            this.labelPlayers.Name = "labelPlayers";
-            this.labelPlayers.Size = new System.Drawing.Size(35, 13);
-            this.labelPlayers.TabIndex = 4;
-            this.labelPlayers.Text = "label1";
+            this.labelMoveNumber.AutoSize = true;
+            this.labelMoveNumber.Location = new System.Drawing.Point(428, 211);
+            this.labelMoveNumber.Name = "labelMoveNumber";
+            this.labelMoveNumber.Size = new System.Drawing.Size(43, 13);
+            this.labelMoveNumber.TabIndex = 5;
+            this.labelMoveNumber.Text = "Move 1";
             // 
             // Form1
             // 
@@ -150,6 +161,7 @@
         private System.Windows.Forms.Button buttonInstructToMove;
         private System.Windows.Forms.CheckBox checkBoxWaitToProceed;
         private System.Windows.Forms.Label labelPlayers;
+        private System.Windows.Forms.Label labelMoveNumber;
     }
 }
 
