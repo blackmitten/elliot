@@ -60,7 +60,7 @@ namespace BlackMitten.Elliot.Winforms
             board.Remove(board.GetPieceOnSquare(new Square(2, 2)));
             
             _game = new Game(whitePlayer, blackPlayer, this, _log, new MoveValidator(), board);
-            _game.StartPlay();
+            _game.StartPlay( 200 );
             labelPlayers.Text = "White " + whitePlayer.Name + " vs. black " + blackPlayer.Name;
 
             timer1.Tick += Timer1_Tick;

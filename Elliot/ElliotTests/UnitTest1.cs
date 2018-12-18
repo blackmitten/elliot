@@ -107,7 +107,7 @@ namespace ElliotTests
 
             Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
-            game.PlaySingleMove();
+            game.PlaySingleMove(0);
 
         }
 
@@ -141,7 +141,7 @@ namespace ElliotTests
 
             Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
-            game.PlaySingleMove();
+            game.PlaySingleMove(0);
 
             Assert.IsTrue(board.GetPieceOnSquare(new Square(2, 8)).IsQueen);
         }
@@ -184,7 +184,7 @@ namespace ElliotTests
                         board.Remove(board.GetPieceOnSquare(new Square(x, y)));
                         Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
-                        game.Play();
+                        game.Play(200);
 
                         whiteStockfish.Kill();
                         blackStockfish.Kill();

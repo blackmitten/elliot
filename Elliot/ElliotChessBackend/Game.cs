@@ -47,21 +47,21 @@ namespace Blackmitten.Elliot.Backend
             userInterface.Board = _board;
         }
 
-        public void StartPlay()
+        public void StartPlay(int moveDelay)
         {
-            _gameThread = new Thread(Play);
+            _gameThread = new Thread(()=>Play(moveDelay));
             _gameThread.Start();
         }
 
-        public void Play()
+        public void Play(int moveDelay)
         {
             while (GameState == GameState.InPlay)
             {
-                PlaySingleMove();
+                PlaySingleMove(moveDelay);
             }
         }
 
-        public void PlaySingleMove()
+        public void PlaySingleMove(int delay)
         {
             Move move;
             try
@@ -111,6 +111,7 @@ namespace Blackmitten.Elliot.Backend
                     }
                     _userInterface.Redraw();
                 }
+                Thread.Sleep(delay);
             }
             catch (NoMovesException)
             {

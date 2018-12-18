@@ -36,7 +36,7 @@ namespace ElliotTests
                 }
                 strings.Add(sb.ToString());
             }
-            Assert.IsTrue(board.IsSquareThreatened(new Square(1, 5)));
+            Assert.IsTrue(board.IsSquareThreatened(new Square(8, 6)));
             int i = 1;
         }
 
