@@ -37,8 +37,15 @@ namespace BlackMitten.Elliot.FaladeEngine
             }
             foreach(var m in moves)
             {
-                board.Move(m);
+                string fenBefore = board.GetFenString();
+                board.Move(m, true);
+                string fenAfter = board.GetFenString();
                 board.UndoLastmove();
+                string fenAfterUndo = board.GetFenString();
+                if (fenAfterUndo != fenBefore )
+                {
+                    throw new InvalidOperationException();
+                }
             }
             int moveIndex = StaticRandom.Instance.Next % moves.Count;
             return moves[moveIndex];

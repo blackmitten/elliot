@@ -24,7 +24,7 @@ namespace ElliotTests
         {
             List<string> strings = new List<string>();
             Board board = BoardFactory.InitNewGame();
-            board.Move(new Move(board, new Square(4, 2), new Square(4, 4)));
+            board.Move(new Move(board, new Square(4, 2), new Square(4, 4)), true);
             board.WhitesTurn = false;
             for (int y = 8; y >= 1; y--)
             {

@@ -77,6 +77,7 @@ namespace Blackmitten.Elliot.Backend
                         _userInterface.MachineThinking = true;
                     }
                     move = _whitePlayer.Play(_board);
+                    Thread.Sleep(delay);
                     _userInterface.MachineThinking = false;
                 }
                 else
@@ -86,6 +87,7 @@ namespace Blackmitten.Elliot.Backend
                         _userInterface.MachineThinking = true;
                     }
                     move = _blackPlayer.Play(_board);
+                    Thread.Sleep(delay);
                     _userInterface.MachineThinking = false;
                 }
                 if (move == null)
@@ -103,7 +105,7 @@ namespace Blackmitten.Elliot.Backend
                     try
                     {
                         _moveValidator.Validate(move);
-                        _board.Move(move);
+                        _board.Move(move, true);
                     }
                     catch (InvalidMoveException e)
                     {
@@ -111,12 +113,9 @@ namespace Blackmitten.Elliot.Backend
                     }
                     _userInterface.Redraw();
                 }
-                Thread.Sleep(delay);
             }
             catch (NoMovesException)
             {
-// TODO does this only happen in the unit test???
-                //                throw new InvalidOperationException("not sure this should happen, but could be wrong");
                 GameState = GameState.CheckMate;
                 _userInterface.MachineThinking = false;
                 _userInterface.Redraw();

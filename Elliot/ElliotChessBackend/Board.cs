@@ -11,7 +11,6 @@ namespace Blackmitten.Elliot.Backend
     {
         List<IPiece> _blackPieces = new List<IPiece>();
         List<IPiece> _whitePieces = new List<IPiece>();
-        List<IPiece> _capturedPieces = new List<IPiece>();
 
         IPiece _blackKing;
         IPiece _whiteKing;
@@ -22,6 +21,7 @@ namespace Blackmitten.Elliot.Backend
         public IEnumerable<IPiece> BlackPieces => _blackPieces;
         public IEnumerable<IPiece> WhitePieces => _whitePieces;
 
+        public List<Action> _undoLastMove;
 
         public Board()
         {
@@ -32,15 +32,21 @@ namespace Blackmitten.Elliot.Backend
             WhitesTurn = board.WhitesTurn;
             foreach (var piece in board._whitePieces)
             {
-                Add(piece.Copy());
+                AddPiece(piece.Copy(), null);
             }
             foreach (var piece in board._blackPieces)
             {
-                Add(piece.Copy());
+                AddPiece(piece.Copy(), null);
             }
         }
 
-        public void UndoLastmove() => throw new NotImplementedException();
+        public void UndoLastmove()
+        {
+            foreach(var undo in _undoLastMove)
+            {
+                undo();
+            }
+        }
 
         public IList<Move> GetAllMoves()
         {
@@ -68,15 +74,24 @@ namespace Blackmitten.Elliot.Backend
             return moves;
         }
 
-        public void Move(Move move, bool switchSides = true)
+        public void Move(Move move, bool switchSides, List<Action> undo = null)
         {
+            if ( undo==null)
+            {
+                _undoLastMove = new List<Action>();
+                undo = _undoLastMove;
+            }
             Square LastMoveEnPassantTaret = EnPassantTarget;
+            if ( EnPassantTarget.InBounds)
+            {
+                undo.Insert(0,() => EnPassantTarget = LastMoveEnPassantTaret);
+            }
             EnPassantTarget = new Square();
             IPiece piece = GetPieceOnSquare(move.Start);
             IPiece capturedPiece = GetPieceOnSquare(move.End);
             if (capturedPiece != null)
             {
-                Remove(capturedPiece);
+                RemovePiece(capturedPiece, undo);
             }
             if (piece.IsKing)
             {
@@ -84,11 +99,19 @@ namespace Blackmitten.Elliot.Backend
                 {
                     if (move.End == Square.WhiteKingCastledQueenside)
                     {
-                        Move(new Move(this, Square.WhiteQueensRookStart, Square.WhiteQueensRookCastled), false);
+                        Move(new Move(this, Square.WhiteQueensRookStart, Square.WhiteQueensRookCastled), false, undo);
                     }
                     else if (move.End == Square.WhiteKingCastledKingside)
                     {
-                        Move(new Move(this, Square.WhiteKingsRookStart, Square.WhiteKingsRookCastled), false);
+                        Move(new Move(this, Square.WhiteKingsRookStart, Square.WhiteKingsRookCastled), false, undo);
+                    }
+                    if (WhiteCanCastleKingside)
+                    {
+                        undo.Insert(0, () => WhiteCanCastleKingside = true);
+                    }
+                    if (WhiteCanCastleQueenside)
+                    {
+                        undo.Insert(0, () => WhiteCanCastleQueenside = true);
                     }
                     WhiteCanCastleKingside = false;
                     WhiteCanCastleQueenside = false;
@@ -97,11 +120,19 @@ namespace Blackmitten.Elliot.Backend
                 {
                     if (move.End == Square.BlackKingCastledQueenside)
                     {
-                        Move(new Move(this, Square.BlackQueensRookStart, Square.BlackQueensRookCastled), false);
+                        Move(new Move(this, Square.BlackQueensRookStart, Square.BlackQueensRookCastled), false, undo);
                     }
                     else if (move.End == Square.BlackKingCastledKingside)
                     {
-                        Move(new Move(this, Square.BlackKingsRookStart, Square.BlackKingsRookCastled), false);
+                        Move(new Move(this, Square.BlackKingsRookStart, Square.BlackKingsRookCastled), false, undo);
+                    }
+                    if (BlackCanCastleKingside)
+                    {
+                        undo.Insert(0, () => BlackCanCastleKingside = true);
+                    }
+                    if (BlackCanCastleQueenside)
+                    {
+                        undo.Insert(0, () => BlackCanCastleQueenside = true);
                     }
                     BlackCanCastleKingside = false;
                     BlackCanCastleQueenside = false;
@@ -111,18 +142,34 @@ namespace Blackmitten.Elliot.Backend
             {
                 if (move.Start == Square.WhiteKingsRookStart)
                 {
+                    if (WhiteCanCastleKingside)
+                    {
+                        undo.Insert(0, () => WhiteCanCastleKingside = true);
+                    }
                     WhiteCanCastleKingside = false;
                 }
                 else if (move.Start == Square.WhiteQueensRookStart)
                 {
+                    if (WhiteCanCastleQueenside)
+                    {
+                        undo.Insert(0, () => WhiteCanCastleQueenside = true);
+                    }
                     WhiteCanCastleQueenside = false;
                 }
                 else if (move.Start == Square.BlackKingsRookStart)
                 {
+                    if (BlackCanCastleKingside)
+                    {
+                        undo.Insert(0, () => BlackCanCastleKingside = true);
+                    }
                     BlackCanCastleKingside = false;
                 }
                 else if (move.Start == Square.BlackQueensRookStart)
                 {
+                    if (BlackCanCastleQueenside)
+                    {
+                        undo.Insert(0, () => BlackCanCastleQueenside = true);
+                    }
                     BlackCanCastleQueenside = false;
                 }
             }
@@ -133,16 +180,16 @@ namespace Blackmitten.Elliot.Backend
                     case PieceType.None:
                         break;
                     case PieceType.Bishop:
-                        Remove(piece);
-                        Add(new Bishop(move.End, piece.White));
+                        RemovePiece(piece, undo);
+                        AddPiece(new Bishop(move.End, piece.White), undo);
                         break;
                     case PieceType.Queen:
-                        Remove(piece);
-                        Add(new Queen(move.End, piece.White));
+                        RemovePiece(piece, undo);
+                        AddPiece(new Queen(move.End, piece.White), undo);
                         break;
                     case PieceType.Rook:
-                        Remove(piece);
-                        Add(new Rook(move.End, piece.White));
+                        RemovePiece(piece, undo);
+                        AddPiece(new Rook(move.End, piece.White), undo);
                         break;
                     default:
                         throw new NotImplementedException();
@@ -152,7 +199,7 @@ namespace Blackmitten.Elliot.Backend
                     LastMoveEnPassantTaret.y == move.End.y)
                 {
                     capturedPiece = GetPieceOnSquare(move.End.Offset(0, -dy));
-                    Remove(capturedPiece);
+                    RemovePiece(capturedPiece, undo);
                 }
                 if (Math.Abs(dy) == 2)
                 {
@@ -160,37 +207,52 @@ namespace Blackmitten.Elliot.Backend
                 }
             }
             piece.Pos = move.End;
+            undo.Add(() => piece.Pos = move.Start);
             if (switchSides)
             {
+                undo.Add(() =>
+                {
+                    WhitesTurn = !WhitesTurn;
+                    HalfMoveClock--;
+                });
                 WhitesTurn = !WhitesTurn;
+                HalfMoveClock++;
                 if (WhitesTurn)
                 {
                     FullMoveClock++;
+                    undo.Insert(0, () => FullMoveClock--);
                 }
-                HalfMoveClock++;
             }
+            int halfMoveClock = HalfMoveClock;
             if (capturedPiece != null || piece.IsPawn)
             {
+                undo.Insert(0, () => HalfMoveClock = halfMoveClock);
                 HalfMoveClock = 0;
             }
 
         }
 
-        public void Remove(IPiece piece)
+        public void RemovePiece(IPiece piece, List<Action> undo)
         {
             if (piece.White)
             {
                 _whitePieces.Remove(piece);
-                _capturedPieces.Add(piece);
+                undo?.Insert(0, () =>
+                {
+                    _whitePieces.Add(piece);
+                });
             }
             else
             {
                 _blackPieces.Remove(piece);
-                _capturedPieces.Add(piece);
+                undo?.Insert(0, () =>
+                {
+                    _blackPieces.Add(piece);
+                });
             }
         }
 
-        public void Add(IPiece piece)
+        public void AddPiece(IPiece piece, List<Action> undo)
         {
             if (piece.White)
             {
@@ -203,6 +265,10 @@ namespace Blackmitten.Elliot.Backend
                     }
                     _whiteKing = piece;
                 }
+                undo?.Insert(0, () =>
+                {
+                    _whitePieces.Remove(piece);
+                });
             }
             else
             {
@@ -215,6 +281,10 @@ namespace Blackmitten.Elliot.Backend
                     }
                     _blackKing = piece;
                 }
+                undo?.Insert(0, () =>
+                {
+                    _blackPieces.Remove(piece);
+                });
             }
         }
 

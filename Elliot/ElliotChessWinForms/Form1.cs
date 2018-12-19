@@ -48,16 +48,16 @@ namespace BlackMitten.Elliot.Winforms
             IPlayer blackHuman = new HumanPlayer(false, this);
             IPlayer blackFalade = new MachinePlayer(false, this, new Falade());
             IPlayer whiteFalade = new MachinePlayer(true, this, new Falade());
-            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(path, 1));
-            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(path, 1));
+            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(path, 5));
+            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(path, 10));
 
-            IPlayer blackPlayer = blackStockfish;
+            IPlayer blackPlayer = blackFalade;
             IPlayer whitePlayer = whiteStockfish;
 
             boardControl1.Log = _log;
 
             Board board = BoardFactory.InitNewGame();
-            board.Remove(board.GetPieceOnSquare(new Square(2, 2)));
+            board.RemovePiece(board.GetPieceOnSquare(new Square(2, 2)), null);
             
             _game = new Game(whitePlayer, blackPlayer, this, _log, new MoveValidator(), board);
             _game.StartPlay( 200 );
@@ -81,7 +81,11 @@ namespace BlackMitten.Elliot.Winforms
                     listBox1.SelectedIndex = listBox1.Items.Count - 1;
                 }
             }
-            if(_game.WhitesTurn)
+            if(_game.GameState== GameState.StaleMate)
+            {
+                labelWhosTurn.Text = "Stalemate";
+            }
+            else if(_game.WhitesTurn)
             {
                 if(_game.GameState== GameState.CheckMate)
                 {

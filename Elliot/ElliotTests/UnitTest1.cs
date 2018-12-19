@@ -131,9 +131,9 @@ namespace ElliotTests
             IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(_stockFishBinPath, 10));
 
             Board board = new Board();
-            board.Add(new King(new Square(4, 1), true));
-            board.Add(new Pawn(new Square(2, 7), true));
-            board.Add(new King(new Square(4, 8), false));
+            board.AddPiece(new King(new Square(4, 1), true), null);
+            board.AddPiece(new Pawn(new Square(2, 7), true), null);
+            board.AddPiece(new King(new Square(4, 8), false), null);
             board.BlackCanCastleKingside = false;
             board.BlackCanCastleQueenside = false;
             board.WhiteCanCastleKingside = false;
@@ -181,7 +181,7 @@ namespace ElliotTests
                         IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(_stockFishBinPath, d));
 
                         Board board = BoardFactory.InitNewGame();
-                        board.Remove(board.GetPieceOnSquare(new Square(x, y)));
+                        board.RemovePiece(board.GetPieceOnSquare(new Square(x, y)), null);
                         Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
                         game.Play(0);
