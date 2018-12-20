@@ -75,7 +75,7 @@ namespace ElliotTests
         }
 
         [TestMethod]
-        public void FenString()
+        public void InitGameFenString()
         {
             Board board = BoardFactory.InitNewGame();
             string fen = board.GetFenString();
@@ -83,6 +83,16 @@ namespace ElliotTests
             string startingFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
             Assert.AreEqual(fen, startingFen);
+        }
+
+        [TestMethod]
+        public void BoardFromFenString()
+        {
+            string fen = "rnbqkbnr/1ppppppp/8/p7/4P3/2N5/P1PP1PPP/R1BQKBNR b KQkq - 1 2";
+            Board board = BoardFactory.BoardFromFenString(fen);
+            string boardFen = board.GetFenString();
+            Assert.AreEqual(fen, boardFen);
+
         }
 
         [TestMethod]

@@ -55,5 +55,10 @@ namespace Blackmitten.Elliot.Backend
             return board;
         }
 
+        public static Board BoardFromFenString(string fen)
+        {
+            Board board = new Board();
+            return board;
+        }
     }
 }
