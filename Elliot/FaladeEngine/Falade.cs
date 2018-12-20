@@ -18,7 +18,7 @@ namespace BlackMitten.Elliot.FaladeEngine
 
         }
 
-        public Move GetBestMove(Board board)
+        public Move GetBestMove(Board board, bool doDiags)
         {
             Move move = null;
 
@@ -38,12 +38,20 @@ namespace BlackMitten.Elliot.FaladeEngine
             }
             foreach(var m in moves)
             {
-                string fenBefore = board.GetFenString();
-                board.Move(m, true);
-                string fenAfter = board.GetFenString();
-                board.UndoLastmove();
-                string fenAfterUndo = board.GetFenString();
-                Diags.Assert(fenAfterUndo == fenBefore);
+                if (doDiags)
+                {
+                    string fenBefore = board.GetFenString();
+                    board.Move(m, true);
+                    string fenAfter = board.GetFenString();
+                    board.UndoLastmove();
+                    string fenAfterUndo = board.GetFenString();
+                    Diags.Assert(fenAfterUndo == fenBefore);
+                }
+                else
+                {
+                    board.Move(m, true);
+                    board.UndoLastmove();
+                }
             }
             int moveIndex = StaticRandom.Instance.Next % moves.Count;
             return moves[moveIndex];

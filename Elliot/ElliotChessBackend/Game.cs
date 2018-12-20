@@ -77,7 +77,7 @@ namespace Blackmitten.Elliot.Backend
                     {
                         _userInterface.MachineThinking = true;
                     }
-                    move = _whitePlayer.Play(_board);
+                    move = _whitePlayer.Play(_board, doDiags);
                     Thread.Sleep(delay);
                     _userInterface.MachineThinking = false;
                 }
@@ -87,7 +87,7 @@ namespace Blackmitten.Elliot.Backend
                     {
                         _userInterface.MachineThinking = true;
                     }
-                    move = _blackPlayer.Play(_board);
+                    move = _blackPlayer.Play(_board, doDiags);
                     Thread.Sleep(delay);
                     _userInterface.MachineThinking = false;
                 }

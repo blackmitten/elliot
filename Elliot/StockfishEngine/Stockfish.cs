@@ -60,7 +60,7 @@ namespace BlackMitten.Elliot.StockfishEngine
             _process.WaitForExit();
         }
 
-        public Move GetBestMove(Board board)
+        public Move GetBestMove(Board board, bool doDiags)
         {
             SendCommand("position fen " + board.GetFenString());
             SendCommand("go depth " + _depth.ToString(CultureInfo.InvariantCulture));
