@@ -1,5 +1,6 @@
 ﻿using Blackmitten.Menzel;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
@@ -35,8 +36,8 @@ namespace Blackmitten.Elliot.Backend
                 board = BoardFactory.InitNewGame();
             }
 
-            Trace.Assert(whitePlayer.White);
-            Trace.Assert(!blackPlayer.White);
+            Diags.Assert(whitePlayer.White);
+            Diags.Assert(!blackPlayer.White);
             _whitePlayer = whitePlayer;
             _blackPlayer = blackPlayer;
             _userInterface = userInterface;
@@ -47,21 +48,21 @@ namespace Blackmitten.Elliot.Backend
             userInterface.Board = _board;
         }
 
-        public void StartPlay(int moveDelay)
+        public void StartPlay(int moveDelay, bool doDiags)
         {
-            _gameThread = new Thread(()=>Play(moveDelay));
+            _gameThread = new Thread(() => Play(moveDelay, doDiags));
             _gameThread.Start();
         }
 
-        public void Play(int moveDelay)
+        public void Play(int moveDelay, bool doDiags)
         {
             while (GameState == GameState.InPlay)
             {
-                PlaySingleMove(moveDelay);
+                PlaySingleMove(moveDelay, doDiags);
             }
         }
 
-        public void PlaySingleMove(int delay)
+        public void PlaySingleMove(int delay, bool doDiags)
         {
             Move move;
             try
@@ -105,7 +106,23 @@ namespace Blackmitten.Elliot.Backend
                     try
                     {
                         _moveValidator.Validate(move);
-                        _board.Move(move, true);
+                        if (doDiags)
+                        {
+                            string fenBefore = _board.GetFenString();
+                            _board.Move(move, true);
+                            string fenAfter = _board.GetFenString();
+                            Diags.Assert(fenBefore != fenAfter);
+                            _board.UndoLastmove();
+                            string fenAfterUndo = _board.GetFenString();
+                            Diags.Assert(fenBefore == fenAfterUndo);
+                            _board.Move(move, true);
+                            string fenAfterAgain = _board.GetFenString();
+                            Diags.Assert(fenAfter == fenAfterAgain);
+                        }
+                        else
+                        {
+                            _board.Move(move, true);
+                        }
                     }
                     catch (InvalidMoveException e)
                     {

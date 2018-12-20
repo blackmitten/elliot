@@ -1,4 +1,5 @@
 ﻿using Blackmitten.Elliot.Backend;
+using Blackmitten.Menzel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,10 +43,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                 string fenAfter = board.GetFenString();
                 board.UndoLastmove();
                 string fenAfterUndo = board.GetFenString();
-                if (fenAfterUndo != fenBefore )
-                {
-                    throw new InvalidOperationException();
-                }
+                Diags.Assert(fenAfterUndo == fenBefore);
             }
             int moveIndex = StaticRandom.Instance.Next % moves.Count;
             return moves[moveIndex];

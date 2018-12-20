@@ -33,7 +33,7 @@ namespace ElliotTests
 
             Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
-            game.PlaySingleMove(0);
+            game.PlaySingleMove(0, true);
 
         }
 
@@ -67,7 +67,7 @@ namespace ElliotTests
 
             Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
-            game.PlaySingleMove(0);
+            game.PlaySingleMove(0, true);
 
             Assert.IsTrue(board.GetPieceOnSquare(new Square(2, 8)).IsQueen);
         }

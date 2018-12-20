@@ -42,7 +42,7 @@ namespace Blackmitten.Elliot.Backend
 
         public void UndoLastmove()
         {
-            foreach(var undo in _undoLastMove)
+            foreach (var undo in _undoLastMove)
             {
                 undo();
             }
@@ -76,15 +76,19 @@ namespace Blackmitten.Elliot.Backend
 
         public void Move(Move move, bool switchSides, List<Action> undo = null)
         {
-            if ( undo==null)
+            if (undo == null)
             {
                 _undoLastMove = new List<Action>();
                 undo = _undoLastMove;
             }
             Square LastMoveEnPassantTaret = EnPassantTarget;
-            if ( EnPassantTarget.InBounds)
+            if (EnPassantTarget.InBounds)
             {
-                undo.Insert(0,() => EnPassantTarget = LastMoveEnPassantTaret);
+                undo.Insert(0, () => EnPassantTarget = LastMoveEnPassantTaret);
+            }
+            else
+            {
+                undo.Insert(0, () => EnPassantTarget = new Square(0, 0));
             }
             EnPassantTarget = new Square();
             IPiece piece = GetPieceOnSquare(move.Start);

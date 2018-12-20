@@ -92,7 +92,17 @@ namespace ElliotTests
             Board board = BoardFactory.BoardFromFenString(fen);
             string boardFen = board.GetFenString();
             Assert.AreEqual(fen, boardFen);
+        }
 
+        [TestMethod]
+        public void UndoMove1()
+        {
+            string fen = "rnbqkbnr/1ppppppp/8/p7/4P3/2N5/P1PP1PPP/R1BQKBNR b KQkq - 1 2";
+            Board board = BoardFactory.BoardFromFenString(fen);
+            board.Move(new Move(board, "b7b5"), true);
+            board.UndoLastmove();
+            string fenAfterUndo = board.GetFenString();
+            Assert.AreEqual(fen, fenAfterUndo);
         }
 
         [TestMethod]
