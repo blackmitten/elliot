@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Blackmitten.Elliot.Backend.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,8 +35,8 @@ namespace Blackmitten.Elliot.Backend
             b.AddPiece(new Queen(new Square(4, 1), true), null);
             b.AddPiece(new King(new Square(5, 1), true), null);
             b.WhitesTurn = true;
-//            b.m_whitePieces = b.m_whitePieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();
-//            b.m_blackPieces = b.m_blackPieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();
+            //            b.m_whitePieces = b.m_whitePieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();
+            //            b.m_blackPieces = b.m_blackPieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();
             return b;
         }
 
@@ -58,6 +59,97 @@ namespace Blackmitten.Elliot.Backend
         public static Board BoardFromFenString(string fen)
         {
             Board board = new Board();
+            string[] bits = fen.Split(' ');
+            string[] rows = bits[0].Split('/');
+            if (rows.Length != 8)
+            {
+                throw new InvalidFenException();
+            }
+            int x = 1;
+            int y = 9;
+            for (int rowIndex = 0; rowIndex < 8; rowIndex++)
+            {
+                x = 1;
+                y--;
+                string rowString = rows[rowIndex];
+                for (int rowCharIndex = 0; rowCharIndex < rowString.Length; rowCharIndex++)
+                {
+                    char c = rowString[rowCharIndex];
+                    switch (c)
+                    {
+                        case 'r':
+                            board.AddPiece(new Rook(new Square(x++, y), false), null);
+                            break;
+                        case 'n':
+                            board.AddPiece(new Knight(new Square(x++, y), false), null);
+                            break;
+                        case 'b':
+                            board.AddPiece(new Bishop(new Square(x++, y), false), null);
+                            break;
+                        case 'q':
+                            board.AddPiece(new Queen(new Square(x++, y), false), null);
+                            break;
+                        case 'k':
+                            board.AddPiece(new King(new Square(x++, y), false), null);
+                            break;
+                        case 'p':
+                            board.AddPiece(new Pawn(new Square(x++, y), false), null);
+                            break;
+                        case 'R':
+                            board.AddPiece(new Rook(new Square(x++, y), true), null);
+                            break;
+                        case 'N':
+                            board.AddPiece(new Knight(new Square(x++, y), true), null);
+                            break;
+                        case 'B':
+                            board.AddPiece(new Bishop(new Square(x++, y), true), null);
+                            break;
+                        case 'Q':
+                            board.AddPiece(new Queen(new Square(x++, y), true), null);
+                            break;
+                        case 'K':
+                            board.AddPiece(new King(new Square(x++, y), true), null);
+                            break;
+                        case 'P':
+                            board.AddPiece(new Pawn(new Square(x++, y), true), null);
+                            break;
+                        default:
+                            if (char.IsDigit(c))
+                            {
+                                int n = int.Parse(c.ToString());
+                                x += n;
+                            }
+                            else
+                            {
+                                throw new NotImplementedException();
+                            }
+                            break;
+                    }
+                }
+            }
+            switch (bits[1])
+            {
+                case "w": board.WhitesTurn = true; break;
+                case "b": board.WhitesTurn = false; break;
+                default:
+                    throw new InvalidOperationException();
+            }
+            board.WhiteCanCastleKingside = bits[2].Contains("K");
+            board.WhiteCanCastleQueenside = bits[2].Contains("Q");
+            board.BlackCanCastleKingside = bits[2].Contains("k");
+            board.BlackCanCastleQueenside = bits[2].Contains("q");
+
+            if (bits[3] == "-")
+            {
+                board.EnPassantTarget = new Square(0, 0);
+            }
+            else
+            {
+                board.EnPassantTarget = new Square(bits[3]);
+            }
+            board.FullMoveClock = int.Parse(bits[5]);
+            board.HalfMoveClock = int.Parse(bits[4]);
+
             return board;
         }
     }
