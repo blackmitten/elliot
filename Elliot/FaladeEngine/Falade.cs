@@ -36,12 +36,18 @@ namespace BlackMitten.Elliot.FaladeEngine
             {
                 return null;
             }
-            foreach(var m in moves)
+            double maxScore = double.MinValue;
+            double minScore = double.MaxValue;
+            Move maxScoreMove = null;
+            Move minScoreMove = null;
+            foreach (var m in moves)
             {
+                double score;
                 if (doDiags)
                 {
                     string fenBefore = board.GetFenString();
                     board.Move(m, true);
+                    score = board.CalculateWhitesScore();
                     string fenAfter = board.GetFenString();
                     board.UndoLastmove();
                     string fenAfterUndo = board.GetFenString();
@@ -50,11 +56,28 @@ namespace BlackMitten.Elliot.FaladeEngine
                 else
                 {
                     board.Move(m, true);
+                    score = board.CalculateWhitesScore();
                     board.UndoLastmove();
                 }
+                if (score > maxScore)
+                {
+                    maxScore = score;
+                    maxScoreMove = m;
+                }
+                else if (score < minScore)
+                {
+                    minScore = score;
+                    minScoreMove = m;
+                }
             }
-            int moveIndex = StaticRandom.Instance.Next % moves.Count;
-            return moves[moveIndex];
+            if (board.WhitesTurn)
+            {
+                return maxScoreMove;
+            }
+            else
+            {
+                return minScoreMove;
+            }
         }
 
         public string Name { get; } = "Falade";
