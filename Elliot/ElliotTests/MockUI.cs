@@ -28,7 +28,7 @@ namespace ElliotTests
             }
         }
 
-        public void DoTheMove() => throw new NotImplementedException();
+
         public void InvalidMove(string message)
         {
             Trace.WriteLine("Invalid move: " + message);
