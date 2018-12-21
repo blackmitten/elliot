@@ -20,17 +20,6 @@ namespace BlackMitten.Elliot.FaladeEngine
 
         public Move GetBestMove(Board board, bool doDiags)
         {
-            Move move = null;
-
-            IEnumerable<IPiece> pieces;
-            if (board.WhitesTurn)
-            {
-                pieces = board.WhitePieces;
-            }
-            else
-            {
-                pieces = board.BlackPieces;
-            }
             var moves = board.GetAllMoves();
             if (moves.Count == 0)
             {
