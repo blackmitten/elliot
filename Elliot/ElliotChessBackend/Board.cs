@@ -14,7 +14,6 @@ namespace Blackmitten.Elliot.Backend
 
         IPiece _blackKing;
         IPiece _whiteKing;
-        PieceValuer _pieceValuer = new PieceValuer();
 
         public bool WhitesTurn { get; set; } = true;
 
@@ -523,23 +522,6 @@ namespace Blackmitten.Elliot.Backend
         }
 
         public override string ToString() => GetFenString();
-
-        public double CalculateWhitesScore()
-        {
-            double score = 0;
-            foreach (var piece in _whitePieces)
-            {
-                piece.Accept(_pieceValuer);
-                score += _pieceValuer.Value;
-            }
-            foreach (var piece in _blackPieces)
-            {
-                piece.Accept(_pieceValuer);
-                score += _pieceValuer.Value;
-            }
-
-            return score;
-        }
 
     }
 

@@ -12,6 +12,7 @@ namespace BlackMitten.Elliot.FaladeEngine
 
     public class Falade : IEngine
     {
+        PieceValuer _pieceValuer = new PieceValuer();
 
         public void Stop()
         {
@@ -36,7 +37,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                 {
                     string fenBefore = board.GetFenString();
                     board.Move(m, true);
-                    score = board.CalculateWhitesScore();
+                    score = CalculateWhitesScore(board);
                     string fenAfter = board.GetFenString();
                     board.UndoLastmove();
                     string fenAfterUndo = board.GetFenString();
@@ -45,7 +46,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                 else
                 {
                     board.Move(m, true);
-                    score = board.CalculateWhitesScore();
+                    score = CalculateWhitesScore( board );
                     board.UndoLastmove();
                 }
                 if (score > maxScore)
@@ -68,6 +69,25 @@ namespace BlackMitten.Elliot.FaladeEngine
                 return minScoreMove;
             }
         }
+
+        double CalculateWhitesScore(Board board)
+        {
+            double score = 0;
+            foreach (var piece in board.WhitePieces)
+            {
+                piece.Accept(_pieceValuer);
+                score += _pieceValuer.Value;
+            }
+            foreach (var piece in board.BlackPieces)
+            {
+                piece.Accept(_pieceValuer);
+                score += _pieceValuer.Value;
+            }
+
+            return score;
+        }
+
+
 
         public string Name { get; } = "Falade";
 
