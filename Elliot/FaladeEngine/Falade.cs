@@ -37,7 +37,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                 {
                     string fenBefore = board.GetFenString();
                     board.Move(m, true);
-                    score = CalculateWhitesScore(board);
+                    score = Evaluate(board);
                     string fenAfter = board.GetFenString();
                     board.UndoLastmove();
                     string fenAfterUndo = board.GetFenString();
@@ -46,7 +46,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                 else
                 {
                     board.Move(m, true);
-                    score = CalculateWhitesScore( board );
+                    score = Evaluate( board );
                     board.UndoLastmove();
                 }
                 if (score > maxScore)
@@ -68,6 +68,16 @@ namespace BlackMitten.Elliot.FaladeEngine
             {
                 return minScoreMove;
             }
+        }
+
+        private double Evaluate(Board board)
+        {
+            return Minimax(board, 2, double.MinValue, double.MaxValue, board.WhitesTurn );
+        }
+
+        private double Minimax(Board board, int depth, double minValue, double maxValue, bool maximizing)
+        {
+            return CalculateWhitesScore(board);
         }
 
         double CalculateWhitesScore(Board board)
