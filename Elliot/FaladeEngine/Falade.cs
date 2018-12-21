@@ -19,8 +19,10 @@ namespace BlackMitten.Elliot.FaladeEngine
 
         }
 
-        public Move GetBestMove(Board board, bool doDiags)
+        public Move GetBestMove(Board originalBoard, bool doDiags)
         {
+            Board board = new Board(originalBoard);
+            Diags.Assert(board.GetFenString() == originalBoard.GetFenString());
             var moves = board.GetAllMoves();
             if (moves.Count == 0)
             {
@@ -33,21 +35,22 @@ namespace BlackMitten.Elliot.FaladeEngine
             foreach (var m in moves)
             {
                 double score;
+                var undo = new List<Action>();
                 if (doDiags)
                 {
                     string fenBefore = board.GetFenString();
-                    board.Move(m, true);
-                    score = Evaluate(board);
+                    board.Move(m, true, undo);
+                    score = Evaluate(board, doDiags);
                     string fenAfter = board.GetFenString();
-                    board.UndoLastmove();
+                    board.UndoLastmove(undo);
                     string fenAfterUndo = board.GetFenString();
                     Diags.Assert(fenAfterUndo == fenBefore);
                 }
                 else
                 {
-                    board.Move(m, true);
-                    score = Evaluate( board );
-                    board.UndoLastmove();
+                    board.Move(m, true, undo);
+                    score = Evaluate( board, doDiags );
+                    board.UndoLastmove(undo);
                 }
                 if (score > maxScore)
                 {
@@ -70,14 +73,83 @@ namespace BlackMitten.Elliot.FaladeEngine
             }
         }
 
-        private double Evaluate(Board board)
+        private double Evaluate(Board board, bool doDiags)
         {
-            return Minimax(board, 2, double.MinValue, double.MaxValue, board.WhitesTurn );
+            return Minimax(board, 3, double.MinValue, double.MaxValue, false, true, doDiags );
         }
 
-        private double Minimax(Board board, int depth, double minValue, double maxValue, bool maximizing)
+        private double Minimax(Board board, int depth, double alpha, double beta, bool maximizing, bool whitesTurn, bool doDiags)
         {
-            return CalculateWhitesScore(board);
+            if (depth == 0)
+            {
+                return CalculateSidesScore(board, whitesTurn);
+            }
+
+            string fenBefore = "";
+            if (doDiags)
+            {
+                fenBefore = board.GetFenString();
+            }
+
+            var moves = board.GetAllMoves();
+            if (maximizing)
+            {
+                double max = double.MinValue;
+                foreach (var move in moves)
+                {
+                    var undo = new List<Action>();
+                    if (doDiags)
+                    {
+                        board.Move(move, true, undo);
+                        max = Math.Max(max, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn, doDiags));
+                        board.UndoLastmove(undo);
+                        var fenAfterUndo = board.GetFenString();
+                        Diags.Assert(fenBefore == fenAfterUndo);
+                        alpha = Math.Max(alpha, max);
+                        if( alpha >= beta )
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+                return max;
+            }
+            else
+            {
+                double min = double.MaxValue;
+                foreach (var move in moves)
+                {
+                    var undo = new List<Action>();
+                    if (doDiags)
+                    {
+                        board.Move(move, true, undo);
+                        min = Math.Min(min, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn, doDiags));
+                        board.UndoLastmove(undo);
+                        var fenAfterUndo = board.GetFenString();
+                        Diags.Assert(fenBefore == fenAfterUndo);
+                        beta = Math.Min(beta, min);
+                        if (alpha >= beta)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+                return min;
+            }
+        }
+
+        double CalculateSidesScore(Board board, bool white)
+        {
+            double sign = white ? 1 : -1;
+            return sign * CalculateWhitesScore(board);
         }
 
         double CalculateWhitesScore(Board board)

@@ -19,7 +19,7 @@ namespace Blackmitten.Elliot.Backend
             piece.Accept(this, move);
 
             Board newBoard = new Board(move.Board);
-            newBoard.Move(move, false);
+            newBoard.Move(move, false, null);
             if (newBoard.CurrentPlayerInCheck)
             {
                 _valid = false;

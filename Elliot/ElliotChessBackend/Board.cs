@@ -11,6 +11,14 @@ namespace Blackmitten.Elliot.Backend
     {
         List<IPiece> _blackPieces = new List<IPiece>();
         List<IPiece> _whitePieces = new List<IPiece>();
+        public bool WhiteCanCastleKingside { get; set; } = true;
+        public bool WhiteCanCastleQueenside { get; set; } = true;
+        public bool BlackCanCastleKingside { get; set; } = true;
+        public bool BlackCanCastleQueenside { get; set; } = true;
+        public Square EnPassantTarget { get; set; } = new Square();
+        public int HalfMoveClock { get; set; } = 0;
+        public int FullMoveClock { get; set; } = 1;
+
 
         IPiece _blackKing;
         IPiece _whiteKing;
@@ -19,8 +27,6 @@ namespace Blackmitten.Elliot.Backend
 
         public IEnumerable<IPiece> BlackPieces => _blackPieces;
         public IEnumerable<IPiece> WhitePieces => _whitePieces;
-
-        public List<Action> _undoLastMove;
 
         public Board()
         {
@@ -37,13 +43,24 @@ namespace Blackmitten.Elliot.Backend
             {
                 AddPiece(piece.Copy(), null);
             }
+
+            Diags.Assert(_blackKing.IsKing && !_blackKing.White);
+            Diags.Assert(_whiteKing.IsKing && _whiteKing.White);
+
+            WhiteCanCastleKingside = board.WhiteCanCastleKingside;
+            WhiteCanCastleQueenside = board.WhiteCanCastleQueenside;
+            BlackCanCastleKingside = board.BlackCanCastleKingside;
+            BlackCanCastleQueenside = board.BlackCanCastleQueenside;
+            HalfMoveClock = board.HalfMoveClock;
+            FullMoveClock = board.FullMoveClock;
+            EnPassantTarget = board.EnPassantTarget;
         }
 
-        public void UndoLastmove()
+        public void UndoLastmove(List<Action> undo)
         {
-            foreach (var undo in _undoLastMove)
+            foreach (var action in undo)
             {
-                undo();
+                action();
             }
         }
 
@@ -73,21 +90,16 @@ namespace Blackmitten.Elliot.Backend
             return moves;
         }
 
-        public void Move(Move move, bool switchSides, List<Action> undo = null)
+        public void Move(Move move, bool switchSides, List<Action> undo)
         {
-            if (undo == null)
-            {
-                _undoLastMove = new List<Action>();
-                undo = _undoLastMove;
-            }
             Square LastMoveEnPassantTaret = EnPassantTarget;
             if (EnPassantTarget.InBounds)
             {
-                undo.Insert(0, () => EnPassantTarget = LastMoveEnPassantTaret);
+                undo?.Insert(0, () => EnPassantTarget = LastMoveEnPassantTaret);
             }
             else
             {
-                undo.Insert(0, () => EnPassantTarget = new Square(0, 0));
+                undo?.Insert(0, () => EnPassantTarget = new Square(0, 0));
             }
             EnPassantTarget = new Square();
             IPiece piece = GetPieceOnSquare(move.Start);
@@ -110,11 +122,11 @@ namespace Blackmitten.Elliot.Backend
                     }
                     if (WhiteCanCastleKingside)
                     {
-                        undo.Insert(0, () => WhiteCanCastleKingside = true);
+                        undo?.Insert(0, () => WhiteCanCastleKingside = true);
                     }
                     if (WhiteCanCastleQueenside)
                     {
-                        undo.Insert(0, () => WhiteCanCastleQueenside = true);
+                        undo?.Insert(0, () => WhiteCanCastleQueenside = true);
                     }
                     WhiteCanCastleKingside = false;
                     WhiteCanCastleQueenside = false;
@@ -131,11 +143,11 @@ namespace Blackmitten.Elliot.Backend
                     }
                     if (BlackCanCastleKingside)
                     {
-                        undo.Insert(0, () => BlackCanCastleKingside = true);
+                        undo?.Insert(0, () => BlackCanCastleKingside = true);
                     }
                     if (BlackCanCastleQueenside)
                     {
-                        undo.Insert(0, () => BlackCanCastleQueenside = true);
+                        undo?.Insert(0, () => BlackCanCastleQueenside = true);
                     }
                     BlackCanCastleKingside = false;
                     BlackCanCastleQueenside = false;
@@ -147,7 +159,7 @@ namespace Blackmitten.Elliot.Backend
                 {
                     if (WhiteCanCastleKingside)
                     {
-                        undo.Insert(0, () => WhiteCanCastleKingside = true);
+                        undo?.Insert(0, () => WhiteCanCastleKingside = true);
                     }
                     WhiteCanCastleKingside = false;
                 }
@@ -155,7 +167,7 @@ namespace Blackmitten.Elliot.Backend
                 {
                     if (WhiteCanCastleQueenside)
                     {
-                        undo.Insert(0, () => WhiteCanCastleQueenside = true);
+                        undo?.Insert(0, () => WhiteCanCastleQueenside = true);
                     }
                     WhiteCanCastleQueenside = false;
                 }
@@ -163,7 +175,7 @@ namespace Blackmitten.Elliot.Backend
                 {
                     if (BlackCanCastleKingside)
                     {
-                        undo.Insert(0, () => BlackCanCastleKingside = true);
+                        undo?.Insert(0, () => BlackCanCastleKingside = true);
                     }
                     BlackCanCastleKingside = false;
                 }
@@ -171,7 +183,7 @@ namespace Blackmitten.Elliot.Backend
                 {
                     if (BlackCanCastleQueenside)
                     {
-                        undo.Insert(0, () => BlackCanCastleQueenside = true);
+                        undo?.Insert(0, () => BlackCanCastleQueenside = true);
                     }
                     BlackCanCastleQueenside = false;
                 }
@@ -210,10 +222,10 @@ namespace Blackmitten.Elliot.Backend
                 }
             }
             piece.Pos = move.End;
-            undo.Add(() => piece.Pos = move.Start);
+            undo?.Add(() => piece.Pos = move.Start);
             if (switchSides)
             {
-                undo.Add(() =>
+                undo?.Add(() =>
                 {
                     WhitesTurn = !WhitesTurn;
                     HalfMoveClock--;
@@ -223,13 +235,13 @@ namespace Blackmitten.Elliot.Backend
                 if (WhitesTurn)
                 {
                     FullMoveClock++;
-                    undo.Insert(0, () => FullMoveClock--);
+                    undo?.Insert(0, () => FullMoveClock--);
                 }
             }
             int halfMoveClock = HalfMoveClock;
             if (capturedPiece != null || piece.IsPawn)
             {
-                undo.Insert(0, () => HalfMoveClock = halfMoveClock);
+                undo?.Insert(0, () => HalfMoveClock = halfMoveClock);
                 HalfMoveClock = 0;
             }
 
@@ -317,14 +329,6 @@ namespace Blackmitten.Elliot.Backend
             }
             return null;
         }
-
-        public bool WhiteCanCastleKingside { get; set; } = true;
-        public bool WhiteCanCastleQueenside { get; set; } = true;
-        public bool BlackCanCastleKingside { get; set; } = true;
-        public bool BlackCanCastleQueenside { get; set; } = true;
-        public Square EnPassantTarget { get; set; } = new Square();
-        public int HalfMoveClock { get; set; } = 0;
-        public int FullMoveClock { get; set; } = 1;
 
         public bool CurrentPlayerInCheck
         {

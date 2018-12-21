@@ -32,7 +32,7 @@ namespace Blackmitten.Elliot.Backend
             }
 
             var squareInFront = pawn.Pos.Offset(0, direction.Value);
-            if (board.GetPieceOnSquare(squareInFront) == null)
+            if(squareInFront.InBounds && board.GetPieceOnSquare(squareInFront) == null)
             {
                 Moves.Add(new Move(board, pawn.Pos, squareInFront));
             }

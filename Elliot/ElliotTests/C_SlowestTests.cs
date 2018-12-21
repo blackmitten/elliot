@@ -1,4 +1,5 @@
 ﻿using Blackmitten.Elliot.Backend;
+using BlackMitten.Elliot.FaladeEngine;
 using BlackMitten.Elliot.StockfishEngine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -11,86 +12,86 @@ namespace ElliotTests
     public class C_SlowestTests
     {
         [TestMethod]
-        public void PlayGamesDepth1()
+        public void PlayStockfishVsStockfish1()
         {
             MockUI ui = new MockUI();
-            PlayGame(ui, 1);
+            PlayStockfishVsStockfish(ui, 1);
 
         }
 
         [TestMethod]
-        public void PlayGamesDepth2()
+        public void PlayStockfishVsStockfish2()
         {
             MockUI ui = new MockUI();
-            PlayGame(ui, 2);
+            PlayStockfishVsStockfish(ui, 2);
 
         }
 
         [TestMethod]
-        public void PlayGamesDepth3()
+        public void PlayStockfishVsStockfish3()
         {
             MockUI ui = new MockUI();
-            PlayGame(ui, 3);
+            PlayStockfishVsStockfish(ui, 3);
 
         }
 
         [TestMethod]
-        public void PlayGamesDepth4()
+        public void PlayStockfishVsStockfish4()
         {
             MockUI ui = new MockUI();
-            PlayGame(ui, 4);
+            PlayStockfishVsStockfish(ui, 4);
 
         }
 
         [TestMethod]
-        public void PlayGamesDepth5()
+        public void PlayStockfishVsStockfish5()
         {
             MockUI ui = new MockUI();
-            PlayGame(ui, 5);
+            PlayStockfishVsStockfish(ui, 5);
 
         }
 
         [TestMethod]
-        public void PlayGamesDepth6()
+        public void PlayStockfishVsStockfish6()
         {
             MockUI ui = new MockUI();
-            PlayGame(ui, 6);
+            PlayStockfishVsStockfish(ui, 6);
 
         }
 
         [TestMethod]
-        public void PlayGamesDepth7()
+        public void PlayStockfishVsStockfish7()
         {
             MockUI ui = new MockUI();
-            PlayGame(ui, 7);
+            PlayStockfishVsStockfish(ui, 7);
 
         }
 
         [TestMethod]
-        public void PlayGamesDepth8()
+        public void PlayStockfishVsStockfish8()
         {
             MockUI ui = new MockUI();
-            PlayGame(ui, 8);
+            PlayStockfishVsStockfish(ui, 8);
 
         }
 
         [TestMethod]
-        public void PlayGamesDepth9()
+        public void PlayStockfishVsStockfish9()
         {
             MockUI ui = new MockUI();
-            PlayGame(ui, 9);
+            PlayStockfishVsStockfish(ui, 9);
 
         }
 
         [TestMethod]
-        public void PlayGamesDepth10()
+        public void PlayStockfishVsStockfishDepth10()
         {
             MockUI ui = new MockUI();
-            PlayGame(ui, 10);
+            PlayStockfishVsStockfish(ui, 10);
 
         }
 
-        void PlayGame(MockUI ui, int depth)
+        void PlayStockfishVsStockfish(MockUI ui, int depth)
         {
             for (int y = 2; y < 8; y += 5)
             {
@@ -110,6 +111,22 @@ namespace ElliotTests
                 }
             }
         }
+
+        [TestMethod]
+        public void PlayFaladeVsFalade()
+        {
+            MockUI ui = new MockUI();
+            Falade falade = new Falade();
+            IPlayer whiteFalade = new MachinePlayer(true, ui, falade);
+            IPlayer blackFalade = new MachinePlayer(false, ui, falade);
+            Board board = BoardFactory.InitNewGame();
+            Game game = new Game(whiteFalade, blackFalade, ui, new MockLog(), new MockValidator(), board);
+
+            game.Play(0, true);
+            int i = 1;
+        }
+
+
 
     }
 }

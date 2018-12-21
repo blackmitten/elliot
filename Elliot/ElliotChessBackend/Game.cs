@@ -106,22 +106,23 @@ namespace Blackmitten.Elliot.Backend
                     try
                     {
                         _moveValidator.Validate(move);
+                        var undo = new List<Action>();
                         if (doDiags)
                         {
                             string fenBefore = _board.GetFenString();
-                            _board.Move(move, true);
+                            _board.Move(move, true, undo);
                             string fenAfter = _board.GetFenString();
                             Diags.Assert(fenBefore != fenAfter);
-                            _board.UndoLastmove();
+                            _board.UndoLastmove( undo );
                             string fenAfterUndo = _board.GetFenString();
                             Diags.Assert(fenBefore == fenAfterUndo);
-                            _board.Move(move, true);
+                            _board.Move(move, true, undo);
                             string fenAfterAgain = _board.GetFenString();
                             Diags.Assert(fenAfter == fenAfterAgain);
                         }
                         else
                         {
-                            _board.Move(move, true);
+                            throw new NotImplementedException();
                         }
                     }
                     catch (InvalidMoveException e)

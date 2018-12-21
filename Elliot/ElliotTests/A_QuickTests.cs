@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Blackmitten.Elliot.Backend;
 using BlackMitten.Elliot.StockfishEngine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -99,8 +100,26 @@ namespace ElliotTests
         {
             string fen = "rnbqkbnr/1ppppppp/8/p7/4P3/2N5/P1PP1PPP/R1BQKBNR b KQkq - 1 2";
             Board board = BoardFactory.BoardFromFenString(fen);
-            board.Move(new Move(board, "b7b5"), true);
-            board.UndoLastmove();
+            var undo = new List<Action>();
+            board.Move(new Move(board, "b7b5"), true, undo);
+            board.UndoLastmove( undo );
+            string fenAfterUndo = board.GetFenString();
+            Assert.AreEqual(fen, fenAfterUndo);
+        }
+
+        [TestMethod]
+        public void UndoMove2()
+        {
+            string fen = "rnbqkbnr/1ppppppp/p7/8/4P3/8/P1PP1PPP/RNBQKBNR w KQkq - 0 2";
+            Board board = BoardFactory.BoardFromFenString(fen);
+            string fenCheck = board.GetFenString();
+            Assert.IsTrue(fen == fenCheck);
+            var undo1 = new List<Action>();
+            var undo2 = new List<Action>();
+            board.Move(new Move(board, "a2a3"), true, undo1);
+            board.Move(new Move(board, "b7b6"), true, undo2);
+            board.UndoLastmove(undo2);
+            board.UndoLastmove(undo1);
             string fenAfterUndo = board.GetFenString();
             Assert.AreEqual(fen, fenAfterUndo);
         }
@@ -134,7 +153,7 @@ namespace ElliotTests
         {
             List<string> strings = new List<string>();
             Board board = BoardFactory.InitNewGame();
-            board.Move(new Move(board, new Square(4, 2), new Square(4, 4)), true);
+            board.Move(new Move(board, new Square(4, 2), new Square(4, 4)), true, null);
             board.WhitesTurn = false;
             for (int y = 8; y >= 1; y--)
             {
