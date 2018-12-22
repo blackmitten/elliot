@@ -49,7 +49,7 @@ namespace BlackMitten.Elliot.StockfishEngine
 
         void SendCommand(string command)
         {
-            Console.WriteLine(command);
+//            Console.WriteLine(command);
             _process.StandardInput.WriteLine(command);
         }
 
@@ -92,7 +92,7 @@ namespace BlackMitten.Elliot.StockfishEngine
             {
                 throw new Exception(e.Data);
             }
-            Console.WriteLine(e.Data);
+//            Console.WriteLine(e.Data);
             if (!_quitting)
             {
                 _errorEvent.Set();
@@ -105,7 +105,7 @@ namespace BlackMitten.Elliot.StockfishEngine
             {
                 return;
             }
-            Console.WriteLine(e.Data);
+//            Console.WriteLine(e.Data);
             if (e.Data.StartsWith("Stockfish "))
             {
                 _fishReady.Set();

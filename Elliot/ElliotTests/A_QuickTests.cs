@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using Blackmitten.Elliot.Backend;
 using BlackMitten.Elliot.StockfishEngine;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading;
 using System.Text;
+using Blackmitten.Menzel;
 
 namespace ElliotTests
 {
-    [TestClass]
     public class A_QuickTests
     {
         public static string _stockFishBinPath = @"C:\bin\stockfish\stockfish_9_x64.exe";
 
-        [TestMethod]
-        public void SquareEquality()
+        public static void SquareEquality()
         {
             Square s1 = new Square(0, 0);
             Square s2 = new Square(0, 1);
@@ -29,8 +27,7 @@ namespace ElliotTests
             Assert.AreEqual(s4, s5);
         }
 
-        [TestMethod]
-        public void SquareCopyAndChange()
+        public static void SquareCopyAndChange()
         {
             Square s1 = new Square(1, 1);
             Square s2 = s1;
@@ -39,8 +36,7 @@ namespace ElliotTests
             Assert.AreNotEqual(s1, s2);
         }
 
-        [TestMethod]
-        public void SquareOffset()
+        public static void SquareOffset()
         {
             Square s6 = new Square(4, 4);
             Square s7 = new Square(2, 6);
@@ -49,8 +45,7 @@ namespace ElliotTests
             Assert.AreEqual(s7, s8);
         }
 
-        [TestMethod]
-        public void SquareCopy()
+        public static void SquareCopy()
         {
             Square s1 = new Square(4, 4);
             Square s2 = s1;
@@ -58,8 +53,7 @@ namespace ElliotTests
             Assert.AreNotSame(s1, s2);
         }
 
-        [TestMethod]
-        public void SquareConstructFromNotation()
+        public static void SquareConstructFromNotation()
         {
             Assert.AreEqual(new Square("a1"), new Square(1, 1));
             Assert.AreNotEqual(new Square("h1"), new Square(1, 1));
@@ -68,15 +62,13 @@ namespace ElliotTests
             Assert.AreEqual(new Square("a8"), new Square(1, 8));
         }
 
-        [TestMethod]
-        public void SquareToString()
+        public static void SquareToString()
         {
             Assert.AreEqual(new Square("a1").ToString(), "a1");
             Assert.AreEqual(new Square("h5").ToString(), "h5");
         }
 
-        [TestMethod]
-        public void InitGameFenString()
+        public static void InitGameFenString()
         {
             Board board = BoardFactory.InitNewGame();
             string fen = board.GetFenString();
@@ -86,8 +78,7 @@ namespace ElliotTests
             Assert.AreEqual(fen, startingFen);
         }
 
-        [TestMethod]
-        public void BoardFromFenString()
+        public static void BoardFromFenString()
         {
             string fen = "rnbqkbnr/1ppppppp/8/p7/4P3/2N5/P1PP1PPP/R1BQKBNR b KQkq - 1 2";
             Board board = BoardFactory.BoardFromFenString(fen);
@@ -95,8 +86,7 @@ namespace ElliotTests
             Assert.AreEqual(fen, boardFen);
         }
 
-        [TestMethod]
-        public void UndoMove1()
+        public static void UndoMove1()
         {
             string fen = "rnbqkbnr/1ppppppp/8/p7/4P3/2N5/P1PP1PPP/R1BQKBNR b KQkq - 1 2";
             Board board = BoardFactory.BoardFromFenString(fen);
@@ -107,8 +97,7 @@ namespace ElliotTests
             Assert.AreEqual(fen, fenAfterUndo);
         }
 
-        [TestMethod]
-        public void UndoMove2()
+        public static void UndoMove2()
         {
             string fen = "rnbqkbnr/1ppppppp/p7/8/4P3/8/P1PP1PPP/RNBQKBNR w KQkq - 0 2";
             Board board = BoardFactory.BoardFromFenString(fen);
@@ -124,8 +113,7 @@ namespace ElliotTests
             Assert.AreEqual(fen, fenAfterUndo);
         }
 
-        [TestMethod]
-        public void GetAllMoves()
+        public static void GetAllMoves()
         {
             Board board = BoardFactory.InitNewGame();
             var moves = board.GetAllMoves();
@@ -138,8 +126,7 @@ namespace ElliotTests
             }
         }
 
-        [TestMethod]
-        public void SquareSubtraction()
+        public static void SquareSubtraction()
         {
             Square s1 = new Square(2, 5);
             Square s2 = new Square(6, 1);
@@ -148,8 +135,7 @@ namespace ElliotTests
             Assert.IsTrue(v.y == 4);
         }
 
-        [TestMethod]
-        public void TestThreatening()
+        public static void TestThreatening()
         {
             List<string> strings = new List<string>();
             Board board = BoardFactory.InitNewGame();
@@ -166,11 +152,9 @@ namespace ElliotTests
                 strings.Add(sb.ToString());
             }
             Assert.IsTrue(board.IsSquareThreatened(new Square(8, 6)));
-            int i = 1;
         }
 
-        [TestMethod]
-        public void TestStartingPositions()
+        public static void TestStartingPositions()
         {
             Board b = BoardFactory.InitNewGame();
             IPiece whiteKing = b.GetPieceOnSquare(Square.WhiteKingStart);

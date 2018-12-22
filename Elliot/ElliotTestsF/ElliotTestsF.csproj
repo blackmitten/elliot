@@ -49,13 +49,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="A_QuickTests.cs" />
-    <Compile Include="B_SlowTests.cs" />
-    <Compile Include="C_SlowestTests.cs" />
-    <Compile Include="MockLog.cs" />
-    <Compile Include="MockUI.cs" />
-    <Compile Include="MockValidator.cs" />
-    <Compile Include="PieceValuer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

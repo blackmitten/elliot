@@ -1,17 +1,15 @@
 ﻿using Blackmitten.Elliot.Backend;
+using Blackmitten.Menzel;
 using BlackMitten.Elliot.StockfishEngine;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ElliotTests
 {
-    [TestClass]
     public class B_SlowTests
     {
-        [TestMethod]
-        public void EnPassant()
+        public static void EnPassant()
         {
             //   a b c d e f g h
             // 8   ■   k   ■   ■
@@ -37,8 +35,7 @@ namespace ElliotTests
 
         }
 
-        [TestMethod]
-        public void PromotePawn()
+        public static void PromotePawn()
         {
             //   a b c d e f g h
             // 8   ■   k   ■   ■
