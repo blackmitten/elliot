@@ -1,19 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FA9263C0-2149-434E-9344-06AD5B14DCE7}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MenzelDiags</RootNamespace>
-    <AssemblyName>MenzelDiags</AssemblyName>
+    <ProjectGuid>{A23221D2-B42B-424B-AFA8-C81B38CF00CB}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ElliotTests</RootNamespace>
+    <AssemblyName>ElliotTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,15 +43,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assert.cs" />
-    <Compile Include="AssertionFailedException.cs" />
-    <Compile Include="Diags.cs" />
-    <Compile Include="ILog.cs" />
-    <Compile Include="ILogReader.cs" />
-    <Compile Include="ILogWriter.cs" />
-    <Compile Include="Log.cs" />
-    <Compile Include="LogBuilder.cs" />
+    <Compile Include="A_QuickTests.cs" />
+    <Compile Include="B_SlowTests.cs" />
+    <Compile Include="C_SlowestTests.cs" />
+    <Compile Include="MockLog.cs" />
+    <Compile Include="MockUI.cs" />
+    <Compile Include="MockValidator.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ElliotChessBackend\ElliotChessBackend.csproj">
+      <Project>{fab48294-3276-49af-a8f1-80e5899b487a}</Project>
+      <Name>ElliotChessBackend</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FaladeEngine\FaladeEngine.csproj">
+      <Project>{e1dfb0ab-9e43-48d0-bbc7-8e38d8163fa2}</Project>
+      <Name>FaladeEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MenzelDiags\MenzelDiags.csproj">
+      <Project>{fa9263c0-2149-434e-9344-06ad5b14dce7}</Project>
+      <Name>MenzelDiags</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StockfishEngine\StockfishEngine.csproj">
+      <Project>{f17f8d65-a74c-465a-8f5e-e3d3c2f51fc1}</Project>
+      <Name>StockfishEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
