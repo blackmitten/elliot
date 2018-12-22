@@ -100,9 +100,9 @@
       <Project>{e1dfb0ab-9e43-48d0-bbc7-8e38d8163fa2}</Project>
       <Name>FaladeEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MenzelLog\MenzelLog.csproj">
-      <Project>{EA031E13-1D5C-4D4E-B8EE-400A802BF523}</Project>
-      <Name>MenzelLog</Name>
+    <ProjectReference Include="..\MenzelDiags\MenzelDiags.csproj">
+      <Project>{fa9263c0-2149-434e-9344-06ad5b14dce7}</Project>
+      <Name>MenzelDiags</Name>
     </ProjectReference>
     <ProjectReference Include="..\StockfishEngine\StockfishEngine.csproj">
       <Project>{F17F8D65-A74C-465A-8F5E-E3D3C2F51FC1}</Project>
