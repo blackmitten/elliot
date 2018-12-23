@@ -136,6 +136,7 @@ namespace BlackMitten.Elliot.Winforms
             {
                 Invalidate(true);
                 boardControl1.Redraw();
+                textBoxFen.Text = _game.FenString;
             }
         }
 

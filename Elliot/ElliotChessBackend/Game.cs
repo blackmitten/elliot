@@ -152,5 +152,6 @@ namespace Blackmitten.Elliot.Backend
 
         public int MoveNumber => _board.FullMoveClock;
 
+        public string FenString => _board.GetFenString();
     }
 }

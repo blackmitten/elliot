@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.labelMoveNumber = new System.Windows.Forms.Label();
             this.labelPlayers = new System.Windows.Forms.Label();
             this.checkBoxWaitToProceed = new System.Windows.Forms.CheckBox();
             this.buttonInstructToMove = new System.Windows.Forms.Button();
@@ -38,13 +39,14 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.labelMoveNumber = new System.Windows.Forms.Label();
+            this.textBoxFen = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.textBoxFen);
             this.panel1.Controls.Add(this.labelMoveNumber);
             this.panel1.Controls.Add(this.labelPlayers);
             this.panel1.Controls.Add(this.checkBoxWaitToProceed);
@@ -56,6 +58,15 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 407);
             this.panel1.TabIndex = 1;
+            // 
+            // labelMoveNumber
+            // 
+            this.labelMoveNumber.AutoSize = true;
+            this.labelMoveNumber.Location = new System.Drawing.Point(428, 211);
+            this.labelMoveNumber.Name = "labelMoveNumber";
+            this.labelMoveNumber.Size = new System.Drawing.Size(43, 13);
+            this.labelMoveNumber.TabIndex = 5;
+            this.labelMoveNumber.Text = "Move 1";
             // 
             // labelPlayers
             // 
@@ -124,14 +135,13 @@
             this.listBox1.Size = new System.Drawing.Size(800, 159);
             this.listBox1.TabIndex = 0;
             // 
-            // labelMoveNumber
+            // textBoxFen
             // 
-            this.labelMoveNumber.AutoSize = true;
-            this.labelMoveNumber.Location = new System.Drawing.Point(428, 211);
-            this.labelMoveNumber.Name = "labelMoveNumber";
-            this.labelMoveNumber.Size = new System.Drawing.Size(43, 13);
-            this.labelMoveNumber.TabIndex = 5;
-            this.labelMoveNumber.Text = "Move 1";
+            this.textBoxFen.Location = new System.Drawing.Point(431, 249);
+            this.textBoxFen.Name = "textBoxFen";
+            this.textBoxFen.ReadOnly = true;
+            this.textBoxFen.Size = new System.Drawing.Size(329, 20);
+            this.textBoxFen.TabIndex = 6;
             // 
             // Form1
             // 
@@ -162,6 +172,7 @@
         private System.Windows.Forms.CheckBox checkBoxWaitToProceed;
         private System.Windows.Forms.Label labelPlayers;
         private System.Windows.Forms.Label labelMoveNumber;
+        private System.Windows.Forms.TextBox textBoxFen;
     }
 }
 
