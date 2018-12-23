@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+using Blackmitten.Menzel;
 
 namespace BlackMitten.Elliot.StockfishEngine
 {
@@ -19,15 +19,16 @@ namespace BlackMitten.Elliot.StockfishEngine
         AutoResetEvent _errorEvent = new AutoResetEvent(false);
         private bool _quitting = false;
         int _depth;
-
         private string _bestMove;
+        string _stockfishLinBinPath = @"/home/carl/Downloads/stockfish-10-linux/Linux/stockfish_10_x64";
+        string _stockfishWinBinPath = @"C:\bin\stockfish\stockfish_9_x64.exe";
 
-        public Stockfish(string filename, int depth)
+        public Stockfish(int depth)
         {
             _depth = depth;
 
             _process = new Process();
-            _process.StartInfo.FileName = filename;
+            _process.StartInfo.FileName = Diags.Platform == Diags.PlatformType.Windows ? _stockfishWinBinPath : _stockfishLinBinPath;
             _process.StartInfo.RedirectStandardInput = true;
             _process.StartInfo.RedirectStandardOutput = true;
             _process.StartInfo.RedirectStandardError = true;

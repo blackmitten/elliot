@@ -24,8 +24,8 @@ namespace ElliotTests
 
             MockUI ui = new MockUI();
 
-            IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(Program.StockfishBinPath, 5));
-            IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(Program.StockfishBinPath, 5));
+            IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(5));
+            IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(5));
 
             Board board = BoardFactory.BuildEnPassantTest();
 
@@ -50,8 +50,8 @@ namespace ElliotTests
 
             MockUI ui = new MockUI();
 
-            IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(Program.StockfishBinPath, 5));
-            IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(Program.StockfishBinPath, 5));
+            IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(5));
+            IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(5));
 
             Board board = new Board();
             board.AddPiece(new King(new Square(4, 1), true), null);
@@ -69,6 +69,24 @@ namespace ElliotTests
             Assert.IsTrue(board.GetPieceOnSquare(new Square(2, 8)).IsQueen);
         }
 
+        public static void Test()
+        {
+
+            MockUI ui = new MockUI();
+
+            IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(2));
+            IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(2));
+
+            Board board = BoardFactory.InitNewGame();
+            board.RemovePiece(board.GetPieceOnSquare(new Square(4, 2)), null);
+
+//            Board board = BoardFactory.BoardFromFenString("6kr/3n1ppp/4p3/4P3/1Q3P2/N4b2/7P/qB2K1R1 w Q - 2 28");
+
+            Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
+
+            game.Play(0, true);
+
+        }
 
     }
 

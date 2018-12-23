@@ -108,5 +108,10 @@ namespace Blackmitten.Elliot.WinForms
         public bool WaitingForWhiteHuman { get; set; }
         public bool WaitingForBlackHuman { get; set; }
         public bool MachineThinking { get; internal set; }
+
+        public void Redraw()
+        {
+            this.Invalidate();
+        }
     }
 }

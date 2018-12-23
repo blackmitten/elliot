@@ -9,20 +9,11 @@ namespace ElliotTests
 {
     class Program
     {
-        public static string StockfishBinPath { get; private set; }
 
         static void Main(string[] args)
         {
-            if(PlatformUtils.GetPlatform() == PlatformUtils.Platform.Linux)
-            {
-                StockfishBinPath = @"/home/carl/Downloads/stockfish-10-linux/Linux/stockfish_10_x64";
-            }
-            else
-            {
-                StockfishBinPath = @"C:\bin\stockfish\stockfish_9_x64.exe";
-            }
 
-            C_SlowestTests.PlayStockfishVsStockfish2();
+            B_SlowTests.Test();
 
             DateTime t0 = DateTime.UtcNow;
             RunStaticMethodsInClass(typeof(A_QuickTests));

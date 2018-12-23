@@ -85,8 +85,8 @@ namespace ElliotTests
             {
                 for (int x = 1; x <= 8; x++)
                 {
-                    IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(Program.StockfishBinPath, depth));
-                    IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(Program.StockfishBinPath, depth));
+                    IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(depth));
+                    IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(depth));
 
                     Board board = BoardFactory.InitNewGame();
                     board.RemovePiece(board.GetPieceOnSquare(new Square(x, y)), null);
