@@ -24,8 +24,8 @@ namespace ElliotTests
 
             MockUI ui = new MockUI();
 
-            IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(A_QuickTests._stockFishBinPath, 5));
-            IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(A_QuickTests._stockFishBinPath, 5));
+            IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(Program.StockfishBinPath, 5));
+            IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(Program.StockfishBinPath, 5));
 
             Board board = BoardFactory.BuildEnPassantTest();
 
@@ -50,8 +50,8 @@ namespace ElliotTests
 
             MockUI ui = new MockUI();
 
-            IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(A_QuickTests._stockFishBinPath, 5));
-            IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(A_QuickTests._stockFishBinPath, 5));
+            IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(Program.StockfishBinPath, 5));
+            IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(Program.StockfishBinPath, 5));
 
             Board board = new Board();
             board.AddPiece(new King(new Square(4, 1), true), null);

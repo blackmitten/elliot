@@ -10,7 +10,6 @@ namespace ElliotTests
 {
     public class A_QuickTests
     {
-        public static string _stockFishBinPath = @"C:\bin\stockfish\stockfish_9_x64.exe";
 
         public static void SquareEquality()
         {

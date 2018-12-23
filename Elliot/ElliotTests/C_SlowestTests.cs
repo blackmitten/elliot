@@ -85,8 +85,8 @@ namespace ElliotTests
             {
                 for (int x = 1; x <= 8; x++)
                 {
-                    IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(A_QuickTests._stockFishBinPath, depth));
-                    IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(A_QuickTests._stockFishBinPath, depth));
+                    IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(Program.StockfishBinPath, depth));
+                    IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(Program.StockfishBinPath, depth));
 
                     Board board = BoardFactory.InitNewGame();
                     board.RemovePiece(board.GetPieceOnSquare(new Square(x, y)), null);
@@ -110,7 +110,6 @@ namespace ElliotTests
             Game game = new Game(whiteFalade, blackFalade, ui, new MockLog(), new MockValidator(), board);
 
             game.Play(0, true);
-            int i = 1;
         }
 
 
