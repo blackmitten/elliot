@@ -21,7 +21,7 @@ namespace BlackMitten.Elliot.StockfishEngine
         int _depth;
         private string _bestMove;
         string _stockfishLinBinPath = @"/home/carl/Downloads/stockfish-10-linux/Linux/stockfish_10_x64";
-        string _stockfishWinBinPath = @"C:\bin\stockfish\stockfish_9_x64.exe";
+        string _stockfishWinBinPath = @"C:\bin\stockfish\stockfish_10_x64.exe";
 
         public Stockfish(int depth)
         {
