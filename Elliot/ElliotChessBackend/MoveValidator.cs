@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Blackmitten.Menzel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,31 @@ namespace Blackmitten.Elliot.Backend
             IPiece piece = move.Board.GetPieceOnSquare(move.Start);
             piece.Accept(this, move);
 
-            Board newBoard = new Board(move.Board);
-            newBoard.Move(move, false, null);
-            if (newBoard.CurrentPlayerInCheck)
+            bool doDiags = true;
+            if (doDiags)
             {
-                _valid = false;
+                string fenBefore = move.Board.GetFenString();
+                var undo = new List<Action>();
+                move.Board.Move(move, false, undo);
+                string fenAfter = move.Board.GetFenString();
+                if (move.Board.CurrentPlayerInCheck)
+                {
+                    _valid = false;
+                }
+                move.Board.UndoLastmove(undo);
+                string fenAfterUndo = move.Board.GetFenString();
+                Assert.IsTrue(fenBefore != fenAfter);
+                Assert.IsTrue(fenBefore == fenAfterUndo);
+            }
+            else
+            {
+                var undo = new List<Action>();
+                move.Board.Move(move, false, undo);
+                if (move.Board.CurrentPlayerInCheck)
+                {
+                    _valid = false;
+                }
+                move.Board.UndoLastmove(undo);
             }
             return _valid.Value;
         }

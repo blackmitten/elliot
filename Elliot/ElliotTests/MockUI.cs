@@ -9,6 +9,7 @@ namespace ElliotTests
     class MockUI : IUserInterface
     {
         Board _board;
+        string _fenString = "";
 
         public Board Board
         {
@@ -31,12 +32,17 @@ namespace ElliotTests
 
         public void InvalidMove(string message)
         {
-            Trace.WriteLine("Invalid move: " + message);
+            Console.WriteLine("Invalid move: " + message);
         }
 
         public void Redraw()
         {
-            Trace.WriteLine(_board.GetFenString());
+            string fen = _board.GetFenString();
+            if(fen!=_fenString)
+            {
+                _fenString = fen;
+                Console.WriteLine(_board.GetFenString());
+            }
         }
 
         public void StopWaiting() => throw new NotImplementedException();
