@@ -59,7 +59,7 @@ namespace BlackMitten.Elliot.Winforms
             Board board = BoardFactory.InitNewGame();
             board.RemovePiece(board.GetPieceOnSquare(new Square(4, 2)), null);
 //            board = BoardFactory.BoardFromFenString("5k1r/1b1n1ppp/3Np3/4P3/1Qp2P2/r7/6PP/qB2K2R w KQ - 2 25");
-            board = BoardFactory.BoardFromFenString("5k1r/1b1n1ppp/4p3/4P3/1QN2P2/r7/6PP/qB2K2R b KQ - 0 25");
+//            board = BoardFactory.BoardFromFenString("5k1r/1b1n1ppp/4p3/4P3/1QN2P2/r7/6PP/qB2K2R b Q - 0 25");
 
             _game = new Game(whitePlayer, blackPlayer, this, _log, new MoveValidator(), board);
             _game.StartPlay( 200, true );

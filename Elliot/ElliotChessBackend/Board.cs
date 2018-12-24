@@ -107,6 +107,29 @@ namespace Blackmitten.Elliot.Backend
             if (capturedPiece != null)
             {
                 RemovePiece(capturedPiece, undo);
+                if(capturedPiece.IsRook)
+                {
+                    if(move.End==Square.BlackKingsRookStart && BlackCanCastleKingside)
+                    {
+                        BlackCanCastleKingside = false;
+                        undo?.Insert(0, () => BlackCanCastleKingside = true);
+                    }
+                    else if(move.End==Square.BlackQueensRookStart && BlackCanCastleQueenside)
+                    {
+                        BlackCanCastleQueenside = false;
+                        undo?.Insert(0, () => BlackCanCastleQueenside = true);
+                    }
+                    else if(move.End==Square.WhiteKingsRookStart && WhiteCanCastleKingside)
+                    {
+                        WhiteCanCastleKingside = false;
+                        undo?.Insert(0, () => WhiteCanCastleKingside = true);
+                    }
+                    else if(move.End==Square.WhiteQueensRookStart && WhiteCanCastleQueenside)
+                    {
+                        WhiteCanCastleQueenside = false;
+                        undo?.Insert(0, () => WhiteCanCastleQueenside = true);
+                    }
+                }
             }
             if (piece.IsKing)
             {
@@ -205,6 +228,10 @@ namespace Blackmitten.Elliot.Backend
                     case PieceType.Rook:
                         RemovePiece(piece, undo);
                         AddPiece(new Rook(move.End, piece.White), undo);
+                        break;
+                    case PieceType.Knight:
+                        RemovePiece(piece, undo);
+                        AddPiece(new Knight(move.End, piece.White), undo);
                         break;
                     default:
                         throw new NotImplementedException();

@@ -12,8 +12,8 @@ namespace ElliotTests
 
         static void Main(string[] args)
         {
+            C_SlowestTests.PlayStockfishVsStockfish8();
 
-            B_SlowTests.Test();
 
             DateTime t0 = DateTime.UtcNow;
             RunStaticMethodsInClass(typeof(A_QuickTests));
@@ -28,7 +28,6 @@ namespace ElliotTests
 
         private static void RunStaticMethodsInClass(Type type)
         {
-//            MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Static);
             MethodInfo[] methodInfos = type.GetMethods();
             foreach (var method in methodInfos)
             {
