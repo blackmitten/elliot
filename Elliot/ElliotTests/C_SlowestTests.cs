@@ -109,7 +109,7 @@ namespace ElliotTests
             Board board = BoardFactory.InitNewGame();
             Game game = new Game(whiteFalade, blackFalade, ui, new MockLog(), new MockValidator(), board);
 
-            game.Play(0, true);
+            game.Play(0, false);
         }
 
 

@@ -122,7 +122,7 @@ namespace Blackmitten.Elliot.Backend
                         }
                         else
                         {
-                            throw new NotImplementedException();
+                            _board.Move(move, true, undo);
                         }
                     }
                     catch (InvalidMoveException e)

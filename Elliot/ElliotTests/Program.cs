@@ -12,8 +12,9 @@ namespace ElliotTests
 
         static void Main(string[] args)
         {
-            C_SlowestTests.PlayStockfishVsStockfish8();
-
+            var methodInfo = SymbolExtensions.GetMethodInfo(() => C_SlowestTests.PlayFaladeVsFalade());
+            RunMethod(methodInfo);
+            return;
 
             DateTime t0 = DateTime.UtcNow;
             RunStaticMethodsInClass(typeof(A_QuickTests));
@@ -26,6 +27,16 @@ namespace ElliotTests
             Console.ReadKey();
         }
 
+        private static void RunMethod(MethodInfo method)
+        {
+            DateTime t0 = DateTime.UtcNow;
+            Console.Write(method.DeclaringType.Name + "." + method.Name);
+            method.Invoke(null, null);
+            DateTime t1 = DateTime.UtcNow;
+            var ts = t1 - t0;
+            Console.WriteLine(" in " + ts.TotalSeconds.ToString("0.0") + "s");
+        }
+
         private static void RunStaticMethodsInClass(Type type)
         {
             MethodInfo[] methodInfos = type.GetMethods();
@@ -33,12 +44,7 @@ namespace ElliotTests
             {
                 if (method.IsStatic)
                 {
-                    DateTime t0 = DateTime.UtcNow;
-                    Console.Write(type.Name + "." + method.Name);
-                    method.Invoke(null, null);
-                    DateTime t1 = DateTime.UtcNow;
-                    var ts = t1 - t0;
-                    Console.WriteLine(" in " + ts.TotalSeconds.ToString("0.0") + "s");
+                    RunMethod(method);
                 }
             }
 

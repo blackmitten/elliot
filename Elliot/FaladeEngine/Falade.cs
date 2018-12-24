@@ -113,7 +113,14 @@ namespace BlackMitten.Elliot.FaladeEngine
                     }
                     else
                     {
-                        throw new NotImplementedException();
+                        board.Move(move, true, undo);
+                        max = Math.Max(max, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn, doDiags));
+                        board.UndoLastmove(undo);
+                        alpha = Math.Max(alpha, max);
+                        if (alpha >= beta)
+                        {
+                            break;
+                        }
                     }
                 }
                 return max;
@@ -139,7 +146,14 @@ namespace BlackMitten.Elliot.FaladeEngine
                     }
                     else
                     {
-                        throw new NotImplementedException();
+                        board.Move(move, true, undo);
+                        min = Math.Min(min, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn, doDiags));
+                        board.UndoLastmove(undo);
+                        beta = Math.Min(beta, min);
+                        if (alpha >= beta)
+                        {
+                            break;
+                        }
                     }
                 }
                 return min;
