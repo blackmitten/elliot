@@ -1,5 +1,6 @@
 ﻿using Blackmitten.Elliot.Backend;
 using Blackmitten.Menzel;
+using BlackMitten.Elliot.FaladeEngine;
 using BlackMitten.Elliot.StockfishEngine;
 using System;
 using System.Collections.Generic;
@@ -87,6 +88,23 @@ namespace ElliotTests
             game.Play(0, true);
 
         }
+
+        public static void FaladePerformanceMeasure()
+        {
+            MockUI ui = new MockUI();
+            Falade falade = new Falade();
+            IPlayer whiteFalade = new MachinePlayer(true, ui, falade);
+            IPlayer blackFalade = new MachinePlayer(false, ui, falade);
+            Board board = BoardFactory.InitNewGame();
+            Game game = new Game(whiteFalade, blackFalade, ui, new MockLog(), new MockValidator(), board);
+
+            game.PlaySingleMove(0, false);
+            game.PlaySingleMove(0, false);
+            game.PlaySingleMove(0, false);
+            game.PlaySingleMove(0, false);
+            game.PlaySingleMove(0, false);
+        }
+
 
     }
 

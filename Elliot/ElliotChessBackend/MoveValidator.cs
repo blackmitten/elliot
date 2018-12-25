@@ -14,7 +14,6 @@ namespace Blackmitten.Elliot.Backend
         public bool Validate(Move move)
         {
             _valid = null;
-            string moveString = move.ToLongString();
 
             IPiece piece = move.Board.GetPieceOnSquare(move.Start);
             piece.Accept(this, move);
