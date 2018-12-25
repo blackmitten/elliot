@@ -20,7 +20,7 @@ namespace ElliotTests
             var ts = t1 - t0;
 
             Console.WriteLine("All tests passed in " + ts.TotalSeconds.ToString("0.0") + "s");
-//            Console.ReadKey();
+            Console.ReadKey();
         }
 
         private static void RunTests()

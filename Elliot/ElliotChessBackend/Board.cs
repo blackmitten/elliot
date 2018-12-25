@@ -340,14 +340,26 @@ namespace Blackmitten.Elliot.Backend
                 }
                 throw new InvalidOperationException("Out of bounds square in GetPieceOnSquare " + square.ToString());
             }
-            foreach (var piece in _blackPieces)
+            IList<IPiece> firstPieces;
+            IList<IPiece> secondPieces;
+            if (square.y > 4)
+            {
+                firstPieces = _blackPieces;
+                secondPieces = _whitePieces;
+            }
+            else
+            {
+                firstPieces = _whitePieces;
+                secondPieces = _blackPieces;
+            }
+            foreach (var piece in firstPieces)
             {
                 if (square == piece.Pos)
                 {
                     return piece;
                 }
             }
-            foreach (var piece in _whitePieces)
+            foreach (var piece in secondPieces)
             {
                 if (square == piece.Pos)
                 {
