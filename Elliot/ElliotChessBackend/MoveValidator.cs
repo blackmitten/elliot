@@ -19,7 +19,7 @@ namespace Blackmitten.Elliot.Backend
             IPiece piece = move.Board.GetPieceOnSquare(move.Start);
             piece.Accept(this, move);
 
-            bool doDiags = true;
+            bool doDiags = false;
             if (doDiags)
             {
                 string fenBefore = move.Board.GetFenString();

@@ -12,6 +12,19 @@ namespace ElliotTests
 
         static void Main(string[] args)
         {
+            DateTime t0 = DateTime.UtcNow;
+
+            RunTests();
+
+            DateTime t1 = DateTime.UtcNow;
+            var ts = t1 - t0;
+
+            Console.WriteLine("All tests passed in " + ts.TotalSeconds.ToString("0.0") + "s");
+            Console.ReadKey();
+        }
+
+        private static void RunTests()
+        {
             var methodInfo = SymbolExtensions.GetMethodInfo(() => C_SlowestTests.PlayFaladeVsFalade());
             RunMethod(methodInfo);
             return;
@@ -23,8 +36,6 @@ namespace ElliotTests
 
             DateTime t1 = DateTime.UtcNow;
             var ts = t1 - t0;
-            Console.WriteLine("All tests passed in " + ts.TotalSeconds.ToString("0.0") + "s");
-            Console.ReadKey();
         }
 
         private static void RunMethod(MethodInfo method)
