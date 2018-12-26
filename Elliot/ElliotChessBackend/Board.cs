@@ -107,6 +107,8 @@ namespace Blackmitten.Elliot.Backend
             EnPassantTarget = new Square();
             IPiece piece = GetPieceOnSquare(move.Start);
             IPiece capturedPiece = GetPieceOnSquare(move.End);
+            bool done = false;
+
             if (capturedPiece != null)
             {
                 RemovePiece(capturedPiece, undo);
@@ -216,28 +218,32 @@ namespace Blackmitten.Elliot.Backend
             }
             else if (piece.IsPawn)
             {
-                switch (move.Promoted)
+                if (move.Promoted != PieceType.None)
                 {
-                    case PieceType.None:
-                        break;
-                    case PieceType.Bishop:
-                        RemovePiece(piece, undo);
-                        AddPiece(new Bishop(move.End, piece.White), undo);
-                        break;
-                    case PieceType.Queen:
-                        RemovePiece(piece, undo);
-                        AddPiece(new Queen(move.End, piece.White), undo);
-                        break;
-                    case PieceType.Rook:
-                        RemovePiece(piece, undo);
-                        AddPiece(new Rook(move.End, piece.White), undo);
-                        break;
-                    case PieceType.Knight:
-                        RemovePiece(piece, undo);
-                        AddPiece(new Knight(move.End, piece.White), undo);
-                        break;
-                    default:
-                        throw new NotImplementedException();
+                    done = true;
+                    switch (move.Promoted)
+                    {
+                        case PieceType.None:
+                            break;
+                        case PieceType.Bishop:
+                            RemovePiece(piece, undo);
+                            AddPiece(new Bishop(move.End, piece.White), undo);
+                            break;
+                        case PieceType.Queen:
+                            RemovePiece(piece, undo);
+                            AddPiece(new Queen(move.End, piece.White), undo);
+                            break;
+                        case PieceType.Rook:
+                            RemovePiece(piece, undo);
+                            AddPiece(new Rook(move.End, piece.White), undo);
+                            break;
+                        case PieceType.Knight:
+                            RemovePiece(piece, undo);
+                            AddPiece(new Knight(move.End, piece.White), undo);
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
                 }
                 int dy = move.End.y - move.Start.y;
                 if (LastMoveEnPassantTaret.x == move.End.x &&
@@ -251,9 +257,12 @@ namespace Blackmitten.Elliot.Backend
                     EnPassantTarget = new Square(move.End.x, move.End.y - dy / 2);
                 }
             }
-            piece.Pos = move.End;
-            _squares[move.Start.x - 1, move.Start.y - 1] = null;
-            _squares[move.End.x - 1, move.End.y - 1] = piece;
+            if (!done)
+            {
+                piece.Pos = move.End;
+                _squares[move.Start.x - 1, move.Start.y - 1] = null;
+                _squares[move.End.x - 1, move.End.y - 1] = piece;
+            }
 
             undo?.Insert(0, () =>
             {
@@ -392,8 +401,8 @@ namespace Blackmitten.Elliot.Backend
                         pieceFromList = piece;
                     }
                 }
+                Assert.AreSame(pieceFromList, pieceFromArray);
             }
-            Assert.AreSame(pieceFromList, pieceFromArray);
             return _squares[square.x - 1, square.y - 1];
         }
 

@@ -1,4 +1,6 @@
 ﻿using Blackmitten.Menzel;
+using System;
+using System.Diagnostics;
 
 namespace ElliotTests
 {
@@ -6,6 +8,7 @@ namespace ElliotTests
     {
         public void Write(string s)
         {
+            Debug.WriteLine(s);
         }
 
     }

@@ -8,6 +8,6 @@ namespace Blackmitten.Elliot.Backend
 {
     class Diags
     {
-        public static bool DoDiags { get; } = true;
+        public static bool DoDiags { get; } = false;
     }
 }

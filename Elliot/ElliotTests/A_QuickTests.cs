@@ -163,12 +163,13 @@ namespace ElliotTests
                 Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(x, 7)), (piece) => !piece.White && piece.IsPawn));
             }
 
-            MoveHelper(board, "e2e4");
-            MoveHelper(board, "d7d5");
-            MoveHelper(board, "d2d4");
+            var ui = new MockUI();
+            MoveHelper(board, "e2e4", ui);
+            MoveHelper(board, "d7d5", ui);
+            MoveHelper(board, "d2d4", ui);
         }
 
-        static void MoveHelper(Board board, string moveString)
+        static void MoveHelper(Board board, string moveString, IUserInterface ui)
         {
             var move = new Move(board, moveString);
             var validator = new MoveValidator();
@@ -184,7 +185,7 @@ namespace ElliotTests
             {
                 throw new InvalidMoveException(moveString);
             }
-            Console.WriteLine(board.ToLongString());
+            ui.Board = board;
         }
 
         static bool TestPiece(IPiece piece, Func<IPiece,bool> test)

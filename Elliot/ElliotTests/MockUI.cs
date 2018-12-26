@@ -11,12 +11,17 @@ namespace ElliotTests
         Board _board;
         string _fenString = "";
 
+        void WriteLine(string s)
+        {
+//            Debug.WriteLine(s);
+        }
+
         public Board Board
         {
             set
             {
                 _board = value;
-                Trace.WriteLine(_board.GetFenString());
+                WriteLine(_board.GetFenString());
             }
         }
         public bool WaitingForWhiteHuman { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -32,7 +37,7 @@ namespace ElliotTests
 
         public void InvalidMove(string message)
         {
-            Console.WriteLine("Invalid move: " + message);
+            WriteLine("Invalid move: " + message);
         }
 
         public void Redraw()
@@ -41,7 +46,7 @@ namespace ElliotTests
             if (fen != _fenString)
             {
                 _fenString = fen;
-                Console.WriteLine(_board.ToLongString());
+                WriteLine(_board.ToLongString());
             }
         }
 

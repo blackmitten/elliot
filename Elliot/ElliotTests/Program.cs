@@ -43,7 +43,7 @@ namespace ElliotTests
         private static void RunMethod(MethodInfo method)
         {
             DateTime t0 = DateTime.UtcNow;
-            Console.WriteLine(method.DeclaringType.Name + "." + method.Name);
+            Console.Write(method.DeclaringType.Name + "." + method.Name);
             method.Invoke(null, null);
             DateTime t1 = DateTime.UtcNow;
             var ts = t1 - t0;
