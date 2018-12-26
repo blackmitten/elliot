@@ -17,7 +17,8 @@ namespace Blackmitten.Elliot.Backend
         bool IsRook { get; }
         bool IsPawn { get; }
         bool IsQueen { get; }
-        bool IsBishop{ get; }
+        bool IsBishop { get; }
+        bool IsKnight{ get; }
         bool IsDiagonalMover { get; }
         bool IsStraightMover { get; }
     }
@@ -56,8 +57,8 @@ namespace Blackmitten.Elliot.Backend
         public abstract bool IsRook { get; }
         public abstract bool IsPawn { get; }
         public abstract bool IsQueen { get; }
-
         public abstract bool IsBishop { get; }
+        public abstract bool IsKnight{ get; }
 
         public bool IsDiagonalMover => IsBishop || IsQueen;
         public bool IsStraightMover => IsRook || IsQueen;
@@ -81,6 +82,7 @@ namespace Blackmitten.Elliot.Backend
         public override bool IsPawn => true;
         public override bool IsQueen => false;
         public override bool IsBishop => false;
+        public override bool IsKnight => false;
     }
 
     public class Rook : Piece
@@ -101,6 +103,7 @@ namespace Blackmitten.Elliot.Backend
         public override bool IsPawn => false;
         public override bool IsQueen => false;
         public override bool IsBishop => false;
+        public override bool IsKnight => false;
     }
 
     public class Knight : Piece
@@ -121,6 +124,7 @@ namespace Blackmitten.Elliot.Backend
         public override bool IsPawn => false;
         public override bool IsQueen => false;
         public override bool IsBishop => false;
+        public override bool IsKnight => true;
     }
 
     public class Bishop : Piece
@@ -141,6 +145,7 @@ namespace Blackmitten.Elliot.Backend
         public override bool IsPawn => false;
         public override bool IsQueen => false;
         public override bool IsBishop => true;
+        public override bool IsKnight => false;
     }
 
     public class Queen : Piece
@@ -161,6 +166,7 @@ namespace Blackmitten.Elliot.Backend
         public override bool IsPawn => false;
         public override bool IsQueen => true;
         public override bool IsBishop => false;
+        public override bool IsKnight => false;
     }
 
     public class King : Piece
@@ -181,6 +187,7 @@ namespace Blackmitten.Elliot.Backend
         public override bool IsPawn => false;
         public override bool IsQueen => false;
         public override bool IsBishop => false;
+        public override bool IsKnight => false;
     }
 
 }

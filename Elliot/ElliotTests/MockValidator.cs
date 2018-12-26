@@ -4,7 +4,7 @@ namespace ElliotTests
 {
     internal class MockValidator : IMoveValidator
     {
-        public bool Validate(Move move)
+        public bool Validate(Move move, bool doDiags)
         {
             return true;
         }

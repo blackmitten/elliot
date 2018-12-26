@@ -13,16 +13,22 @@ namespace BlackMitten.Elliot.FaladeEngine
     public class Falade : IEngine
     {
         PieceValuer _pieceValuer = new PieceValuer();
+        bool _doDiags;
+
+        public Falade(bool doDiags)
+        {
+            _doDiags = doDiags;
+        }
 
         public void Stop()
         {
 
         }
 
-        public Move GetBestMove(Board originalBoard, bool doDiags)
+        public Move GetBestMove(Board originalBoard)
         {
             Board board = new Board(originalBoard);
-            Diags.Assert(board.GetFenString() == originalBoard.GetFenString());
+            Assert.IsTrue(board.GetFenString() == originalBoard.GetFenString());
             var moves = board.GetAllMoves();
             if (moves.Count == 0)
             {
@@ -36,20 +42,20 @@ namespace BlackMitten.Elliot.FaladeEngine
             {
                 double score;
                 var undo = new List<Action>();
-                if (doDiags)
+                if (_doDiags)
                 {
                     string fenBefore = board.GetFenString();
                     board.Move(m, true, undo);
-                    score = Evaluate(board, doDiags);
+                    score = Evaluate(board);
                     string fenAfter = board.GetFenString();
                     board.UndoLastmove(undo);
                     string fenAfterUndo = board.GetFenString();
-                    Diags.Assert(fenAfterUndo == fenBefore);
+                    Assert.IsTrue(fenAfterUndo == fenBefore);
                 }
                 else
                 {
                     board.Move(m, true, undo);
-                    score = Evaluate( board, doDiags );
+                    score = Evaluate(board);
                     board.UndoLastmove(undo);
                 }
                 if (score > maxScore)
@@ -73,12 +79,12 @@ namespace BlackMitten.Elliot.FaladeEngine
             }
         }
 
-        private double Evaluate(Board board, bool doDiags)
+        private double Evaluate(Board board)
         {
-            return Minimax(board, 3, double.MinValue, double.MaxValue, false, true, doDiags );
+            return Minimax(board, 3, double.MinValue, double.MaxValue, false, true);
         }
 
-        private double Minimax(Board board, int depth, double alpha, double beta, bool maximizing, bool whitesTurn, bool doDiags)
+        private double Minimax(Board board, int depth, double alpha, double beta, bool maximizing, bool whitesTurn)
         {
             if (depth == 0)
             {
@@ -86,7 +92,7 @@ namespace BlackMitten.Elliot.FaladeEngine
             }
 
             string fenBefore = "";
-            if (doDiags)
+            if (_doDiags)
             {
                 fenBefore = board.GetFenString();
             }
@@ -98,15 +104,15 @@ namespace BlackMitten.Elliot.FaladeEngine
                 foreach (var move in moves)
                 {
                     var undo = new List<Action>();
-                    if (doDiags)
+                    if (_doDiags)
                     {
                         board.Move(move, true, undo);
-                        max = Math.Max(max, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn, doDiags));
+                        max = Math.Max(max, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn));
                         board.UndoLastmove(undo);
                         var fenAfterUndo = board.GetFenString();
-                        Diags.Assert(fenBefore == fenAfterUndo);
+                        Assert.IsTrue(fenBefore == fenAfterUndo);
                         alpha = Math.Max(alpha, max);
-                        if( alpha >= beta )
+                        if (alpha >= beta)
                         {
                             break;
                         }
@@ -114,7 +120,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                     else
                     {
                         board.Move(move, true, undo);
-                        max = Math.Max(max, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn, doDiags));
+                        max = Math.Max(max, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn));
                         board.UndoLastmove(undo);
                         alpha = Math.Max(alpha, max);
                         if (alpha >= beta)
@@ -131,13 +137,13 @@ namespace BlackMitten.Elliot.FaladeEngine
                 foreach (var move in moves)
                 {
                     var undo = new List<Action>();
-                    if (doDiags)
+                    if (_doDiags)
                     {
                         board.Move(move, true, undo);
-                        min = Math.Min(min, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn, doDiags));
+                        min = Math.Min(min, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn));
                         board.UndoLastmove(undo);
                         var fenAfterUndo = board.GetFenString();
-                        Diags.Assert(fenBefore == fenAfterUndo);
+                        Assert.IsTrue(fenBefore == fenAfterUndo);
                         beta = Math.Min(beta, min);
                         if (alpha >= beta)
                         {
@@ -147,7 +153,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                     else
                     {
                         board.Move(move, true, undo);
-                        min = Math.Min(min, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn, doDiags));
+                        min = Math.Min(min, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn));
                         board.UndoLastmove(undo);
                         beta = Math.Min(beta, min);
                         if (alpha >= beta)

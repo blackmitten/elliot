@@ -134,6 +134,66 @@ namespace ElliotTests
             Assert.IsTrue(v.y == 4);
         }
 
+        public static void TestGetPieceOnSquare()
+        {
+            Board board = BoardFactory.InitNewGame();
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(1, 1)), (piece) => piece.White && piece.IsRook));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(2, 1)), (piece) => piece.White && piece.IsKnight));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(3, 1)), (piece) => piece.White && piece.IsBishop));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(4, 1)), (piece) => piece.White && piece.IsQueen));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(5, 1)), (piece) => piece.White && piece.IsKing));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(6, 1)), (piece) => piece.White && piece.IsBishop));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(7, 1)), (piece) => piece.White && piece.IsKnight));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(8, 1)), (piece) => piece.White && piece.IsRook));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(1, 8)), (piece) => !piece.White && piece.IsRook));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(2, 8)), (piece) => !piece.White && piece.IsKnight));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(3, 8)), (piece) => !piece.White && piece.IsBishop));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(4, 8)), (piece) => !piece.White && piece.IsQueen));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(5, 8)), (piece) => !piece.White && piece.IsKing));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(6, 8)), (piece) => !piece.White && piece.IsBishop));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(7, 8)), (piece) => !piece.White && piece.IsKnight));
+            Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(8, 8)), (piece) => !piece.White && piece.IsRook));
+            for (int x = 1; x <= 8; x++)
+            {
+                Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(x, 2)), (piece) => piece.White && piece.IsPawn));
+                for (int y = 3; y <= 6; y++)
+                {
+                    Assert.IsTrue(board.GetPieceOnSquare(new Square(x, y)) == null);
+                }
+                Assert.IsTrue(TestPiece(board.GetPieceOnSquare(new Square(x, 7)), (piece) => !piece.White && piece.IsPawn));
+            }
+
+            MoveHelper(board, "e2e4");
+            MoveHelper(board, "d7d5");
+            MoveHelper(board, "d2d4");
+        }
+
+        static void MoveHelper(Board board, string moveString)
+        {
+            var move = new Move(board, moveString);
+            var validator = new MoveValidator();
+            var fenCharPieceVisitor = new FenCharPieceVisitor();
+            if (validator.Validate(move, true))
+            {
+                var piece0 = board.GetPieceOnSquare(move.Start);
+                board.Move(move, true, null);
+                Assert.IsTrue(board.GetPieceOnSquare(move.Start) == null);
+                Assert.IsTrue(TestPiece(board.GetPieceOnSquare(move.End), (piece) => fenCharPieceVisitor.GetFenChar(piece) == fenCharPieceVisitor.GetFenChar(piece0)));
+            }
+            else
+            {
+                throw new InvalidMoveException(moveString);
+            }
+            Console.WriteLine(board.ToLongString());
+        }
+
+        static bool TestPiece(IPiece piece, Func<IPiece,bool> test)
+        {
+            return test(piece);
+        }
+
+
+
         public static void TestThreatening()
         {
             List<string> strings = new List<string>();

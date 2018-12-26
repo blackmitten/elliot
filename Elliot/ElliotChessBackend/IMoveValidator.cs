@@ -8,6 +8,6 @@ namespace Blackmitten.Elliot.Backend
 {
     public interface IMoveValidator
     {
-        bool Validate(Move move);
+        bool Validate(Move move, bool doDiags = false);
     }
 }

@@ -22,6 +22,14 @@ namespace Blackmitten.Menzel
             }
         }
 
+        public static void AreSame(object o1, object o2)
+        {
+            if (!ReferenceEquals(o1, o2))
+            {
+                throw new AssertionFailedException();
+            }
+        }
+
         public static void AreNotSame(object o1, object o2)
         {
             if (ReferenceEquals(o1, o2))
@@ -38,6 +46,12 @@ namespace Blackmitten.Menzel
             }
         }
 
-
+        public static void IsNull(object o)
+        {
+            if(o!=null)
+            {
+                throw new AssertionFailedException();
+            }
+        }
     }
 }

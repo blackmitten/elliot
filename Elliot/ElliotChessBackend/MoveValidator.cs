@@ -11,14 +11,17 @@ namespace Blackmitten.Elliot.Backend
     {
         bool? _valid;
 
-        public bool Validate(Move move)
+        public bool Validate(Move move, bool doDiags = false)
         {
             _valid = null;
 
             IPiece piece = move.Board.GetPieceOnSquare(move.Start);
+            if (piece.White != move.Board.WhitesTurn)
+            {
+                return false;
+            }
             piece.Accept(this, move);
 
-            bool doDiags = false;
             if (doDiags)
             {
                 string fenBefore = move.Board.GetFenString();

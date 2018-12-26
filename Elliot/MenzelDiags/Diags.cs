@@ -4,35 +4,39 @@ using System.Text;
 
 namespace Blackmitten.Menzel
 {
-    public class Diags
+    public class CrossPlatform
     {
-        public static void Assert(bool assertion)
-        {
-            if (!assertion)
-            {
-                throw new AssertionFailedException();
-            }
-        }
-
         public enum PlatformType
         {
             Windows,
             Linux
         }
 
+        static PlatformType? _platformType;
+        static object _lock = new object();
+
+        public static bool IsWindows => Platform == PlatformType.Windows;
+
         public static PlatformType Platform
         {
             get
             {
-                int p = (int)Environment.OSVersion.Platform;
-                if (p == 4 || p == 6 || p == 128)
+                lock (_lock)
                 {
-                    return PlatformType.Linux;
+                    if (!_platformType.HasValue)
+                    {
+                        int p = (int)Environment.OSVersion.Platform;
+                        if (p == 4 || p == 6 || p == 128)
+                        {
+                            _platformType = PlatformType.Linux;
+                        }
+                        else
+                        {
+                            _platformType = PlatformType.Windows;
+                        }
+                    }
                 }
-                else
-                {
-                    return PlatformType.Windows;
-                }
+                return _platformType.Value;
             }
         }
 

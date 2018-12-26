@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Blackmitten.Elliot.Backend
 {
-    public interface IPlayer
+    class Diags
     {
-        bool Human { get; }
-        bool White { get; }
-        string Name { get; }
-        Move Play(Board board);
-        void Kill();
+        public static bool DoDiags { get; } = true;
     }
 }

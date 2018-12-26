@@ -92,7 +92,7 @@ namespace ElliotTests
                     board.RemovePiece(board.GetPieceOnSquare(new Square(x, y)), null);
                     Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
-                    game.Play(0, true);
+                    game.Play(0);
 
                     whiteStockfish.Kill();
                     blackStockfish.Kill();
@@ -103,13 +103,13 @@ namespace ElliotTests
         public static void PlayFaladeVsFalade()
         {
             MockUI ui = new MockUI();
-            Falade falade = new Falade();
+            Falade falade = new Falade(false);
             IPlayer whiteFalade = new MachinePlayer(true, ui, falade);
             IPlayer blackFalade = new MachinePlayer(false, ui, falade);
             Board board = BoardFactory.InitNewGame();
             Game game = new Game(whiteFalade, blackFalade, ui, new MockLog(), new MockValidator(), board);
 
-            game.Play(0, false);
+            game.Play(0);
         }
 
 

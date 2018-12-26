@@ -8,6 +8,12 @@ namespace Blackmitten.Elliot.Backend
 {
     public class FenCharPieceVisitor : IPieceVisitor
     {
+        public char GetFenChar(IPiece piece)
+        {
+            piece.Accept(this);
+            return Char;
+        }
+
         public char Char { get; private set; }
 
         public void Visit(Pawn piece, object data)

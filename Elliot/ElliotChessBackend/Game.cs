@@ -36,8 +36,8 @@ namespace Blackmitten.Elliot.Backend
                 board = BoardFactory.InitNewGame();
             }
 
-            Diags.Assert(whitePlayer.White);
-            Diags.Assert(!blackPlayer.White);
+            Assert.IsTrue(whitePlayer.White);
+            Assert.IsTrue(!blackPlayer.White);
             _whitePlayer = whitePlayer;
             _blackPlayer = blackPlayer;
             _userInterface = userInterface;
@@ -48,21 +48,21 @@ namespace Blackmitten.Elliot.Backend
             userInterface.Board = _board;
         }
 
-        public void StartPlay(int moveDelay, bool doDiags)
+        public void StartPlay(int moveDelay)
         {
-            _gameThread = new Thread(() => Play(moveDelay, doDiags));
+            _gameThread = new Thread(() => Play(moveDelay));
             _gameThread.Start();
         }
 
-        public void Play(int moveDelay, bool doDiags)
+        public void Play(int moveDelay)
         {
             while (GameState == GameState.InPlay)
             {
-                PlaySingleMove(moveDelay, doDiags);
+                PlaySingleMove(moveDelay);
             }
         }
 
-        public void PlaySingleMove(int delay, bool doDiags)
+        public void PlaySingleMove(int delay)
         {
             Move move;
             try
@@ -77,7 +77,7 @@ namespace Blackmitten.Elliot.Backend
                     {
                         _userInterface.MachineThinking = true;
                     }
-                    move = _whitePlayer.Play(_board, doDiags);
+                    move = _whitePlayer.Play(_board);
                     Thread.Sleep(delay);
                     _userInterface.MachineThinking = false;
                 }
@@ -87,7 +87,7 @@ namespace Blackmitten.Elliot.Backend
                     {
                         _userInterface.MachineThinking = true;
                     }
-                    move = _blackPlayer.Play(_board, doDiags);
+                    move = _blackPlayer.Play(_board);
                     Thread.Sleep(delay);
                     _userInterface.MachineThinking = false;
                 }
@@ -107,18 +107,18 @@ namespace Blackmitten.Elliot.Backend
                     {
                         _moveValidator.Validate(move);
                         var undo = new List<Action>();
-                        if (doDiags)
+                        if (Diags.DoDiags)
                         {
                             string fenBefore = _board.GetFenString();
                             _board.Move(move, true, undo);
                             string fenAfter = _board.GetFenString();
-                            Diags.Assert(fenBefore != fenAfter);
+                            Assert.IsTrue(fenBefore != fenAfter);
                             _board.UndoLastmove( undo );
                             string fenAfterUndo = _board.GetFenString();
-                            Diags.Assert(fenBefore == fenAfterUndo);
+                            Assert.IsTrue(fenBefore == fenAfterUndo);
                             _board.Move(move, true, undo);
                             string fenAfterAgain = _board.GetFenString();
-                            Diags.Assert(fenAfter == fenAfterAgain);
+                            Assert.IsTrue(fenAfter == fenAfterAgain);
                         }
                         else
                         {

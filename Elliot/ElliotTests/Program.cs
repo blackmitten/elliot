@@ -25,9 +25,11 @@ namespace ElliotTests
 
         private static void RunTests()
         {
-            var methodInfo = SymbolExtensions.GetMethodInfo(() => B_SlowTests.FaladePerformanceMeasure());
+            /*
+            var methodInfo = SymbolExtensions.GetMethodInfo(() => A_QuickTests.TestGetPieceOnSquare());
             RunMethod(methodInfo);
             return;
+            */
 
             DateTime t0 = DateTime.UtcNow;
             RunStaticMethodsInClass(typeof(A_QuickTests));
@@ -41,7 +43,7 @@ namespace ElliotTests
         private static void RunMethod(MethodInfo method)
         {
             DateTime t0 = DateTime.UtcNow;
-            Console.Write(method.DeclaringType.Name + "." + method.Name);
+            Console.WriteLine(method.DeclaringType.Name + "." + method.Name);
             method.Invoke(null, null);
             DateTime t1 = DateTime.UtcNow;
             var ts = t1 - t0;

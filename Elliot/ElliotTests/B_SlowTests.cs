@@ -32,7 +32,7 @@ namespace ElliotTests
 
             Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
-            game.PlaySingleMove(0, true);
+            game.PlaySingleMove(0);
 
         }
 
@@ -65,7 +65,7 @@ namespace ElliotTests
 
             Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
-            game.PlaySingleMove(0, true);
+            game.PlaySingleMove(0);
 
             Assert.IsTrue(board.GetPieceOnSquare(new Square(2, 8)).IsQueen);
         }
@@ -85,24 +85,24 @@ namespace ElliotTests
 
             Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
-            game.Play(0, true);
+            game.Play(0);
 
         }
 
         public static void FaladePerformanceMeasure()
         {
             MockUI ui = new MockUI();
-            Falade falade = new Falade();
+            Falade falade = new Falade(false);
             IPlayer whiteFalade = new MachinePlayer(true, ui, falade);
             IPlayer blackFalade = new MachinePlayer(false, ui, falade);
             Board board = BoardFactory.InitNewGame();
             Game game = new Game(whiteFalade, blackFalade, ui, new MockLog(), new MockValidator(), board);
 
-            game.PlaySingleMove(0, false);
-            game.PlaySingleMove(0, false);
-            game.PlaySingleMove(0, false);
-            game.PlaySingleMove(0, false);
-            game.PlaySingleMove(0, false);
+            game.PlaySingleMove(0);
+            game.PlaySingleMove(0);
+            game.PlaySingleMove(0);
+            game.PlaySingleMove(0);
+            game.PlaySingleMove(0);
         }
 
 

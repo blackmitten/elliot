@@ -38,10 +38,10 @@ namespace ElliotTests
         public void Redraw()
         {
             string fen = _board.GetFenString();
-            if(fen!=_fenString)
+            if (fen != _fenString)
             {
                 _fenString = fen;
-                Console.WriteLine(_board.GetFenString());
+                Console.WriteLine(_board.ToLongString());
             }
         }
 

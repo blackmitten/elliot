@@ -9,7 +9,7 @@ namespace Blackmitten.Elliot.Backend
     public interface IEngine
     {
         void Stop();
-        Move GetBestMove(Board board, bool doDiags);
+        Move GetBestMove(Board board);
         //        void Move(string move);
         string Name { get; }
     }

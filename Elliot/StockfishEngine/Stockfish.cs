@@ -28,7 +28,7 @@ namespace BlackMitten.Elliot.StockfishEngine
             _depth = depth;
 
             _process = new Process();
-            _process.StartInfo.FileName = Diags.Platform == Diags.PlatformType.Windows ? _stockfishWinBinPath : _stockfishLinBinPath;
+            _process.StartInfo.FileName = CrossPlatform.IsWindows ? _stockfishWinBinPath : _stockfishLinBinPath;
             _process.StartInfo.RedirectStandardInput = true;
             _process.StartInfo.RedirectStandardOutput = true;
             _process.StartInfo.RedirectStandardError = true;
@@ -61,7 +61,7 @@ namespace BlackMitten.Elliot.StockfishEngine
             _process.WaitForExit();
         }
 
-        public Move GetBestMove(Board board, bool doDiags)
+        public Move GetBestMove(Board board)
         {
             SendCommand("position fen " + board.GetFenString());
             SendCommand("go depth " + _depth.ToString(CultureInfo.InvariantCulture));

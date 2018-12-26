@@ -46,8 +46,8 @@ namespace BlackMitten.Elliot.Winforms
 
             IPlayer whiteHuman = new HumanPlayer(true, this);
             IPlayer blackHuman = new HumanPlayer(false, this);
-            IPlayer blackFalade = new MachinePlayer(false, this, new Falade());
-            IPlayer whiteFalade = new MachinePlayer(true, this, new Falade());
+            IPlayer blackFalade = new MachinePlayer(false, this, new Falade(false));
+            IPlayer whiteFalade = new MachinePlayer(true, this, new Falade(false));
             IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(2));
             IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(2));
 
@@ -62,7 +62,7 @@ namespace BlackMitten.Elliot.Winforms
 //            board = BoardFactory.BoardFromFenString("5k1r/1b1n1ppp/4p3/4P3/1QN2P2/r7/6PP/qB2K2R b Q - 0 25");
 
             _game = new Game(whitePlayer, blackPlayer, this, _log, new MoveValidator(), board);
-            _game.StartPlay( 200, true );
+            _game.StartPlay( 200 );
             labelPlayers.Text = "White " + whitePlayer.Name + " vs. black " + blackPlayer.Name;
 
             timer1.Tick += Timer1_Tick;
