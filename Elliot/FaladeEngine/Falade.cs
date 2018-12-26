@@ -81,7 +81,7 @@ namespace BlackMitten.Elliot.FaladeEngine
 
         private double Evaluate(Board board)
         {
-            return Minimax(board, 3, double.MinValue, double.MaxValue, false, true);
+            return Minimax(board, 4, double.MinValue, double.MaxValue, false, true);
         }
 
         private double Minimax(Board board, int depth, double alpha, double beta, bool maximizing, bool whitesTurn)
