@@ -89,7 +89,7 @@ namespace ElliotTests
                     IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(depth));
 
                     Board board = BoardFactory.InitNewGame();
-                    board.RemovePiece(board.GetPieceOnSquare(new Square(x, y)), null);
+                    board.RemovePiece(board.GetPieceOnSquare(new Square(x, y)));
                     Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
                     game.Play(0);

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Blackmitten.Elliot.Backend
 {
-    class Diags
+    public class Diags
     {
-        public static bool DoDiags { get; } = false;
+        public static bool DoDiags { get; set; } = false;
     }
 }

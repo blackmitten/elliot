@@ -55,9 +55,9 @@ namespace ElliotTests
             IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(5));
 
             Board board = new Board();
-            board.AddPiece(new King(new Square(4, 1), true), null);
-            board.AddPiece(new Pawn(new Square(2, 7), true), null);
-            board.AddPiece(new King(new Square(4, 8), false), null);
+            board.AddPiece(new King(new Square(4, 1), true));
+            board.AddPiece(new Pawn(new Square(2, 7), true));
+            board.AddPiece(new King(new Square(4, 8), false));
             board.BlackCanCastleKingside = false;
             board.BlackCanCastleQueenside = false;
             board.WhiteCanCastleKingside = false;
@@ -79,7 +79,7 @@ namespace ElliotTests
             IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(2));
 
             Board board = BoardFactory.InitNewGame();
-            board.RemovePiece(board.GetPieceOnSquare(new Square(4, 2)), null);
+            board.RemovePiece(board.GetPieceOnSquare(new Square(4, 2)));
 
 //            Board board = BoardFactory.BoardFromFenString("6kr/3n1ppp/4p3/4P3/1Q3P2/N4b2/7P/qB2K1R1 w Q - 2 28");
 
@@ -91,6 +91,7 @@ namespace ElliotTests
 
         public static void FaladePerformanceMeasure()
         {
+            Diags.DoDiags = false;
             MockUI ui = new MockUI();
             Falade falade = new Falade(false);
             IPlayer whiteFalade = new MachinePlayer(true, ui, falade);
@@ -103,6 +104,7 @@ namespace ElliotTests
             game.PlaySingleMove(0);
             game.PlaySingleMove(0);
             game.PlaySingleMove(0);
+            Diags.DoDiags = true;
         }
 
 

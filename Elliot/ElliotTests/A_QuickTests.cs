@@ -89,7 +89,7 @@ namespace ElliotTests
         {
             string fen = "rnbqkbnr/1ppppppp/8/p7/4P3/2N5/P1PP1PPP/R1BQKBNR b KQkq - 1 2";
             Board board = BoardFactory.BoardFromFenString(fen);
-            var undo = new List<Action>();
+            var undo = new Undo();
             board.Move(new Move(board, "b7b5"), true, undo);
             board.UndoLastmove( undo );
             string fenAfterUndo = board.GetFenString();
@@ -102,8 +102,8 @@ namespace ElliotTests
             Board board = BoardFactory.BoardFromFenString(fen);
             string fenCheck = board.GetFenString();
             Assert.IsTrue(fen == fenCheck);
-            var undo1 = new List<Action>();
-            var undo2 = new List<Action>();
+            var undo1 = new Undo();
+            var undo2 = new Undo();
             board.Move(new Move(board, "a2a3"), true, undo1);
             board.Move(new Move(board, "b7b6"), true, undo2);
             board.UndoLastmove(undo2);
@@ -177,7 +177,8 @@ namespace ElliotTests
             if (validator.Validate(move, true))
             {
                 var piece0 = board.GetPieceOnSquare(move.Start);
-                board.Move(move, true, null);
+                Undo undo = new Undo();
+                board.Move(move, true, undo);
                 Assert.IsTrue(board.GetPieceOnSquare(move.Start) == null);
                 Assert.IsTrue(TestPiece(board.GetPieceOnSquare(move.End), (piece) => fenCharPieceVisitor.GetFenChar(piece) == fenCharPieceVisitor.GetFenChar(piece0)));
             }
@@ -199,7 +200,7 @@ namespace ElliotTests
         {
             List<string> strings = new List<string>();
             Board board = BoardFactory.InitNewGame();
-            board.Move(new Move(board, new Square(4, 2), new Square(4, 4)), true, null);
+            board.Move(new Move(board, new Square(4, 2), new Square(4, 4)), true, new Undo());
             board.WhitesTurn = false;
             for (int y = 8; y >= 1; y--)
             {

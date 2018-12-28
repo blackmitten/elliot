@@ -67,6 +67,7 @@
     <Compile Include="Square.cs" />
     <Compile Include="Exceptions\StaleMateException.cs" />
     <Compile Include="StaticRandom.cs" />
+    <Compile Include="Undo.cs" />
     <Compile Include="Vector.cs" />
   </ItemGroup>
   <ItemGroup>

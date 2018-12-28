@@ -14,26 +14,26 @@ namespace Blackmitten.Elliot.Backend
             Board b = new Board();
             for (int i = 1; i < 9; i++)
             {
-                b.AddPiece(new Pawn(new Square(i, 7), false), null);
-                b.AddPiece(new Pawn(new Square(i, 2), true), null);
+                b.AddPiece(new Pawn(new Square(i, 7), false));
+                b.AddPiece(new Pawn(new Square(i, 2), true));
             }
-            b.AddPiece(new Rook(new Square(1, 8), false), null);
-            b.AddPiece(new Rook(new Square(8, 8), false), null);
-            b.AddPiece(new Knight(new Square(2, 8), false), null);
-            b.AddPiece(new Knight(new Square(7, 8), false), null);
-            b.AddPiece(new Bishop(new Square(3, 8), false), null);
-            b.AddPiece(new Bishop(new Square(6, 8), false), null);
-            b.AddPiece(new Queen(new Square(4, 8), false), null);
-            b.AddPiece(new King(new Square(5, 8), false), null);
+            b.AddPiece(new Rook(new Square(1, 8), false));
+            b.AddPiece(new Rook(new Square(8, 8), false));
+            b.AddPiece(new Knight(new Square(2, 8), false));
+            b.AddPiece(new Knight(new Square(7, 8), false));
+            b.AddPiece(new Bishop(new Square(3, 8), false));
+            b.AddPiece(new Bishop(new Square(6, 8), false));
+            b.AddPiece(new Queen(new Square(4, 8), false));
+            b.AddPiece(new King(new Square(5, 8), false));
 
-            b.AddPiece(new Rook(new Square(1, 1), true), null);
-            b.AddPiece(new Rook(new Square(8, 1), true), null);
-            b.AddPiece(new Knight(new Square(2, 1), true), null);
-            b.AddPiece(new Knight(new Square(7, 1), true), null);
-            b.AddPiece(new Bishop(new Square(3, 1), true), null);
-            b.AddPiece(new Bishop(new Square(6, 1), true), null);
-            b.AddPiece(new Queen(new Square(4, 1), true), null);
-            b.AddPiece(new King(new Square(5, 1), true), null);
+            b.AddPiece(new Rook(new Square(1, 1), true));
+            b.AddPiece(new Rook(new Square(8, 1), true));
+            b.AddPiece(new Knight(new Square(2, 1), true));
+            b.AddPiece(new Knight(new Square(7, 1), true));
+            b.AddPiece(new Bishop(new Square(3, 1), true));
+            b.AddPiece(new Bishop(new Square(6, 1), true));
+            b.AddPiece(new Queen(new Square(4, 1), true));
+            b.AddPiece(new King(new Square(5, 1), true));
             b.WhitesTurn = true;
             //            b.m_whitePieces = b.m_whitePieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();
             //            b.m_blackPieces = b.m_blackPieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();
@@ -43,10 +43,10 @@ namespace Blackmitten.Elliot.Backend
         public static Board BuildEnPassantTest()
         {
             Board board = new Board();
-            board.AddPiece(new King(new Square(1, 1), true), null);
-            board.AddPiece(new Pawn(new Square(6, 4), true), null);
-            board.AddPiece(new King(new Square(1, 8), false), null);
-            board.AddPiece(new Pawn(new Square(7, 4), false), null);
+            board.AddPiece(new King(new Square(1, 1), true));
+            board.AddPiece(new Pawn(new Square(6, 4), true));
+            board.AddPiece(new King(new Square(1, 8), false));
+            board.AddPiece(new Pawn(new Square(7, 4), false));
             board.BlackCanCastleKingside = false;
             board.BlackCanCastleQueenside = false;
             board.WhiteCanCastleKingside = false;
@@ -78,40 +78,40 @@ namespace Blackmitten.Elliot.Backend
                     switch (c)
                     {
                         case 'r':
-                            board.AddPiece(new Rook(new Square(x++, y), false), null);
+                            board.AddPiece(new Rook(new Square(x++, y), false));
                             break;
                         case 'n':
-                            board.AddPiece(new Knight(new Square(x++, y), false), null);
+                            board.AddPiece(new Knight(new Square(x++, y), false));
                             break;
                         case 'b':
-                            board.AddPiece(new Bishop(new Square(x++, y), false), null);
+                            board.AddPiece(new Bishop(new Square(x++, y), false));
                             break;
                         case 'q':
-                            board.AddPiece(new Queen(new Square(x++, y), false), null);
+                            board.AddPiece(new Queen(new Square(x++, y), false));
                             break;
                         case 'k':
-                            board.AddPiece(new King(new Square(x++, y), false), null);
+                            board.AddPiece(new King(new Square(x++, y), false));
                             break;
                         case 'p':
-                            board.AddPiece(new Pawn(new Square(x++, y), false), null);
+                            board.AddPiece(new Pawn(new Square(x++, y), false));
                             break;
                         case 'R':
-                            board.AddPiece(new Rook(new Square(x++, y), true), null);
+                            board.AddPiece(new Rook(new Square(x++, y), true));
                             break;
                         case 'N':
-                            board.AddPiece(new Knight(new Square(x++, y), true), null);
+                            board.AddPiece(new Knight(new Square(x++, y), true));
                             break;
                         case 'B':
-                            board.AddPiece(new Bishop(new Square(x++, y), true), null);
+                            board.AddPiece(new Bishop(new Square(x++, y), true));
                             break;
                         case 'Q':
-                            board.AddPiece(new Queen(new Square(x++, y), true), null);
+                            board.AddPiece(new Queen(new Square(x++, y), true));
                             break;
                         case 'K':
-                            board.AddPiece(new King(new Square(x++, y), true), null);
+                            board.AddPiece(new King(new Square(x++, y), true));
                             break;
                         case 'P':
-                            board.AddPiece(new Pawn(new Square(x++, y), true), null);
+                            board.AddPiece(new Pawn(new Square(x++, y), true));
                             break;
                         default:
                             if (char.IsDigit(c))

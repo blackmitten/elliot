@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Blackmitten.Elliot.Backend;
 using Blackmitten.Menzel;
 
 namespace ElliotTests
@@ -25,9 +26,12 @@ namespace ElliotTests
 
         private static void RunTests()
         {
+            Diags.DoDiags = true;
+            /*
             var methodInfo = SymbolExtensions.GetMethodInfo(() => B_SlowTests.FaladePerformanceMeasure());
             RunMethod(methodInfo);
             return;
+            */
 
             DateTime t0 = DateTime.UtcNow;
             RunStaticMethodsInClass(typeof(A_QuickTests));

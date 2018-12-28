@@ -106,7 +106,7 @@ namespace Blackmitten.Elliot.Backend
                     try
                     {
                         _moveValidator.Validate(move);
-                        var undo = new List<Action>();
+                        var undo = new Undo();
                         if (Diags.DoDiags)
                         {
                             string fenBefore = _board.GetFenString();

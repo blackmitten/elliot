@@ -25,7 +25,7 @@ namespace Blackmitten.Elliot.Backend
             if (doDiags)
             {
                 string fenBefore = move.Board.GetFenString();
-                var undo = new List<Action>();
+                var undo = new Undo();
                 move.Board.Move(move, false, undo);
                 string fenAfter = move.Board.GetFenString();
                 if (move.Board.CurrentPlayerInCheck)
@@ -39,7 +39,7 @@ namespace Blackmitten.Elliot.Backend
             }
             else
             {
-                var undo = new List<Action>();
+                var undo = new Undo();
                 move.Board.Move(move, false, undo);
                 if (move.Board.CurrentPlayerInCheck)
                 {

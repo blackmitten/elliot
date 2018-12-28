@@ -41,7 +41,7 @@ namespace BlackMitten.Elliot.FaladeEngine
             foreach (var m in moves)
             {
                 double score;
-                var undo = new List<Action>();
+                var undo = new Undo();
                 if (_doDiags)
                 {
                     string fenBefore = board.GetFenString();
@@ -103,7 +103,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                 double max = double.MinValue;
                 foreach (var move in moves)
                 {
-                    var undo = new List<Action>();
+                    var undo = new Undo();
                     if (_doDiags)
                     {
                         board.Move(move, true, undo);
@@ -136,7 +136,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                 double min = double.MaxValue;
                 foreach (var move in moves)
                 {
-                    var undo = new List<Action>();
+                    var undo = new Undo();
                     if (_doDiags)
                     {
                         board.Move(move, true, undo);
