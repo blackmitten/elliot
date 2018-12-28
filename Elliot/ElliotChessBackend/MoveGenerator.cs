@@ -9,6 +9,46 @@ namespace Blackmitten.Elliot.Backend
     class MoveGenerator : IPieceVisitor
     {
         public IList<Move> Moves { get; } = new List<Move>();
+        MoveValidator _validator = new MoveValidator();
+
+        private void AddMoveIfValid(Move move)
+        {
+//            if (_validator.Validate(move))
+            {
+                Moves.Add(move);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="piece"></param>
+        /// <param name="board"></param>
+        /// <param name="square"></param>
+        /// <returns>Returns true if square was occupied</returns>
+        private bool AddMoveIfPossible(IPiece piece, Board board, Square square)
+        {
+            if (!square.InBounds)
+            {
+                return true;
+            }
+            var p = board.GetPieceOnSquare(square);
+            if (p == null)
+            {
+                AddMoveIfValid(new Move(board, piece.Pos, square));
+            }
+            else if (p.White == piece.White)
+            {
+                return true;
+            }
+            else
+            {
+                AddMoveIfValid(new Move(board, piece.Pos, square));
+                return true;
+            }
+
+            return false;
+        }
 
         public void Visit(Pawn pawn, object data)
         {
@@ -34,7 +74,7 @@ namespace Blackmitten.Elliot.Backend
             var squareInFront = pawn.Pos.Offset(0, direction.Value);
             if(squareInFront.InBounds && board.GetPieceOnSquare(squareInFront) == null)
             {
-                Moves.Add(new Move(board, pawn.Pos, squareInFront));
+                AddMoveIfValid(new Move(board, pawn.Pos, squareInFront));
             }
 
             if (atStart.Value)
@@ -42,7 +82,7 @@ namespace Blackmitten.Elliot.Backend
                 var squareTwoInFront = pawn.Pos.Offset(0, 2 * direction.Value);
                 if (board.GetPieceOnSquare(squareInFront) == null)
                 {
-                    Moves.Add(new Move(board, pawn.Pos, squareTwoInFront));
+                    AddMoveIfValid(new Move(board, pawn.Pos, squareTwoInFront));
                 }
             }
 
@@ -52,7 +92,7 @@ namespace Blackmitten.Elliot.Backend
                 var pieceCaptureLeft = board.GetPieceOnSquare(squareCaptureLeft);
                 if (pieceCaptureLeft != null && pieceCaptureLeft.White != pawn.White)
                 {
-                    Moves.Add(new Move(board, pawn.Pos, squareCaptureLeft));
+                    AddMoveIfValid(new Move(board, pawn.Pos, squareCaptureLeft));
                 }
             }
 
@@ -62,7 +102,7 @@ namespace Blackmitten.Elliot.Backend
                 var pieceCaptureRight = board.GetPieceOnSquare(squareCaptureRight);
                 if (pieceCaptureRight != null && pieceCaptureRight.White != pawn.White)
                 {
-                    Moves.Add(new Move(board, pawn.Pos, squareCaptureRight));
+                    AddMoveIfValid(new Move(board, pawn.Pos, squareCaptureRight));
                 }
             }
 
@@ -105,37 +145,6 @@ namespace Blackmitten.Elliot.Backend
                     break;
                 }
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="piece"></param>
-        /// <param name="board"></param>
-        /// <param name="square"></param>
-        /// <returns>Returns true if square was occupied</returns>
-        private bool AddMoveIfPossible(IPiece piece, Board board, Square square)
-        {
-            if (!square.InBounds)
-            {
-                return true;
-            }
-            var p = board.GetPieceOnSquare(square);
-            if (p == null)
-            {
-                Moves.Add(new Move(board, piece.Pos, square));
-            }
-            else if (p.White == piece.White)
-            {
-                return true;
-            }
-            else
-            {
-                Moves.Add(new Move(board, piece.Pos, square));
-                return true;
-            }
-
-            return false;
         }
 
         public void Visit(Knight knight, object data)
@@ -279,5 +288,7 @@ namespace Blackmitten.Elliot.Backend
             AddMoveIfPossible(king, board, king.Pos.Offset(-1, 0));
 #warning TODO castling
         }
+
+
     }
 }

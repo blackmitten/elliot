@@ -72,20 +72,13 @@ namespace Blackmitten.Elliot.Backend
             {
                 piece.Accept(generator, this);
             }
-#warning TODO could probably make this more efficient
-            moves.AddRange(generator.Moves);
             MoveValidator validator = new MoveValidator();
-            var invalidMoves = new List<Move>();
-            foreach (var move in moves)
+            foreach (var move in generator.Moves)
             {
-                if (!validator.Validate(move))
+                if(validator.Validate(move))
                 {
-                    invalidMoves.Add(move);
+                    moves.Add(move);
                 }
-            }
-            foreach (var move in invalidMoves)
-            {
-                moves.Remove(move);
             }
             return moves;
         }
