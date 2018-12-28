@@ -300,11 +300,10 @@ namespace Blackmitten.Elliot.Backend
 
         public void AddPiece(IPiece piece)
         {
-            if (Diags.DoDiags)
-            {
-                Assert.IsTrue(!_whitePieces.Contains(piece));
-                Assert.IsTrue(!_blackPieces.Contains(piece));
-            }
+#if DEBUG
+            Assert.IsTrue(!_whitePieces.Contains(piece));
+            Assert.IsTrue(!_blackPieces.Contains(piece));
+#endif
             if (piece.White)
             {
                 _whitePieces.Add(piece);
@@ -346,38 +345,37 @@ namespace Blackmitten.Elliot.Backend
             IPiece pieceFromArray = Squares[square.x - 1, square.y - 1];
             IPiece pieceFromList = null;
 
-            if (Diags.DoDiags)
+#if DEBUG
+            IList<IPiece> firstPieces;
+            IList<IPiece> secondPieces;
+            if (square.y > 4)
             {
-                IList<IPiece> firstPieces;
-                IList<IPiece> secondPieces;
-                if (square.y > 4)
-                {
-                    firstPieces = _blackPieces;
-                    secondPieces = _whitePieces;
-                }
-                else
-                {
-                    firstPieces = _whitePieces;
-                    secondPieces = _blackPieces;
-                }
-                foreach (var piece in firstPieces)
-                {
-                    if (square == piece.Pos)
-                    {
-                        Assert.IsNull(pieceFromList);
-                        pieceFromList = piece;
-                    }
-                }
-                foreach (var piece in secondPieces)
-                {
-                    if (square == piece.Pos)
-                    {
-                        Assert.IsNull(pieceFromList);
-                        pieceFromList = piece;
-                    }
-                }
-                Assert.AreSame(pieceFromList, pieceFromArray);
+                firstPieces = _blackPieces;
+                secondPieces = _whitePieces;
             }
+            else
+            {
+                firstPieces = _whitePieces;
+                secondPieces = _blackPieces;
+            }
+            foreach (var piece in firstPieces)
+            {
+                if (square == piece.Pos)
+                {
+                    Assert.IsNull(pieceFromList);
+                    pieceFromList = piece;
+                }
+            }
+            foreach (var piece in secondPieces)
+            {
+                if (square == piece.Pos)
+                {
+                    Assert.IsNull(pieceFromList);
+                    pieceFromList = piece;
+                }
+            }
+            Assert.AreSame(pieceFromList, pieceFromArray);
+#endif
             return Squares[square.x - 1, square.y - 1];
         }
 
@@ -392,14 +390,15 @@ namespace Blackmitten.Elliot.Backend
 
         public bool IsSquareThreatened(Square square)
         {
-            if (GetPieceOnSquareOnSide(square.Offset(1, 2), !WhitesTurn) as Knight != null ||
-                GetPieceOnSquareOnSide(square.Offset(-1, 2), !WhitesTurn) as Knight != null ||
-                GetPieceOnSquareOnSide(square.Offset(1, -2), !WhitesTurn) as Knight != null ||
-                GetPieceOnSquareOnSide(square.Offset(-1, -2), !WhitesTurn) as Knight != null ||
-                GetPieceOnSquareOnSide(square.Offset(2, 1), !WhitesTurn) as Knight != null ||
-                GetPieceOnSquareOnSide(square.Offset(-2, 1), !WhitesTurn) as Knight != null ||
-                GetPieceOnSquareOnSide(square.Offset(2, -1), !WhitesTurn) as Knight != null ||
-                GetPieceOnSquareOnSide(square.Offset(-2, -1), !WhitesTurn) as Knight != null)
+            bool notWhitesTurn = !WhitesTurn;
+            if (GetPieceOnSquareOnSide(square.Offset(1, 2), notWhitesTurn) as Knight != null ||
+                GetPieceOnSquareOnSide(square.Offset(-1, 2), notWhitesTurn) as Knight != null ||
+                GetPieceOnSquareOnSide(square.Offset(1, -2), notWhitesTurn) as Knight != null ||
+                GetPieceOnSquareOnSide(square.Offset(-1, -2), notWhitesTurn) as Knight != null ||
+                GetPieceOnSquareOnSide(square.Offset(2, 1), notWhitesTurn) as Knight != null ||
+                GetPieceOnSquareOnSide(square.Offset(-2, 1), notWhitesTurn) as Knight != null ||
+                GetPieceOnSquareOnSide(square.Offset(2, -1), notWhitesTurn) as Knight != null ||
+                GetPieceOnSquareOnSide(square.Offset(-2, -1), notWhitesTurn) as Knight != null)
             {
                 return true;
             }

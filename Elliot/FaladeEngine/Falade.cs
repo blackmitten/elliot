@@ -13,12 +13,6 @@ namespace BlackMitten.Elliot.FaladeEngine
     public class Falade : IEngine
     {
         PieceValuer _pieceValuer = new PieceValuer();
-        bool _doDiags;
-
-        public Falade(bool doDiags)
-        {
-            _doDiags = doDiags;
-        }
 
         public void Stop()
         {
@@ -42,22 +36,19 @@ namespace BlackMitten.Elliot.FaladeEngine
             {
                 double score;
                 var undo = new Undo();
-                if (_doDiags)
-                {
-                    string fenBefore = board.GetFenString();
-                    board.Move(m, true, undo);
-                    score = Evaluate(board);
-                    string fenAfter = board.GetFenString();
-                    board.UndoLastmove(undo);
-                    string fenAfterUndo = board.GetFenString();
-                    Assert.IsTrue(fenAfterUndo == fenBefore);
-                }
-                else
-                {
-                    board.Move(m, true, undo);
-                    score = Evaluate(board);
-                    board.UndoLastmove(undo);
-                }
+#if DEBUG
+                string fenBefore = board.GetFenString();
+                board.Move(m, true, undo);
+                score = Evaluate(board);
+                string fenAfter = board.GetFenString();
+                board.UndoLastmove(undo);
+                string fenAfterUndo = board.GetFenString();
+                Assert.IsTrue(fenAfterUndo == fenBefore);
+#else
+                board.Move(m, true, undo);
+                score = Evaluate(board);
+                board.UndoLastmove(undo);
+#endif
                 if (score > maxScore)
                 {
                     maxScore = score;
@@ -91,11 +82,9 @@ namespace BlackMitten.Elliot.FaladeEngine
                 return CalculateSidesScore(board, whitesTurn);
             }
 
-            string fenBefore = "";
-            if (_doDiags)
-            {
-                fenBefore = board.GetFenString();
-            }
+#if DEBUG
+            string fenBefore = board.GetFenString();
+#endif
 
             var moves = board.GetAllMoves();
             if (maximizing)
@@ -104,29 +93,17 @@ namespace BlackMitten.Elliot.FaladeEngine
                 foreach (var move in moves)
                 {
                     var undo = new Undo();
-                    if (_doDiags)
+                    board.Move(move, true, undo);
+                    max = Math.Max(max, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn));
+                    board.UndoLastmove(undo);
+#if DEBUG
+                    var fenAfterUndo = board.GetFenString();
+                    Assert.IsTrue(fenBefore == fenAfterUndo);
+#endif
+                    alpha = Math.Max(alpha, max);
+                    if (alpha >= beta)
                     {
-                        board.Move(move, true, undo);
-                        max = Math.Max(max, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn));
-                        board.UndoLastmove(undo);
-                        var fenAfterUndo = board.GetFenString();
-                        Assert.IsTrue(fenBefore == fenAfterUndo);
-                        alpha = Math.Max(alpha, max);
-                        if (alpha >= beta)
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        board.Move(move, true, undo);
-                        max = Math.Max(max, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn));
-                        board.UndoLastmove(undo);
-                        alpha = Math.Max(alpha, max);
-                        if (alpha >= beta)
-                        {
-                            break;
-                        }
+                        break;
                     }
                 }
                 return max;
@@ -137,29 +114,17 @@ namespace BlackMitten.Elliot.FaladeEngine
                 foreach (var move in moves)
                 {
                     var undo = new Undo();
-                    if (_doDiags)
+                    board.Move(move, true, undo);
+                    min = Math.Min(min, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn));
+                    board.UndoLastmove(undo);
+#if DEBUG
+                    var fenAfterUndo = board.GetFenString();
+                    Assert.IsTrue(fenBefore == fenAfterUndo);
+#endif
+                    beta = Math.Min(beta, min);
+                    if (alpha >= beta)
                     {
-                        board.Move(move, true, undo);
-                        min = Math.Min(min, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn));
-                        board.UndoLastmove(undo);
-                        var fenAfterUndo = board.GetFenString();
-                        Assert.IsTrue(fenBefore == fenAfterUndo);
-                        beta = Math.Min(beta, min);
-                        if (alpha >= beta)
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        board.Move(move, true, undo);
-                        min = Math.Min(min, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn));
-                        board.UndoLastmove(undo);
-                        beta = Math.Min(beta, min);
-                        if (alpha >= beta)
-                        {
-                            break;
-                        }
+                        break;
                     }
                 }
                 return min;

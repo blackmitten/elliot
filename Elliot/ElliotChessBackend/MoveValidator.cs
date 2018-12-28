@@ -11,7 +11,7 @@ namespace Blackmitten.Elliot.Backend
     {
         bool? _valid;
 
-        public bool Validate(Move move, bool doDiags = false)
+        public bool Validate(Move move)
         {
             _valid = null;
 
@@ -22,31 +22,24 @@ namespace Blackmitten.Elliot.Backend
             }
             piece.Accept(this, move);
 
-            if (doDiags)
+#if DEBUG
+            string fenBefore = move.Board.GetFenString();
+#endif
+            var undo = new Undo();
+            move.Board.Move(move, false, undo);
+#if DEBUG
+            string fenAfter = move.Board.GetFenString();
+#endif
+            if (move.Board.CurrentPlayerInCheck)
             {
-                string fenBefore = move.Board.GetFenString();
-                var undo = new Undo();
-                move.Board.Move(move, false, undo);
-                string fenAfter = move.Board.GetFenString();
-                if (move.Board.CurrentPlayerInCheck)
-                {
-                    _valid = false;
-                }
-                move.Board.UndoLastmove(undo);
-                string fenAfterUndo = move.Board.GetFenString();
-                Assert.IsTrue(fenBefore != fenAfter);
-                Assert.IsTrue(fenBefore == fenAfterUndo);
+                _valid = false;
             }
-            else
-            {
-                var undo = new Undo();
-                move.Board.Move(move, false, undo);
-                if (move.Board.CurrentPlayerInCheck)
-                {
-                    _valid = false;
-                }
-                move.Board.UndoLastmove(undo);
-            }
+            move.Board.UndoLastmove(undo);
+#if DEBUG
+            string fenAfterUndo = move.Board.GetFenString();
+            Assert.IsTrue(fenBefore != fenAfter);
+            Assert.IsTrue(fenBefore == fenAfterUndo);
+#endif
             return _valid.Value;
         }
 

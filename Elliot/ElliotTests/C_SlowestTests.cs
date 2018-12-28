@@ -103,7 +103,7 @@ namespace ElliotTests
         public static void PlayFaladeVsFalade()
         {
             MockUI ui = new MockUI();
-            Falade falade = new Falade(false);
+            Falade falade = new Falade();
             IPlayer whiteFalade = new MachinePlayer(true, ui, falade);
             IPlayer blackFalade = new MachinePlayer(false, ui, falade);
             Board board = BoardFactory.InitNewGame();

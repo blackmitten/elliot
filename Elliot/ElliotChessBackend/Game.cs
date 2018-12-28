@@ -107,23 +107,20 @@ namespace Blackmitten.Elliot.Backend
                     {
                         _moveValidator.Validate(move);
                         var undo = new Undo();
-                        if (Diags.DoDiags)
-                        {
-                            string fenBefore = _board.GetFenString();
-                            _board.Move(move, true, undo);
-                            string fenAfter = _board.GetFenString();
-                            Assert.IsTrue(fenBefore != fenAfter);
-                            _board.UndoLastmove( undo );
-                            string fenAfterUndo = _board.GetFenString();
-                            Assert.IsTrue(fenBefore == fenAfterUndo);
-                            _board.Move(move, true, undo);
-                            string fenAfterAgain = _board.GetFenString();
-                            Assert.IsTrue(fenAfter == fenAfterAgain);
-                        }
-                        else
-                        {
-                            _board.Move(move, true, undo);
-                        }
+#if DEBUG
+                        string fenBefore = _board.GetFenString();
+                        _board.Move(move, true, undo);
+                        string fenAfter = _board.GetFenString();
+                        Assert.IsTrue(fenBefore != fenAfter);
+                        _board.UndoLastmove( undo );
+                        string fenAfterUndo = _board.GetFenString();
+                        Assert.IsTrue(fenBefore == fenAfterUndo);
+                        _board.Move(move, true, undo);
+                        string fenAfterAgain = _board.GetFenString();
+                        Assert.IsTrue(fenAfter == fenAfterAgain);
+#else
+                        _board.Move(move, true, undo);
+#endif
                     }
                     catch (InvalidMoveException e)
                     {

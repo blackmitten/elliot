@@ -174,7 +174,7 @@ namespace ElliotTests
             var move = new Move(board, moveString);
             var validator = new MoveValidator();
             var fenCharPieceVisitor = new FenCharPieceVisitor();
-            if (validator.Validate(move, true))
+            if (validator.Validate(move))
             {
                 var piece0 = board.GetPieceOnSquare(move.Start);
                 Undo undo = new Undo();

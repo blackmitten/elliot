@@ -46,8 +46,8 @@ namespace BlackMitten.Elliot.Winforms
 
             IPlayer whiteHuman = new HumanPlayer(true, this);
             IPlayer blackHuman = new HumanPlayer(false, this);
-            IPlayer blackFalade = new MachinePlayer(false, this, new Falade(false));
-            IPlayer whiteFalade = new MachinePlayer(true, this, new Falade(false));
+            IPlayer blackFalade = new MachinePlayer(false, this, new Falade());
+            IPlayer whiteFalade = new MachinePlayer(true, this, new Falade());
             IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(2));
             IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(2));
 
