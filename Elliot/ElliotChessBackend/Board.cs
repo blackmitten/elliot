@@ -75,7 +75,7 @@ namespace Blackmitten.Elliot.Backend
             MoveValidator validator = new MoveValidator();
             foreach (var move in generator.Moves)
             {
-                if(validator.Validate(move))
+                if (validator.Validate(move))
                 {
                     moves.Add(move);
                 }
@@ -129,11 +129,11 @@ namespace Blackmitten.Elliot.Backend
                 {
                     if (move.End == Square.WhiteKingCastledQueenside)
                     {
-                        Move(new Move(this, Square.WhiteQueensRookStart, Square.WhiteQueensRookCastled), false, undo);
+                        Move(new Move(this, Square.WhiteQueensRookStart, Square.WhiteQueensRookCastled), false, undo.GetNestedUndo());
                     }
                     else if (move.End == Square.WhiteKingCastledKingside)
                     {
-                        Move(new Move(this, Square.WhiteKingsRookStart, Square.WhiteKingsRookCastled), false, undo);
+                        Move(new Move(this, Square.WhiteKingsRookStart, Square.WhiteKingsRookCastled), false, undo.GetNestedUndo());
                     }
                     if (WhiteCanCastleKingside)
                     {
@@ -150,11 +150,11 @@ namespace Blackmitten.Elliot.Backend
                 {
                     if (move.End == Square.BlackKingCastledQueenside)
                     {
-                        Move(new Move(this, Square.BlackQueensRookStart, Square.BlackQueensRookCastled), false, undo);
+                        Move(new Move(this, Square.BlackQueensRookStart, Square.BlackQueensRookCastled), false, undo.GetNestedUndo());
                     }
                     else if (move.End == Square.BlackKingCastledKingside)
                     {
-                        Move(new Move(this, Square.BlackKingsRookStart, Square.BlackKingsRookCastled), false, undo);
+                        Move(new Move(this, Square.BlackKingsRookStart, Square.BlackKingsRookCastled), false, undo.GetNestedUndo());
                     }
                     if (BlackCanCastleKingside)
                     {
@@ -274,6 +274,47 @@ namespace Blackmitten.Elliot.Backend
                 HalfMoveClock = 0;
             }
 
+        }
+
+        internal void CheckIntegrity()
+        {
+#if DEBUG
+            if (WhiteCanCastleKingside)
+            {
+                IPiece king = GetPieceOnSquare(Square.WhiteKingStart);
+                IPiece rook = GetPieceOnSquare(Square.WhiteKingsRookStart);
+                Assert.IsTrue(king.White && king.IsKing);
+                Assert.IsTrue(rook.White && rook.IsRook);
+            }
+            if (WhiteCanCastleQueenside)
+            {
+                IPiece king = GetPieceOnSquare(Square.WhiteKingStart);
+                IPiece rook = GetPieceOnSquare(Square.WhiteQueensRookStart);
+                Assert.IsTrue(king.White && king.IsKing);
+                Assert.IsTrue(rook.White && rook.IsRook);
+            }
+            if (BlackCanCastleKingside)
+            {
+                IPiece king = GetPieceOnSquare(Square.BlackKingStart);
+                IPiece rook = GetPieceOnSquare(Square.BlackKingsRookStart);
+                Assert.IsTrue(!king.White && king.IsKing);
+                Assert.IsTrue(!rook.White && rook.IsRook);
+            }
+            if (BlackCanCastleQueenside)
+            {
+                IPiece king = GetPieceOnSquare(Square.BlackKingStart);
+                IPiece rook = GetPieceOnSquare(Square.BlackQueensRookStart);
+                Assert.IsTrue(!king.White && king.IsKing);
+                Assert.IsTrue(!rook.White && rook.IsRook);
+            }
+            for (int x = 1; x < 8; x++)
+            {
+                for (int y = 1; y < 8; y++)
+                {
+                    IPiece piece = GetPieceOnSquare(new Square(x, y));
+                }
+            }
+#endif
         }
 
         public void RemovePiece(IPiece piece)
@@ -576,6 +617,8 @@ namespace Blackmitten.Elliot.Backend
             FenCharPieceVisitor fenCharPieceVisitor = new FenCharPieceVisitor();
             for (int y = 8; y > 0; y--)
             {
+                sb.Append(y.ToString());
+                sb.Append(' ');
                 for (int x = 1; x <= 8; x++)
                 {
                     IPiece piece = Squares[x - 1, y - 1];
@@ -591,6 +634,7 @@ namespace Blackmitten.Elliot.Backend
                 }
                 sb.AppendLine();
             }
+            sb.Append("  a b c d e f g h");
             return sb.ToString();
         }
     }

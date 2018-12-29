@@ -11,6 +11,11 @@ namespace Blackmitten.Elliot.Backend
     {
         internal void UndoMove(Board board)
         {
+            if ( _nestedUndo != null)
+            {
+                _nestedUndo.UndoMove(board);
+            }
+
             board.EnPassantTarget = EnPassantTarget;
             board.WhiteCanCastleKingside = WhiteCanCastleKingside;
             board.WhiteCanCastleQueenside = WhiteCanCastleQueenside;
@@ -27,6 +32,10 @@ namespace Blackmitten.Elliot.Backend
                 _pieceToMove.Pos = _squareToMovePieceTo;
 
             }
+            if (_squareToRemovePromotedPieceFrom.InBounds)
+            {
+                board.RemovePiece(board.GetPieceOnSquare(_squareToRemovePromotedPieceFrom));
+            }
             if (_capturedPieceToReplace != null)
             {
                 board.AddPiece(_capturedPieceToReplace);
@@ -35,10 +44,13 @@ namespace Blackmitten.Elliot.Backend
             {
                 board.AddPiece(_promotedPawnToReplace);
             }
-            if (_squareToRemovePromotedPieceFrom.InBounds)
-            {
-                board.RemovePiece(board.GetPieceOnSquare(_squareToRemovePromotedPieceFrom));
-            }
+        }
+
+        Undo _nestedUndo;
+        public Undo GetNestedUndo()
+        {
+            _nestedUndo = new Undo();
+            return _nestedUndo;
         }
 
         public Square EnPassantTarget { get; internal set; } = new Square();

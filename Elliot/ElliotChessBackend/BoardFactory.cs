@@ -37,6 +37,8 @@ namespace Blackmitten.Elliot.Backend
             b.WhitesTurn = true;
             //            b.m_whitePieces = b.m_whitePieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();
             //            b.m_blackPieces = b.m_blackPieces.OrderBy(p => p.Pos.y).ThenBy(p => p.Pos.x).ToList();
+            b.CheckIntegrity();
+
             return b;
         }
 
@@ -149,6 +151,8 @@ namespace Blackmitten.Elliot.Backend
             }
             board.FullMoveClock = int.Parse(bits[5]);
             board.HalfMoveClock = int.Parse(bits[4]);
+
+            board.CheckIntegrity();
 
             return board;
         }

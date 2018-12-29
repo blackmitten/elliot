@@ -4,12 +4,30 @@ using BlackMitten.Elliot.FaladeEngine;
 using BlackMitten.Elliot.StockfishEngine;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace ElliotTests
 {
     public class B_SlowTests
     {
+
+        public static void StockfishTest1()
+        {
+            MockUI ui = new MockUI();
+
+            IPlayer whiteStockfish = new MachinePlayer(true, ui, new Stockfish(3));
+            IPlayer blackStockfish = new MachinePlayer(false, ui, new Stockfish(3));
+
+            Board board = BoardFactory.BoardFromFenString("3nbrk1/1p1P1ppp/4p3/1P2N3/8/r3P3/3R1PPP/4KB1R w K - 0 22");
+
+            Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
+
+            Debug.WriteLine(board.ToLongString());
+            game.PlaySingleMove(0);
+
+        }
+
         public static void EnPassant()
         {
             //   a b c d e f g h
@@ -81,8 +99,6 @@ namespace ElliotTests
             Board board = BoardFactory.InitNewGame();
             board.RemovePiece(board.GetPieceOnSquare(new Square(4, 2)));
 
-//            Board board = BoardFactory.BoardFromFenString("6kr/3n1ppp/4p3/4P3/1Q3P2/N4b2/7P/qB2K1R1 w Q - 2 28");
-
             Game game = new Game(whiteStockfish, blackStockfish, ui, new MockLog(), new MockValidator(), board);
 
             game.Play(0);
@@ -91,6 +107,7 @@ namespace ElliotTests
 
         public static void FaladePerformanceMeasure()
         {
+#if !DEBUG
             MockUI ui = new MockUI();
             Falade falade = new Falade();
             IPlayer whiteFalade = new MachinePlayer(true, ui, falade);
@@ -103,8 +120,8 @@ namespace ElliotTests
             game.PlaySingleMove(0);
             game.PlaySingleMove(0);
             game.PlaySingleMove(0);
+#endif
         }
-
 
     }
 

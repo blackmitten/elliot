@@ -109,23 +109,31 @@ namespace Blackmitten.Elliot.Backend
                         var undo = new Undo();
 #if DEBUG
                         string fenBefore = _board.GetFenString();
+
                         _board.Move(move, true, undo);
                         string fenAfter = _board.GetFenString();
+                        _board.CheckIntegrity();
                         Assert.IsTrue(fenBefore != fenAfter);
+
                         _board.UndoLastmove( undo );
                         string fenAfterUndo = _board.GetFenString();
+                        _board.CheckIntegrity();
                         Assert.IsTrue(fenBefore == fenAfterUndo);
+
                         _board.Move(move, true, undo);
                         string fenAfterAgain = _board.GetFenString();
+                        _board.CheckIntegrity();
                         Assert.IsTrue(fenAfter == fenAfterAgain);
 #else
                         _board.Move(move, true, undo);
+                        _board.CheckIntegrity();
 #endif
                     }
                     catch (InvalidMoveException e)
                     {
                         _userInterface.InvalidMove(e.Message);
                     }
+                    
                     _userInterface.Redraw();
                 }
             }
