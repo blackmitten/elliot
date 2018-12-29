@@ -107,9 +107,9 @@ namespace ElliotTests
 
         public static void FaladePerformanceMeasure()
         {
-#if !DEBUG
             MockUI ui = new MockUI();
-            Falade falade = new Falade();
+            Falade falade = new Falade( 3 );
+
             IPlayer whiteFalade = new MachinePlayer(true, ui, falade);
             IPlayer blackFalade = new MachinePlayer(false, ui, falade);
             Board board = BoardFactory.InitNewGame();
@@ -120,7 +120,6 @@ namespace ElliotTests
             game.PlaySingleMove(0);
             game.PlaySingleMove(0);
             game.PlaySingleMove(0);
-#endif
         }
 
     }

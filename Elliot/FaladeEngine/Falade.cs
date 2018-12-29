@@ -13,6 +13,12 @@ namespace BlackMitten.Elliot.FaladeEngine
     public class Falade : IEngine
     {
         PieceValuer _pieceValuer = new PieceValuer();
+        public int Depth { get; set; } = 4;
+
+        public Falade(int depth = 4)
+        {
+            Depth = depth;
+        }
 
         public void Stop()
         {
@@ -38,16 +44,16 @@ namespace BlackMitten.Elliot.FaladeEngine
                 var undo = new Undo();
 #if DEBUG
                 string fenBefore = board.GetFenString();
+#endif
                 board.Move(m, true, undo);
                 score = Evaluate(board);
+#if DEBUG
                 string fenAfter = board.GetFenString();
+#endif
                 board.UndoLastmove(undo);
+#if DEBUG
                 string fenAfterUndo = board.GetFenString();
                 Assert.IsTrue(fenAfterUndo == fenBefore);
-#else
-                board.Move(m, true, undo);
-                score = Evaluate(board);
-                board.UndoLastmove(undo);
 #endif
                 if (score > maxScore)
                 {
@@ -72,7 +78,7 @@ namespace BlackMitten.Elliot.FaladeEngine
 
         private double Evaluate(Board board)
         {
-            return Minimax(board, 4, double.MinValue, double.MaxValue, false, true);
+            return Minimax(board, Depth, double.MinValue, double.MaxValue, false, true);
         }
 
         private double Minimax(Board board, int depth, double alpha, double beta, bool maximizing, bool whitesTurn)

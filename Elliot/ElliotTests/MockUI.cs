@@ -13,7 +13,7 @@ namespace ElliotTests
 
         void WriteLine(string s)
         {
-//            Debug.WriteLine(s);
+            Debug.WriteLine(s);
         }
 
         public Board Board
