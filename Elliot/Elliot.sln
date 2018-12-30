@@ -15,36 +15,57 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenzelDiags", "MenzelDiags\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElliotTests", "ElliotTests\ElliotTests.csproj", "{A814AA0A-9F99-494C-9155-D0AE09FFDA0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElliotTools", "ElliotTools\ElliotTools.csproj", "{293F170A-8150-488D-8E0E-8D39C1841CC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Diagnostic|Any CPU = Diagnostic|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E1DFB0AB-9E43-48D0-BBC7-8E38D8163FA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E1DFB0AB-9E43-48D0-BBC7-8E38D8163FA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1DFB0AB-9E43-48D0-BBC7-8E38D8163FA2}.Diagnostic|Any CPU.ActiveCfg = Diagnostic|Any CPU
+		{E1DFB0AB-9E43-48D0-BBC7-8E38D8163FA2}.Diagnostic|Any CPU.Build.0 = Diagnostic|Any CPU
 		{E1DFB0AB-9E43-48D0-BBC7-8E38D8163FA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1DFB0AB-9E43-48D0-BBC7-8E38D8163FA2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F17F8D65-A74C-465A-8F5E-E3D3C2F51FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F17F8D65-A74C-465A-8F5E-E3D3C2F51FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F17F8D65-A74C-465A-8F5E-E3D3C2F51FC1}.Diagnostic|Any CPU.ActiveCfg = Diagnostic|Any CPU
+		{F17F8D65-A74C-465A-8F5E-E3D3C2F51FC1}.Diagnostic|Any CPU.Build.0 = Diagnostic|Any CPU
 		{F17F8D65-A74C-465A-8F5E-E3D3C2F51FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F17F8D65-A74C-465A-8F5E-E3D3C2F51FC1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B0A57B03-D82E-4898-95CC-EB4E0C374C9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B0A57B03-D82E-4898-95CC-EB4E0C374C9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0A57B03-D82E-4898-95CC-EB4E0C374C9B}.Diagnostic|Any CPU.ActiveCfg = Diagnostic|Any CPU
+		{B0A57B03-D82E-4898-95CC-EB4E0C374C9B}.Diagnostic|Any CPU.Build.0 = Diagnostic|Any CPU
 		{B0A57B03-D82E-4898-95CC-EB4E0C374C9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0A57B03-D82E-4898-95CC-EB4E0C374C9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FAB48294-3276-49AF-A8F1-80E5899B487A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FAB48294-3276-49AF-A8F1-80E5899B487A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAB48294-3276-49AF-A8F1-80E5899B487A}.Diagnostic|Any CPU.ActiveCfg = Diagnostic|Any CPU
+		{FAB48294-3276-49AF-A8F1-80E5899B487A}.Diagnostic|Any CPU.Build.0 = Diagnostic|Any CPU
 		{FAB48294-3276-49AF-A8F1-80E5899B487A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAB48294-3276-49AF-A8F1-80E5899B487A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FA9263C0-2149-434E-9344-06AD5B14DCE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FA9263C0-2149-434E-9344-06AD5B14DCE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA9263C0-2149-434E-9344-06AD5B14DCE7}.Diagnostic|Any CPU.ActiveCfg = Diagnostic|Any CPU
+		{FA9263C0-2149-434E-9344-06AD5B14DCE7}.Diagnostic|Any CPU.Build.0 = Diagnostic|Any CPU
 		{FA9263C0-2149-434E-9344-06AD5B14DCE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA9263C0-2149-434E-9344-06AD5B14DCE7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A814AA0A-9F99-494C-9155-D0AE09FFDA0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A814AA0A-9F99-494C-9155-D0AE09FFDA0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A814AA0A-9F99-494C-9155-D0AE09FFDA0F}.Diagnostic|Any CPU.ActiveCfg = Diagnostic|Any CPU
+		{A814AA0A-9F99-494C-9155-D0AE09FFDA0F}.Diagnostic|Any CPU.Build.0 = Diagnostic|Any CPU
 		{A814AA0A-9F99-494C-9155-D0AE09FFDA0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A814AA0A-9F99-494C-9155-D0AE09FFDA0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{293F170A-8150-488D-8E0E-8D39C1841CC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{293F170A-8150-488D-8E0E-8D39C1841CC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{293F170A-8150-488D-8E0E-8D39C1841CC2}.Diagnostic|Any CPU.ActiveCfg = Debug|Any CPU
+		{293F170A-8150-488D-8E0E-8D39C1841CC2}.Diagnostic|Any CPU.Build.0 = Debug|Any CPU
+		{293F170A-8150-488D-8E0E-8D39C1841CC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{293F170A-8150-488D-8E0E-8D39C1841CC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

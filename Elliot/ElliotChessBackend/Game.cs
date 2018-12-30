@@ -107,7 +107,7 @@ namespace Blackmitten.Elliot.Backend
                     {
                         _moveValidator.Validate(move);
                         var undo = new Undo();
-#if DEBUG
+#if DIAGNOSTIC
                         string fenBefore = _board.GetFenString();
 
                         _board.Move(move, true, undo);

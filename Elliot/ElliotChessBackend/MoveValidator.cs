@@ -22,12 +22,12 @@ namespace Blackmitten.Elliot.Backend
             }
             piece.Accept(this, move);
 
-#if DEBUG
+#if DIAGNOSTIC
             string fenBefore = move.Board.GetFenString();
 #endif
             var undo = new Undo();
             move.Board.Move(move, false, undo);
-#if DEBUG
+#if DIAGNOSTIC
             string fenAfter = move.Board.GetFenString();
 #endif
             if (move.Board.CurrentPlayerInCheck)
@@ -35,7 +35,7 @@ namespace Blackmitten.Elliot.Backend
                 _valid = false;
             }
             move.Board.UndoLastmove(undo);
-#if DEBUG
+#if DIAGNOSTIC
             string fenAfterUndo = move.Board.GetFenString();
             Assert.IsTrue(fenBefore != fenAfter);
             Assert.IsTrue(fenBefore == fenAfterUndo);

@@ -11,6 +11,20 @@ namespace ElliotTests
 {
     public class B_SlowTests
     {
+        public static void TestPawnTakingOwnKingIsNotValid()
+        {
+            MockUI ui = new MockUI();
+            Falade falade = new Falade(4);
+
+            IPlayer whiteFalade = new MachinePlayer(true, ui, falade);
+            IPlayer blackFalade = new MachinePlayer(false, ui, falade);
+            Board board = BoardFactory.BoardFromFenString("rnbq1bnr/pp1Q1ppp/8/2p1Pk2/P1P5/7N/1P2PPPP/RNB1KB1R b KQ - 0 6");
+            Game game = new Game(whiteFalade, blackFalade, ui, new MockLog(), new MockValidator(), board);
+
+            game.PlaySingleMove(0);
+        }
+
+
         public static void FaladePerformanceMeasure()
         {
             MockUI ui = new MockUI();

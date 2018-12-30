@@ -285,7 +285,7 @@ namespace Blackmitten.Elliot.Backend
 
         internal void CheckIntegrity()
         {
-#if DEBUG
+#if DIAGNOSTIC
             if (WhiteCanCastleKingside)
             {
                 IPiece king = GetPieceOnSquare(Square.WhiteKingStart);
@@ -328,12 +328,19 @@ namespace Blackmitten.Elliot.Backend
         {
             if (piece.White)
             {
+                if(piece.IsKing)
+                {
+                    throw new InvalidMoveException("You can't take the king");
+                }
                 _whitePieces.Remove(piece);
                 Squares[piece.Pos.x - 1, piece.Pos.y - 1] = null;
-
             }
             else
             {
+                if (piece.IsKing)
+                {
+                    throw new InvalidMoveException("You can't take the king");
+                }
                 _blackPieces.Remove(piece);
                 Squares[piece.Pos.x - 1, piece.Pos.y - 1] = null;
             }
@@ -341,7 +348,7 @@ namespace Blackmitten.Elliot.Backend
 
         public void AddPiece(IPiece piece)
         {
-#if DEBUG
+#if DIAGNOSTIC
             Assert.IsTrue(!_whitePieces.Contains(piece));
             Assert.IsTrue(!_blackPieces.Contains(piece));
 #endif
@@ -385,7 +392,7 @@ namespace Blackmitten.Elliot.Backend
             }
             IPiece pieceFromArray = Squares[square.x - 1, square.y - 1];
 
-#if DEBUG
+#if DIAGNOSTIC
             IPiece pieceFromList = null;
             IList<IPiece> firstPieces;
             IList<IPiece> secondPieces;

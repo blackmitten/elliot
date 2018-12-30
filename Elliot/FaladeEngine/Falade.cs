@@ -28,7 +28,7 @@ namespace BlackMitten.Elliot.FaladeEngine
         public Move GetBestMove(Board originalBoard)
         {
             Board board = new Board(originalBoard);
-#if DEBUG
+#if DIAGNOSTIC
             Assert.IsTrue(board.GetFenString() == originalBoard.GetFenString());
 #endif
             var moves = board.GetAllMoves();
@@ -44,16 +44,16 @@ namespace BlackMitten.Elliot.FaladeEngine
             {
                 double score;
                 var undo = new Undo();
-#if DEBUG
+#if DIAGNOSTIC
                 string fenBefore = board.GetFenString();
 #endif
                 board.Move(m, true, undo);
                 score = Evaluate(board);
-#if DEBUG
+#if DIAGNOSTIC
                 string fenAfter = board.GetFenString();
 #endif
                 board.UndoLastmove(undo);
-#if DEBUG
+#if DIAGNOSTIC
                 string fenAfterUndo = board.GetFenString();
                 Assert.IsTrue(fenAfterUndo == fenBefore);
 #endif
@@ -90,7 +90,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                 return CalculateWhitesScore(board);
             }
 
-#if DEBUG
+#if DIAGNOSTIC
             string fenBefore = board.GetFenString();
 #endif
 
@@ -104,7 +104,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                     board.Move(move, true, undo);
                     max = Math.Max(max, Minimax(board, depth - 1, alpha, beta, !maximizing));
                     board.UndoLastmove(undo);
-#if DEBUG
+#if DIAGNOSTIC
                     var fenAfterUndo = board.GetFenString();
                     Assert.IsTrue(fenBefore == fenAfterUndo);
 #endif
@@ -125,7 +125,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                     board.Move(move, true, undo);
                     min = Math.Min(min, Minimax(board, depth - 1, alpha, beta, !maximizing));
                     board.UndoLastmove(undo);
-#if DEBUG
+#if DIAGNOSTIC
                     var fenAfterUndo = board.GetFenString();
                     Assert.IsTrue(fenBefore == fenAfterUndo);
 #endif

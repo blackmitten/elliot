@@ -80,7 +80,7 @@ namespace Blackmitten.Elliot.Backend
             if (atStart.Value)
             {
                 var squareTwoInFront = pawn.Pos.Offset(0, 2 * direction.Value);
-                if (board.GetPieceOnSquare(squareInFront) == null)
+                if (board.GetPieceOnSquare(squareTwoInFront) == null)
                 {
                     AddMoveIfValid(new Move(board, pawn.Pos, squareTwoInFront));
                 }
