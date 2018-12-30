@@ -80,14 +80,14 @@ namespace BlackMitten.Elliot.FaladeEngine
 
         private double Evaluate(Board board)
         {
-            return Minimax(board, Depth, double.MinValue, double.MaxValue, false, true);
+            return Minimax(board, Depth, double.MinValue, double.MaxValue, !board.WhitesTurn);
         }
 
-        private double Minimax(Board board, int depth, double alpha, double beta, bool maximizing, bool whitesTurn)
+        private double Minimax(Board board, int depth, double alpha, double beta, bool maximizing)
         {
             if (depth == 0)
             {
-                return CalculateSidesScore(board, whitesTurn);
+                return CalculateWhitesScore(board);
             }
 
 #if DEBUG
@@ -102,7 +102,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                 {
                     var undo = new Undo();
                     board.Move(move, true, undo);
-                    max = Math.Max(max, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn));
+                    max = Math.Max(max, Minimax(board, depth - 1, alpha, beta, !maximizing));
                     board.UndoLastmove(undo);
 #if DEBUG
                     var fenAfterUndo = board.GetFenString();
@@ -123,7 +123,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                 {
                     var undo = new Undo();
                     board.Move(move, true, undo);
-                    min = Math.Min(min, Minimax(board, depth - 1, alpha, beta, !maximizing, whitesTurn));
+                    min = Math.Min(min, Minimax(board, depth - 1, alpha, beta, !maximizing));
                     board.UndoLastmove(undo);
 #if DEBUG
                     var fenAfterUndo = board.GetFenString();

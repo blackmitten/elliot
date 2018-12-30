@@ -14,7 +14,16 @@ namespace BlackMitten.Elliot.FaladeEngine
         public void Visit(Pawn pawn, object data)
         {
             Board board = (Board) data;
-            Value = 1;
+            double squaresAdvanced;
+            if(pawn.White)
+            {
+                squaresAdvanced = pawn.Pos.y - 1;
+            }
+            else
+            {
+                squaresAdvanced = 7 - pawn.Pos.y;
+            }
+            Value = 1 + squaresAdvanced * 0.01;
             Value *= NegativeForBlack(pawn);
         }
 
