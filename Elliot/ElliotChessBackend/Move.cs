@@ -23,6 +23,7 @@ namespace Blackmitten.Elliot.Backend
         public Square End { get; }
         public PieceType Promoted { get; private set; }
         public Board Board { get; private set; }
+        public bool Capturing { get; internal set; }
 
         public Move(Board board, string moveString)
         {

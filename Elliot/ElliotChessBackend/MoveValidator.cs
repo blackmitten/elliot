@@ -99,6 +99,10 @@ namespace Blackmitten.Elliot.Backend
                     _valid = false;
                     //throw new InvalidMoveException("Can only take a piece of other side");
                 }
+                else
+                {
+                    move.Capturing = true;
+                }
             }
             else
             {
@@ -147,6 +151,10 @@ namespace Blackmitten.Elliot.Backend
                 {
                     _valid = false;
                     //throw new InvalidMoveException("Can only take a piece of other side");
+                }
+                else
+                {
+                    move.Capturing = true;
                 }
             }
         }
@@ -271,6 +279,10 @@ namespace Blackmitten.Elliot.Backend
                     _valid = false;
                     //throw new InvalidMoveException("Can only take a piece of other side");
                 }
+                else
+                {
+                    move.Capturing = true;
+                }
             }
         }
 
@@ -293,6 +305,10 @@ namespace Blackmitten.Elliot.Backend
                         {
                             _valid = false;
                             //throw new InvalidMoveException("Can only take a piece of other side");
+                        }
+                        else
+                        {
+                            move.Capturing = true;
                         }
                     }
                     else

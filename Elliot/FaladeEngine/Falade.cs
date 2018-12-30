@@ -28,8 +28,10 @@ namespace BlackMitten.Elliot.FaladeEngine
         public Move GetBestMove(Board originalBoard)
         {
             Board board = new Board(originalBoard);
+#if DEBUG
             Assert.IsTrue(board.GetFenString() == originalBoard.GetFenString());
-            var moves = board.GetAllMoves();
+#endif
+            var moves = board.GetAllMoves(b => CalculateSidesScore(b, b.WhitesTurn));
             if (moves.Count == 0)
             {
                 return null;
@@ -92,7 +94,7 @@ namespace BlackMitten.Elliot.FaladeEngine
             string fenBefore = board.GetFenString();
 #endif
 
-            var moves = board.GetAllMoves();
+            var moves = board.GetAllMoves(b => CalculateSidesScore(b, b.WhitesTurn));
             if (maximizing)
             {
                 double max = double.MinValue;

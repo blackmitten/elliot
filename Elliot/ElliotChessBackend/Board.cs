@@ -63,7 +63,7 @@ namespace Blackmitten.Elliot.Backend
             undo.UndoMove(this);
         }
 
-        public IList<Move> GetAllMoves()
+        public IList<Move> GetAllMoves(Func<Board, double> evaluationFunction)
         {
             List<IPiece> pieces = WhitesTurn ? _whitePieces : _blackPieces;
             List<Move> moves = new List<Move>();
@@ -77,9 +77,37 @@ namespace Blackmitten.Elliot.Backend
             {
                 if (validator.Validate(move))
                 {
-                    moves.Add(move);
+                    if (move.Capturing)
+                    {
+                        moves.Insert(0, move);
+                    }
+                    else
+                    {
+                        moves.Add(move);
+                    }
                 }
             }
+            /*
+#if DEBUG
+            string fenBefore = GetFenString();
+#endif
+            moves.Sort((m1, m2) =>
+            {
+                Undo undo1 = new Undo();
+                Move(m1, true, undo1);
+                double score1 = evaluationFunction(this);
+                UndoLastmove(undo1);
+                Undo undo2 = new Undo();
+                Move(m2, true, undo2);
+                double score2 = evaluationFunction(this);
+                UndoLastmove(undo2);
+                return 0;
+            });
+#if DEBUG
+            string fenAfter = GetFenString();
+            Assert.IsTrue(fenBefore == fenAfter);
+#endif
+*/
             return moves;
         }
 
@@ -377,9 +405,9 @@ namespace Blackmitten.Elliot.Backend
                 throw new InvalidOperationException("Out of bounds square in GetPieceOnSquare " + square.ToString());
             }
             IPiece pieceFromArray = Squares[square.x - 1, square.y - 1];
-            IPiece pieceFromList = null;
 
 #if DEBUG
+            IPiece pieceFromList = null;
             IList<IPiece> firstPieces;
             IList<IPiece> secondPieces;
             if (square.y > 4)
@@ -410,7 +438,7 @@ namespace Blackmitten.Elliot.Backend
             }
             Assert.AreSame(pieceFromList, pieceFromArray);
 #endif
-            return Squares[square.x - 1, square.y - 1];
+            return pieceFromArray;
         }
 
         public bool CurrentPlayerInCheck

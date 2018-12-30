@@ -115,7 +115,7 @@ namespace ElliotTests
         public static void GetAllMoves()
         {
             Board board = BoardFactory.InitNewGame();
-            var moves = board.GetAllMoves();
+            var moves = board.GetAllMoves(b => 0);
 
             Assert.IsTrue(moves.Count == 20);
             MoveValidator moveValidator = new MoveValidator();

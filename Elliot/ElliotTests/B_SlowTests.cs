@@ -11,6 +11,24 @@ namespace ElliotTests
 {
     public class B_SlowTests
     {
+        public static void FaladePerformanceMeasure()
+        {
+            MockUI ui = new MockUI();
+            Falade falade = new Falade(4);
+
+            IPlayer whiteFalade = new MachinePlayer(true, ui, falade);
+            IPlayer blackFalade = new MachinePlayer(false, ui, falade);
+            Board board = BoardFactory.InitNewGame();
+            Game game = new Game(whiteFalade, blackFalade, ui, new MockLog(), new MockValidator(), board);
+
+            game.PlaySingleMove(0);
+            game.PlaySingleMove(0);
+            game.PlaySingleMove(0);
+            game.PlaySingleMove(0);
+            game.PlaySingleMove(0);
+        }
+
+
 
         public static void StockfishTest1()
         {
@@ -103,23 +121,6 @@ namespace ElliotTests
 
             game.Play(0);
 
-        }
-
-        public static void FaladePerformanceMeasure()
-        {
-            MockUI ui = new MockUI();
-            Falade falade = new Falade( 3 );
-
-            IPlayer whiteFalade = new MachinePlayer(true, ui, falade);
-            IPlayer blackFalade = new MachinePlayer(false, ui, falade);
-            Board board = BoardFactory.InitNewGame();
-            Game game = new Game(whiteFalade, blackFalade, ui, new MockLog(), new MockValidator(), board);
-
-            game.PlaySingleMove(0);
-            game.PlaySingleMove(0);
-            game.PlaySingleMove(0);
-            game.PlaySingleMove(0);
-            game.PlaySingleMove(0);
         }
 
     }
