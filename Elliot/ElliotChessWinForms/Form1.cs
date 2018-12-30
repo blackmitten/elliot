@@ -52,7 +52,7 @@ namespace BlackMitten.Elliot.Winforms
             IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(2));
 
             IPlayer blackPlayer = blackFalade;
-            IPlayer whitePlayer = whiteFalade;
+            IPlayer whitePlayer = whiteStockfish;
 
             boardControl1.Log = _log;
 

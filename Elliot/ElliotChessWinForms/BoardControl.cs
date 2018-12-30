@@ -56,7 +56,6 @@ namespace Blackmitten.Elliot.WinForms
 
         private void SquareClicked(Square clickedSquare)
         {
-            Log.Write("Clicked " + clickedSquare);
             if (clickedSquare.InBounds)
             {
                 if (WaitingForWhiteHuman || WaitingForBlackHuman)
@@ -75,8 +74,12 @@ namespace Blackmitten.Elliot.WinForms
                     else
                     {
                         _humansMove = new Move(_board, _moveStartSquare, clickedSquare);
+                        MoveValidator moveValidator = new MoveValidator();
                         _moveStartSquare = new Square();
-                        _humanMoved.Set();
+                        if (moveValidator.Validate(_humansMove))
+                        {
+                            _humanMoved.Set();
+                        }
                     }
                 }
             }
