@@ -63,7 +63,7 @@ namespace Blackmitten.Elliot.Backend
             undo.UndoMove(this);
         }
 
-        public IList<Move> GetAllMoves(Func<Board, double> evaluationFunction)
+        public IList<Move> GetAllMoves()
         {
             List<IPiece> pieces = WhitesTurn ? _whitePieces : _blackPieces;
             List<Move> moves = new List<Move>();
@@ -87,27 +87,6 @@ namespace Blackmitten.Elliot.Backend
                     }
                 }
             }
-            /*
-#if DEBUG
-            string fenBefore = GetFenString();
-#endif
-            moves.Sort((m1, m2) =>
-            {
-                Undo undo1 = new Undo();
-                Move(m1, true, undo1);
-                double score1 = evaluationFunction(this);
-                UndoLastmove(undo1);
-                Undo undo2 = new Undo();
-                Move(m2, true, undo2);
-                double score2 = evaluationFunction(this);
-                UndoLastmove(undo2);
-                return 0;
-            });
-#if DEBUG
-            string fenAfter = GetFenString();
-            Assert.IsTrue(fenBefore == fenAfter);
-#endif
-*/
             return moves;
         }
 
