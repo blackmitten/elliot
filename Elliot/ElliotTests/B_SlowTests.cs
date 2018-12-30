@@ -24,6 +24,18 @@ namespace ElliotTests
             game.PlaySingleMove(0);
         }
 
+        public static void TestDubiousCheckMate()
+        {
+            MockUI ui = new MockUI();
+            Falade falade = new Falade(4);
+
+            IPlayer whiteFalade = new MachinePlayer(true, ui, falade);
+            IPlayer blackFalade = new MachinePlayer(false, ui, falade);
+            Board board = BoardFactory.BoardFromFenString("r2k1bnr/ppp1qN1p/6p1/1B1P4/P3p2Q/1nP5/1P1P1PPP/R1B1K2R b KQ - 0 12");
+            Game game = new Game(whiteFalade, blackFalade, ui, new MockLog(), new MockValidator(), board);
+
+            game.PlaySingleMove(0);
+        }
 
         public static void FaladePerformanceMeasure()
         {
