@@ -46,19 +46,17 @@ namespace BlackMitten.Elliot.Winforms
 
             IPlayer whiteHuman = new HumanPlayer(true, this);
             IPlayer blackHuman = new HumanPlayer(false, this);
-            IPlayer blackFalade = new MachinePlayer(false, this, new Falade());
-            IPlayer whiteFalade = new MachinePlayer(true, this, new Falade());
+            IPlayer blackFalade = new MachinePlayer(false, this, new Falade(4));
+            IPlayer whiteFalade = new MachinePlayer(true, this, new Falade(4));
             IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(2));
             IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(2));
 
-            IPlayer blackPlayer = blackStockfish;
-            IPlayer whitePlayer = whiteStockfish;
+            IPlayer blackPlayer = blackFalade;
+            IPlayer whitePlayer = whiteHuman;
 
             boardControl1.Log = _log;
 
             Board board = BoardFactory.InitNewGame();
-            board.RemovePiece(board.GetPieceOnSquare(new Square(4, 2)));
-//            board = BoardFactory.BoardFromFenString("5k1r/1b1n1ppp/3Np3/4P3/1Qp2P2/r7/6PP/qB2K2R w KQ - 2 25");
 //            board = BoardFactory.BoardFromFenString("5k1r/1b1n1ppp/4p3/4P3/1QN2P2/r7/6PP/qB2K2R b Q - 0 25");
 
             _game = new Game(whitePlayer, blackPlayer, this, _log, new MoveValidator(), board);
