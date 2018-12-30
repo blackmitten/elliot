@@ -21,17 +21,11 @@ namespace ElliotTests
             var ts = t1 - t0;
 
             Console.WriteLine("All tests passed in " + ts.TotalSeconds.ToString("0.0") + "s");
-//            Console.ReadKey();
+            Console.ReadKey();
         }
 
         private static void RunTests()
         {
-            
-            var methodInfo = SymbolExtensions.GetMethodInfo(() => B_SlowTests.FaladePerformanceMeasure());
-            RunMethod(methodInfo);
-            return;
-            
-
             DateTime t0 = DateTime.UtcNow;
             RunStaticMethodsInClass(typeof(A_QuickTests));
             RunStaticMethodsInClass(typeof(B_SlowTests));

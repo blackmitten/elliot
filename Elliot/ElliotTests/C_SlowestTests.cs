@@ -72,7 +72,7 @@ namespace ElliotTests
 
         }
 
-        public static void PlayStockfishVsStockfishDepth10()
+        public static void PlayStockfishVsStockfish10()
         {
             MockUI ui = new MockUI();
             PlayStockfishVsStockfish(ui, 10);
