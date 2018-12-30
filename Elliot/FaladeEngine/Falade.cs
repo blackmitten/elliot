@@ -62,7 +62,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                     maxScore = score;
                     maxScoreMove = m;
                 }
-                else if (score < minScore)
+                if (score < minScore)
                 {
                     minScore = score;
                     minScoreMove = m;
