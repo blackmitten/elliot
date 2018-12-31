@@ -328,7 +328,7 @@ namespace Blackmitten.Elliot.Backend
         {
             if (piece.White)
             {
-                if(piece.IsKing)
+                if (piece.IsKing)
                 {
                     throw new InvalidMoveException("You can't take the king");
                 }
@@ -432,13 +432,16 @@ namespace Blackmitten.Elliot.Backend
             get
             {
                 IPiece king = WhitesTurn ? _whiteKing : _blackKing;
-                return IsSquareThreatened(king.Pos);
+                return IsSquareThreatened(king.Pos, !WhitesTurn);
             }
         }
 
-        public bool IsSquareThreatened(Square square)
+        public bool WhiteInCheck => IsSquareThreatened(_whiteKing.Pos, false);
+        public bool BlackInCheck => IsSquareThreatened(_blackKing.Pos, true);
+
+        public bool IsSquareThreatened(Square square, bool byWhite)
         {
-            bool notWhitesTurn = !WhitesTurn;
+            bool notWhitesTurn = byWhite;
             if (GetPieceOnSquareOnSide(square.Offset(1, 2), notWhitesTurn) as Knight != null ||
                 GetPieceOnSquareOnSide(square.Offset(-1, 2), notWhitesTurn) as Knight != null ||
                 GetPieceOnSquareOnSide(square.Offset(1, -2), notWhitesTurn) as Knight != null ||

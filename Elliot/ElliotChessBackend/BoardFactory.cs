@@ -156,5 +156,26 @@ namespace Blackmitten.Elliot.Backend
 
             return board;
         }
+
+        public static Board WhiteInTrouble()
+        {
+            Board board = new Board();
+            board.AddPiece(new King(Square.WhiteKingStart, true));
+            board.AddPiece(new King(Square.BlackKingStart, false));
+            board.AddPiece(new Rook(Square.BlackKingsRookStart, false));
+            board.AddPiece(new Rook(Square.BlackQueensRookStart, false));
+            return board;
+        }
+
+        public static Board BlackInTrouble()
+        {
+            Board board = new Board();
+            board.AddPiece(new King(Square.WhiteKingStart, true));
+            board.AddPiece(new King(Square.BlackKingStart, false));
+            board.AddPiece(new Rook(Square.WhiteKingsRookStart, true));
+            board.AddPiece(new Rook(Square.WhiteQueensRookStart, true));
+            return board;
+        }
+
     }
 }

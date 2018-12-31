@@ -158,6 +158,14 @@ namespace BlackMitten.Elliot.FaladeEngine
                 piece.Accept(_pieceValuer);
                 score += _pieceValuer.Value;
             }
+            if(board.WhiteInCheck)
+            {
+                score += 10;
+            }
+            if(board.BlackInCheck)
+            {
+                score -= 10;
+            }
 
             return score;
         }

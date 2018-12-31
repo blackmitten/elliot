@@ -60,7 +60,6 @@ namespace Blackmitten.Elliot.Backend
                     if (board.GetPieceOnSquare(move.End) != null)
                     {
                         _valid = false;
-                        //throw new InvalidMoveException("Pawns can't take forwards");
                     }
                 }
                 else if (squaresAdvanced == 2)
@@ -68,18 +67,15 @@ namespace Blackmitten.Elliot.Backend
                     if (board.GetPieceOnSquare(new Square(move.Start.x, move.Start.y + direction)) != null)
                     {
                         _valid = false;
-                        //throw new InvalidMoveException("Pawns can't take forwards");
                     }
-                    if (board.GetPieceOnSquare(move.End) != null)
+                    else if (board.GetPieceOnSquare(move.End) != null)
                     {
                         _valid = false;
-                        //throw new InvalidMoveException("Pawns can't take forwards");
                     }
                 }
                 else
                 {
                     _valid = false;
-                    //throw new InvalidMoveException("Pawns can only move 1 or 2 spaces forwards");
                 }
             }
             else if (Math.Abs(dx) == 1 && squaresAdvanced == 1)
@@ -92,12 +88,10 @@ namespace Blackmitten.Elliot.Backend
                 if (capturedPiece == null)
                 {
                     _valid = false;
-                    //throw new InvalidMoveException("Can only move diagonally when taking");
                 }
                 else if (capturedPiece.White == pawn.White)
                 {
                     _valid = false;
-                    //throw new InvalidMoveException("Can only take a piece of other side");
                 }
                 else
                 {
@@ -107,7 +101,6 @@ namespace Blackmitten.Elliot.Backend
             else
             {
                 _valid = false;
-                //throw new InvalidMoveException("Can only move forward 1 or 2 spaces, 1 to either side while taking");
             }
 
         }
@@ -122,12 +115,10 @@ namespace Blackmitten.Elliot.Backend
             if (dx != 0 && dy != 0)
             {
                 _valid = false;
-                //throw new InvalidMoveException("Rooks can only move horizontally/vertically");
             }
             if (dx == 0 && dy == 0)
             {
                 _valid = false;
-                //throw new InvalidMoveException("Rook didn't move");
             }
             CheckNothingInTheWay(rook, move);
         }
@@ -142,7 +133,6 @@ namespace Blackmitten.Elliot.Backend
             if (!(absDx == 1 && absDy == 2) && !(absDx == 2 && absDy == 1))
             {
                 _valid = false;
-                //throw new InvalidMoveException("Knight must move in knightly fashion");
             }
             IPiece capturedPiece = move.Board.GetPieceOnSquare(move.End);
             if (capturedPiece != null)
@@ -150,7 +140,6 @@ namespace Blackmitten.Elliot.Backend
                 if (capturedPiece.White == knight.White)
                 {
                     _valid = false;
-                    //throw new InvalidMoveException("Can only take a piece of other side");
                 }
                 else
                 {
@@ -169,12 +158,10 @@ namespace Blackmitten.Elliot.Backend
             if (Math.Abs(dx) != Math.Abs(dy))
             {
                 _valid = false;
-                //throw new InvalidMoveException("Bishops only move diagonally");
             }
             if (dx == 0)
             {
                 _valid = false;
-                //throw new InvalidMoveException("Bishop didn't move");
             }
             CheckNothingInTheWay(bishop, move);
 
@@ -192,13 +179,11 @@ namespace Blackmitten.Elliot.Backend
                 if (Math.Abs(dx) != Math.Abs(dy))
                 {
                     _valid = false;
-                    //throw new InvalidMoveException("Queens can only move diagonally/horizontally/vertically");
                 }
             }
             if (dx == 0 && dy == 0)
             {
                 _valid = false;
-                //throw new InvalidMoveException("Queen didn't move");
             }
             CheckNothingInTheWay(queen, move);
         }
@@ -213,7 +198,6 @@ namespace Blackmitten.Elliot.Backend
             if (absDx == 0 && absDy == 0)
             {
                 _valid = false;
-                //throw new InvalidMoveException("King didn't move");
             }
             if (absDx > 1 || absDy > 1)
             {
@@ -268,7 +252,6 @@ namespace Blackmitten.Elliot.Backend
                 if (!castleOk)
                 {
                     _valid = false;
-                    //throw new InvalidMoveException("King can only move one space");
                 }
             }
             IPiece capturedPiece = move.Board.GetPieceOnSquare(move.End);
@@ -277,7 +260,6 @@ namespace Blackmitten.Elliot.Backend
                 if (capturedPiece.White == king.White)
                 {
                     _valid = false;
-                    //throw new InvalidMoveException("Can only take a piece of other side");
                 }
                 else
                 {
@@ -304,7 +286,6 @@ namespace Blackmitten.Elliot.Backend
                         if (capturedPiece.White == piece.White)
                         {
                             _valid = false;
-                            //throw new InvalidMoveException("Can only take a piece of other side");
                         }
                         else
                         {
@@ -314,7 +295,6 @@ namespace Blackmitten.Elliot.Backend
                     else
                     {
                         _valid = false;
-                        //throw new InvalidMoveException("There's a piece in the way of this " + piece.Name);
                     }
                 }
             }
