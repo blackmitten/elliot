@@ -14,6 +14,7 @@ namespace BlackMitten.Elliot.FaladeEngine
     {
         PieceValuer _pieceValuer = new PieceValuer();
         public int Depth { get; set; } = 4;
+        bool _stopping = false;
 
         public Falade(int depth = 4)
         {
@@ -22,7 +23,7 @@ namespace BlackMitten.Elliot.FaladeEngine
 
         public void Stop()
         {
-
+            _stopping = true;
         }
 
         public Move GetBestMove(Board originalBoard)
@@ -38,8 +39,8 @@ namespace BlackMitten.Elliot.FaladeEngine
             }
             double maxScore = double.MinValue;
             double minScore = double.MaxValue;
-            Move maxScoreMove = null;
-            Move minScoreMove = null;
+            Move maxScoreMove = moves[0];
+            Move minScoreMove = moves[0];
             foreach (var m in moves)
             {
                 double score;
@@ -97,7 +98,7 @@ namespace BlackMitten.Elliot.FaladeEngine
             var moves = board.GetAllMoves();
             if (maximizing)
             {
-                double max = double.MinValue;
+                double max = -100000 - depth;
                 foreach (var move in moves)
                 {
                     var undo = new Undo();
@@ -109,7 +110,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                     Assert.IsTrue(fenBefore == fenAfterUndo);
 #endif
                     alpha = Math.Max(alpha, max);
-                    if (alpha >= beta)
+                    if (alpha >= beta || _stopping)
                     {
                         break;
                     }
@@ -118,7 +119,7 @@ namespace BlackMitten.Elliot.FaladeEngine
             }
             else
             {
-                double min = double.MaxValue;
+                double min = 100000 + depth;
                 foreach (var move in moves)
                 {
                     var undo = new Undo();
@@ -130,7 +131,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                     Assert.IsTrue(fenBefore == fenAfterUndo);
 #endif
                     beta = Math.Min(beta, min);
-                    if (alpha >= beta)
+                    if (alpha >= beta || _stopping)
                     {
                         break;
                     }

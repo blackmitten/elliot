@@ -148,6 +148,8 @@ namespace Blackmitten.Elliot.Backend
         public void ApplicationClosing()
         {
             _applicationClosing = true;
+            _whitePlayer.Kill();
+            _blackPlayer.Kill();
             GameState = GameState.Abandoned;
             _userInterface.StopWaiting();
         }

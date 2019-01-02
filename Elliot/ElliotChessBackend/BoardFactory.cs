@@ -164,6 +164,7 @@ namespace Blackmitten.Elliot.Backend
             board.AddPiece(new King(Square.BlackKingStart, false));
             board.AddPiece(new Rook(Square.BlackKingsRookStart, false));
             board.AddPiece(new Rook(Square.BlackQueensRookStart, false));
+            board.WhitesTurn = false;
             return board;
         }
 
@@ -174,6 +175,7 @@ namespace Blackmitten.Elliot.Backend
             board.AddPiece(new King(Square.BlackKingStart, false));
             board.AddPiece(new Rook(Square.WhiteKingsRookStart, true));
             board.AddPiece(new Rook(Square.WhiteQueensRookStart, true));
+            board.WhitesTurn = true;
             return board;
         }
 
