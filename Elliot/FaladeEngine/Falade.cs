@@ -96,9 +96,34 @@ namespace BlackMitten.Elliot.FaladeEngine
 #endif
 
             var moves = board.GetAllMoves();
+            if (moves.Count == 0)
+            {
+                if (board.WhitesTurn)
+                {
+                    if (board.WhiteInCheck)
+                    {
+                        return -100000 - depth;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    if (board.BlackInCheck)
+                    {
+                        return 100000 + depth;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
             if (maximizing)
             {
-                double max = -100000 - depth;
+                double max = double.MinValue;
                 foreach (var move in moves)
                 {
                     var undo = new Undo();
@@ -116,15 +141,11 @@ namespace BlackMitten.Elliot.FaladeEngine
                     }
                 }
 
-                if (moves.Count == 0)
-                {
-                    int i = 1;
-                }
                 return max;
             }
             else
             {
-                double min = 100000 + depth;
+                double min = double.MaxValue;
                 foreach (var move in moves)
                 {
                     var undo = new Undo();
@@ -168,6 +189,7 @@ namespace BlackMitten.Elliot.FaladeEngine
                 piece.Accept(_pieceValuer);
                 score += _pieceValuer.Value;
             }
+            /*
             if(board.WhiteInCheck)
             {
                 score -= 100;
@@ -176,6 +198,7 @@ namespace BlackMitten.Elliot.FaladeEngine
             {
                 score += 100;
             }
+            */
 
             return score;
         }
