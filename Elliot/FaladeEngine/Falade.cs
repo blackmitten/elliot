@@ -170,11 +170,11 @@ namespace BlackMitten.Elliot.FaladeEngine
             }
             if(board.WhiteInCheck)
             {
-                score -= 10;
+                score -= 100;
             }
             if(board.BlackInCheck)
             {
-                score += 10;
+                score += 100;
             }
 
             return score;
