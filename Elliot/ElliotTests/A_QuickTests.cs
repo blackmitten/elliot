@@ -208,11 +208,11 @@ namespace ElliotTests
                 for (int x = 1; x <= 8; x++)
                 {
                     Square s = new Square(x, y);
-                    sb.Append(board.IsSquareThreatened(s) ? "X" : "o");
+                    sb.Append(board.IsSquareThreatened(s, true) ? "X" : "o");
                 }
                 strings.Add(sb.ToString());
             }
-            Assert.IsTrue(board.IsSquareThreatened(new Square(8, 6)));
+            Assert.IsTrue(board.IsSquareThreatened(new Square(8, 6), true));
         }
 
         public static void TestStartingPositions()
