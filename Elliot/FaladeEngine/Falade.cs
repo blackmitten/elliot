@@ -115,6 +115,11 @@ namespace BlackMitten.Elliot.FaladeEngine
                         break;
                     }
                 }
+
+                if (moves.Count == 0)
+                {
+                    int i = 1;
+                }
                 return max;
             }
             else
@@ -135,6 +140,10 @@ namespace BlackMitten.Elliot.FaladeEngine
                     {
                         break;
                     }
+                }
+                if (moves.Count == 0)
+                {
+                    int i = 1;
                 }
                 return min;
             }
@@ -161,11 +170,11 @@ namespace BlackMitten.Elliot.FaladeEngine
             }
             if(board.WhiteInCheck)
             {
-                score += 10;
+                score -= 10;
             }
             if(board.BlackInCheck)
             {
-                score -= 10;
+                score += 10;
             }
 
             return score;

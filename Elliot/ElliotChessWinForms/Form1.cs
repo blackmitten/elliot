@@ -56,7 +56,7 @@ namespace BlackMitten.Elliot.Winforms
 
             boardControl1.Log = _log;
 
-            Board board = BoardFactory.InitNewGame();
+            Board board = BoardFactory.BlackInTrouble();
 //            board = BoardFactory.BoardFromFenString("5k1r/1b1n1ppp/4p3/4P3/1QN2P2/r7/6PP/qB2K2R b Q - 0 25");
 
             _game = new Game(whitePlayer, blackPlayer, this, _log, new MoveValidator(), board);

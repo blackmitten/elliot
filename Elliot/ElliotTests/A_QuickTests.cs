@@ -208,11 +208,11 @@ namespace ElliotTests
                 for (int x = 1; x <= 8; x++)
                 {
                     Square s = new Square(x, y);
-                    sb.Append(board.IsSquareThreatened(s) ? "X" : "o");
+                    sb.Append(board.IsSquareThreatened(s,true) ? "X" : "o" );
                 }
                 strings.Add(sb.ToString());
             }
-            Assert.IsTrue(board.IsSquareThreatened(new Square(8, 6)));
+            Assert.IsTrue(board.IsSquareThreatened(new Square(8, 6), true));
         }
 
         public static void TestStartingPositions()
@@ -228,6 +228,12 @@ namespace ElliotTests
 
         }
 
+        public static void TestCheck()
+        {
+            Board b = BoardFactory.BoardFromFenString("4k3/8/8/8/4K2R/8/8/R7 b - - 7 4");
+            Assert.IsTrue(!b.BlackInCheck);
+            Assert.IsTrue(!b.WhiteInCheck);
+        }
 
 
     }
