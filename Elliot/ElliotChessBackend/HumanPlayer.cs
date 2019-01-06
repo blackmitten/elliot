@@ -21,7 +21,9 @@ namespace Blackmitten.Elliot.Backend
         public bool White { get; }
         public string Name { get; set; } = "Human";
 
-        public void Kill() => throw new NotImplementedException("That's not ethical");
+        public void Kill()
+        {
+        }
 
         public Move Play(Board board)
         {

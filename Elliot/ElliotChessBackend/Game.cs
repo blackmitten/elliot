@@ -10,7 +10,8 @@ namespace Blackmitten.Elliot.Backend
     {
         InPlay,
         StaleMate,
-        CheckMate,
+        WhiteWins,
+        BlackWins,
         Abandoned
     };
 
@@ -64,14 +65,14 @@ namespace Blackmitten.Elliot.Backend
 
         public void PlaySingleMove(int delay)
         {
-            Move move;
-            try
+            Move move = null;
+            if (_board.HalfMoveClock > 50)
             {
-                if (_board.HalfMoveClock > 50)
-                {
-                    GameState = GameState.StaleMate;
-                }
-                if (_board.WhitesTurn)
+                GameState = GameState.StaleMate;
+            }
+            if (_board.WhitesTurn)
+            {
+                if (_board.WhiteCanMove)
                 {
                     if (!_whitePlayer.Human)
                     {
@@ -79,9 +80,16 @@ namespace Blackmitten.Elliot.Backend
                     }
                     move = _whitePlayer.Play(_board);
                     Thread.Sleep(delay);
-                    _userInterface.MachineThinking = false;
                 }
-                else
+                else if (_board.WhiteInCheck)
+                {
+                    GameState = GameState.BlackWins;
+                }
+                _userInterface.MachineThinking = false;
+            }
+            else
+            {
+                if (_board.BlackCanMove)
                 {
                     if (!_blackPlayer.Human)
                     {
@@ -89,58 +97,52 @@ namespace Blackmitten.Elliot.Backend
                     }
                     move = _blackPlayer.Play(_board);
                     Thread.Sleep(delay);
-                    _userInterface.MachineThinking = false;
                 }
-                if (move == null)
+                else if (_board.BlackInCheck)
                 {
-                    GameState = GameState.CheckMate;
+                    GameState = GameState.WhiteWins;
                 }
-                if (!_applicationClosing)
-                {
-                    _userInterface.Redraw();
-                }
-                if (GameState == GameState.InPlay)
-                {
-                    _log.Write(move.ToLongString());
-                    _userInterface.WaitForInstructionToMove();
-                    try
-                    {
-                        _moveValidator.Validate(move);
-                        var undo = new Undo();
-#if DIAGNOSTIC
-                        string fenBefore = _board.GetFenString();
-
-                        _board.Move(move, true, undo);
-                        string fenAfter = _board.GetFenString();
-                        _board.CheckIntegrity();
-                        Assert.IsTrue(fenBefore != fenAfter);
-
-                        _board.UndoLastmove( undo );
-                        string fenAfterUndo = _board.GetFenString();
-                        _board.CheckIntegrity();
-                        Assert.IsTrue(fenBefore == fenAfterUndo);
-
-                        _board.Move(move, true, undo);
-                        string fenAfterAgain = _board.GetFenString();
-                        _board.CheckIntegrity();
-                        Assert.IsTrue(fenAfter == fenAfterAgain);
-#else
-                        _board.Move(move, true, undo);
-                        _board.CheckIntegrity();
-#endif
-                    }
-                    catch (InvalidMoveException e)
-                    {
-                        _userInterface.InvalidMove(e.Message);
-                    }
-                    
-                    _userInterface.Redraw();
-                }
-            }
-            catch (NoMovesException)
-            {
-                GameState = GameState.CheckMate;
                 _userInterface.MachineThinking = false;
+            }
+            if (!_applicationClosing)
+            {
+                _userInterface.Redraw();
+            }
+            if (GameState == GameState.InPlay)
+            {
+                _log.Write(move.ToLongString());
+                _userInterface.WaitForInstructionToMove();
+                try
+                {
+                    _moveValidator.Validate(move);
+                    var undo = new Undo();
+#if DIAGNOSTIC
+                    string fenBefore = _board.GetFenString();
+
+                    _board.Move(move, true, undo);
+                    string fenAfter = _board.GetFenString();
+                    _board.CheckIntegrity();
+                    Assert.IsTrue(fenBefore != fenAfter);
+
+                    _board.UndoLastmove( undo );
+                    string fenAfterUndo = _board.GetFenString();
+                    _board.CheckIntegrity();
+                    Assert.IsTrue(fenBefore == fenAfterUndo);
+
+                    _board.Move(move, true, undo);
+                    string fenAfterAgain = _board.GetFenString();
+                    _board.CheckIntegrity();
+                    Assert.IsTrue(fenAfter == fenAfterAgain);
+#else
+                    _board.Move(move, true, undo);
+                    _board.CheckIntegrity();
+#endif
+                }
+                catch (InvalidMoveException e)
+                {
+                    _userInterface.InvalidMove(e.Message);
+                }
+
                 _userInterface.Redraw();
             }
         }

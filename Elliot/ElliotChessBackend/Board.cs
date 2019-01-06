@@ -26,6 +26,8 @@ namespace Blackmitten.Elliot.Backend
         IPiece _whiteKing;
 
         public bool WhitesTurn { get; set; } = true;
+        public bool WhiteCanMove => GetAllMoves(true).Count > 0;
+        public bool BlackCanMove => GetAllMoves(false).Count > 0;
 
         public IEnumerable<IPiece> BlackPieces => _blackPieces;
         public IEnumerable<IPiece> WhitePieces => _whitePieces;
@@ -63,9 +65,17 @@ namespace Blackmitten.Elliot.Backend
             undo.UndoMove(this);
         }
 
-        public IList<Move> GetAllMoves()
+        public IList<Move> GetAllMoves(bool? white = null)
         {
-            List<IPiece> pieces = WhitesTurn ? _whitePieces : _blackPieces;
+            List<IPiece> pieces;
+            if (white.HasValue)
+            {
+                pieces = white.Value ? _whitePieces : _blackPieces;
+            }
+            else
+            {
+                pieces = WhitesTurn ? _whitePieces : _blackPieces;
+            }
             List<Move> moves = new List<Move>();
             MoveGenerator generator = new MoveGenerator();
             foreach (var piece in pieces)

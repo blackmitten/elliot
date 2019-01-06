@@ -35,7 +35,7 @@ namespace ElliotTests
             Game game = new Game(whiteFalade, blackFalade, ui, new MockLog(), new MockValidator(), board);
 
             game.PlaySingleMove(0);
-            Assert.IsTrue(game.GameState != GameState.CheckMate);
+            Assert.IsTrue(game.GameState != GameState.WhiteWins && game.GameState != GameState.BlackWins);
         }
 
         public static void FaladePerformanceMeasure()

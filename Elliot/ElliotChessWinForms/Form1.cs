@@ -46,13 +46,13 @@ namespace BlackMitten.Elliot.Winforms
 
             IPlayer whiteHuman = new HumanPlayer(true, this);
             IPlayer blackHuman = new HumanPlayer(false, this);
-            IPlayer blackFalade = new MachinePlayer(false, this, new Falade(4));
-            IPlayer whiteFalade = new MachinePlayer(true, this, new Falade(4));
+            IPlayer blackFalade = new MachinePlayer(false, this, new Falade(3));
+            IPlayer whiteFalade = new MachinePlayer(true, this, new Falade(3));
             IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(1));
             IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(1));
 
             IPlayer blackPlayer = blackFalade;
-            IPlayer whitePlayer = whiteHuman;
+            IPlayer whitePlayer = whiteFalade;
 
             boardControl1.Log = _log;
 
@@ -80,40 +80,48 @@ namespace BlackMitten.Elliot.Winforms
                     listBox1.SelectedIndex = listBox1.Items.Count - 1;
                 }
             }
-            if(_game.GameState== GameState.StaleMate)
+            switch(_game.GameState)
             {
-                labelWhosTurn.Text = "Stalemate";
-            }
-            else if(_game.WhitesTurn)
-            {
-                if(_game.GameState== GameState.CheckMate)
-                {
+                case GameState.StaleMate:
+                    labelWhosTurn.Text = "Stalemate";
+                    break;
+                case GameState.Abandoned:
+                    labelWhosTurn.Text = "Abandoned";
+                    break;
+                case GameState.InPlay:
+                    if(_game.WhitesTurn)
+                    {
+                        if(_game.CurrentPlayerInCheck)
+                        {
+                            labelWhosTurn.Text = "White in check";
+                        }
+                        else
+                        {
+                            labelWhosTurn.Text = "White's turn";
+                        }
+                    }
+                    else
+                    {
+                        if (_game.CurrentPlayerInCheck)
+                        {
+                            labelWhosTurn.Text = "Black in check";
+                        }
+                        else
+                        {
+                            labelWhosTurn.Text = "Black's turn";
+                        }
+                    }
+                    break;
+                case GameState.BlackWins:
                     labelWhosTurn.Text = "Black wins";
-                }
-                else if(_game.CurrentPlayerInCheck)
-                {
-                    labelWhosTurn.Text = "White in check";
-                }
-                else
-                {
-                    labelWhosTurn.Text = "White's turn";
-                }
-            }
-            else
-            {
-                if (_game.GameState == GameState.CheckMate)
-                {
+                    break;
+                case GameState.WhiteWins:
                     labelWhosTurn.Text = "White wins";
-                }
-                else if(_game.CurrentPlayerInCheck)
-                {
-                    labelWhosTurn.Text = "Black in check";
-                }
-                else
-                {
-                    labelWhosTurn.Text = "Black's turn";
-                }
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
+
             labelMoveNumber.Text = "Move " + _game.MoveNumber.ToString();
         }
 
