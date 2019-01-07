@@ -85,6 +85,10 @@ namespace Blackmitten.Elliot.Backend
                 {
                     GameState = GameState.BlackWins;
                 }
+                else
+                {
+                    GameState = GameState.StaleMate;
+                }
                 _userInterface.MachineThinking = false;
             }
             else
@@ -101,6 +105,10 @@ namespace Blackmitten.Elliot.Backend
                 else if (_board.BlackInCheck)
                 {
                     GameState = GameState.WhiteWins;
+                }
+                else
+                {
+                    GameState = GameState.StaleMate;
                 }
                 _userInterface.MachineThinking = false;
             }

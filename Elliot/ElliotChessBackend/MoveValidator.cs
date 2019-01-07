@@ -13,6 +13,10 @@ namespace Blackmitten.Elliot.Backend
 
         public bool Validate(Move move)
         {
+            if (move.Start == move.End)
+            {
+                return false;
+            }
             _valid = null;
 
             IPiece piece = move.Board.GetPieceOnSquare(move.Start);
@@ -60,6 +64,7 @@ namespace Blackmitten.Elliot.Backend
                     if (board.GetPieceOnSquare(move.End) != null)
                     {
                         _valid = false;
+                        return;
                     }
                 }
                 else if (squaresAdvanced == 2)
@@ -67,15 +72,18 @@ namespace Blackmitten.Elliot.Backend
                     if (board.GetPieceOnSquare(new Square(move.Start.x, move.Start.y + direction)) != null)
                     {
                         _valid = false;
+                        return;
                     }
                     else if (board.GetPieceOnSquare(move.End) != null)
                     {
                         _valid = false;
+                        return;
                     }
                 }
                 else
                 {
                     _valid = false;
+                    return;
                 }
             }
             else if (Math.Abs(dx) == 1 && squaresAdvanced == 1)
@@ -88,10 +96,12 @@ namespace Blackmitten.Elliot.Backend
                 if (capturedPiece == null)
                 {
                     _valid = false;
+                    return;
                 }
                 else if (capturedPiece.White == pawn.White)
                 {
                     _valid = false;
+                    return;
                 }
                 else
                 {
@@ -101,6 +111,7 @@ namespace Blackmitten.Elliot.Backend
             else
             {
                 _valid = false;
+                return;
             }
 
         }
@@ -115,10 +126,12 @@ namespace Blackmitten.Elliot.Backend
             if (dx != 0 && dy != 0)
             {
                 _valid = false;
+                return;
             }
             if (dx == 0 && dy == 0)
             {
                 _valid = false;
+                return;
             }
             CheckNothingInTheWay(rook, move);
         }
@@ -133,6 +146,7 @@ namespace Blackmitten.Elliot.Backend
             if (!(absDx == 1 && absDy == 2) && !(absDx == 2 && absDy == 1))
             {
                 _valid = false;
+                return;
             }
             IPiece capturedPiece = move.Board.GetPieceOnSquare(move.End);
             if (capturedPiece != null)
@@ -140,6 +154,7 @@ namespace Blackmitten.Elliot.Backend
                 if (capturedPiece.White == knight.White)
                 {
                     _valid = false;
+                    return;
                 }
                 else
                 {
@@ -158,10 +173,12 @@ namespace Blackmitten.Elliot.Backend
             if (Math.Abs(dx) != Math.Abs(dy))
             {
                 _valid = false;
+                return;
             }
             if (dx == 0)
             {
                 _valid = false;
+                return;
             }
             CheckNothingInTheWay(bishop, move);
 
@@ -179,11 +196,13 @@ namespace Blackmitten.Elliot.Backend
                 if (Math.Abs(dx) != Math.Abs(dy))
                 {
                     _valid = false;
+                    return;
                 }
             }
             if (dx == 0 && dy == 0)
             {
                 _valid = false;
+                return;
             }
             CheckNothingInTheWay(queen, move);
         }
@@ -198,6 +217,7 @@ namespace Blackmitten.Elliot.Backend
             if (absDx == 0 && absDy == 0)
             {
                 _valid = false;
+                return;
             }
             if (absDx > 1 || absDy > 1)
             {
@@ -252,6 +272,7 @@ namespace Blackmitten.Elliot.Backend
                 if (!castleOk)
                 {
                     _valid = false;
+                    return;
                 }
             }
             IPiece capturedPiece = move.Board.GetPieceOnSquare(move.End);
@@ -260,6 +281,7 @@ namespace Blackmitten.Elliot.Backend
                 if (capturedPiece.White == king.White)
                 {
                     _valid = false;
+                    return;
                 }
                 else
                 {
@@ -286,6 +308,7 @@ namespace Blackmitten.Elliot.Backend
                         if (capturedPiece.White == piece.White)
                         {
                             _valid = false;
+                            return;
                         }
                         else
                         {
@@ -295,6 +318,7 @@ namespace Blackmitten.Elliot.Backend
                     else
                     {
                         _valid = false;
+                        return;
                     }
                 }
             }
