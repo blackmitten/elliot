@@ -29,19 +29,24 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.textBoxFen = new System.Windows.Forms.TextBox();
             this.labelMoveNumber = new System.Windows.Forms.Label();
             this.labelPlayers = new System.Windows.Forms.Label();
             this.checkBoxWaitToProceed = new System.Windows.Forms.CheckBox();
             this.buttonInstructToMove = new System.Windows.Forms.Button();
             this.labelWhosTurn = new System.Windows.Forms.Label();
             this.boardControl1 = new Blackmitten.Elliot.WinForms.BoardControl();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.textBoxFen = new System.Windows.Forms.TextBox();
+            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonNewGame = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.toolStripContainer1.ContentPanel.SuspendLayout();
+            this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
+            this.toolStripContainer1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -53,11 +58,19 @@
             this.panel1.Controls.Add(this.buttonInstructToMove);
             this.panel1.Controls.Add(this.labelWhosTurn);
             this.panel1.Controls.Add(this.boardControl1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 407);
+            this.panel1.Size = new System.Drawing.Size(894, 476);
             this.panel1.TabIndex = 1;
+            // 
+            // textBoxFen
+            // 
+            this.textBoxFen.Location = new System.Drawing.Point(431, 249);
+            this.textBoxFen.Name = "textBoxFen";
+            this.textBoxFen.ReadOnly = true;
+            this.textBoxFen.Size = new System.Drawing.Size(329, 20);
+            this.textBoxFen.TabIndex = 6;
             // 
             // labelMoveNumber
             // 
@@ -117,45 +130,66 @@
             this.boardControl1.WaitingForBlackHuman = false;
             this.boardControl1.WaitingForWhiteHuman = false;
             // 
-            // panel2
+            // toolStripContainer1
             // 
-            this.panel2.Controls.Add(this.listBox1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 407);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(800, 159);
-            this.panel2.TabIndex = 2;
+            this.toolStripContainer1.BottomToolStripPanelVisible = false;
             // 
-            // listBox1
+            // toolStripContainer1.ContentPanel
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(0, 0);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(800, 159);
-            this.listBox1.TabIndex = 0;
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.panel1);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(894, 476);
+            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStripContainer1.LeftToolStripPanelVisible = false;
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer1.Name = "toolStripContainer1";
+            this.toolStripContainer1.RightToolStripPanelVisible = false;
+            this.toolStripContainer1.Size = new System.Drawing.Size(894, 515);
+            this.toolStripContainer1.TabIndex = 2;
+            this.toolStripContainer1.Text = "toolStripContainer1";
             // 
-            // textBoxFen
+            // toolStripContainer1.TopToolStripPanel
             // 
-            this.textBoxFen.Location = new System.Drawing.Point(431, 249);
-            this.textBoxFen.Name = "textBoxFen";
-            this.textBoxFen.ReadOnly = true;
-            this.textBoxFen.Size = new System.Drawing.Size(329, 20);
-            this.textBoxFen.TabIndex = 6;
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonNewGame});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(79, 39);
+            this.toolStrip1.TabIndex = 0;
+            // 
+            // toolStripButtonNewGame
+            // 
+            this.toolStripButtonNewGame.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonNewGame.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonNewGame.Image")));
+            this.toolStripButtonNewGame.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonNewGame.Name = "toolStripButtonNewGame";
+            this.toolStripButtonNewGame.Size = new System.Drawing.Size(36, 36);
+            this.toolStripButtonNewGame.Text = "toolStripButton1";
+            this.toolStripButtonNewGame.Click += new System.EventHandler(this.toolStripButtonNewGame_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 566);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(894, 515);
+            this.Controls.Add(this.toolStripContainer1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
+            this.toolStripContainer1.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.PerformLayout();
+            this.toolStripContainer1.ResumeLayout(false);
+            this.toolStripContainer1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -164,8 +198,6 @@
 
         private Blackmitten.Elliot.WinForms.BoardControl boardControl1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label labelWhosTurn;
         private System.Windows.Forms.Button buttonInstructToMove;
@@ -173,6 +205,9 @@
         private System.Windows.Forms.Label labelPlayers;
         private System.Windows.Forms.Label labelMoveNumber;
         private System.Windows.Forms.TextBox textBoxFen;
+        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonNewGame;
     }
 }
 

@@ -44,23 +44,7 @@ namespace BlackMitten.Elliot.Winforms
             var path = ConfigurationManager.AppSettings["StockfishBinPath"];
             checkBoxWaitToProceed.Checked = bool.Parse( ConfigurationManager.AppSettings["WaitToProceed"] );
 
-            IPlayer whiteHuman = new HumanPlayer(true, this);
-            IPlayer blackHuman = new HumanPlayer(false, this);
-            IPlayer blackFalade = new MachinePlayer(false, this, new Falade(3));
-            IPlayer whiteFalade = new MachinePlayer(true, this, new Falade(3));
-            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(1));
-            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(1));
-
-            IPlayer blackPlayer = blackFalade;
-            IPlayer whitePlayer = whiteFalade;
-
-            boardControl1.Log = _log;
-
-            Board board = BoardFactory.InitNewGame();
-
-            _game = new Game(whitePlayer, blackPlayer, this, _log, new MoveValidator(), board);
-            _game.StartPlay( 0 );
-            labelPlayers.Text = "White " + whitePlayer.Name + " vs. black " + blackPlayer.Name;
+            NewGame();
 
             timer1.Tick += Timer1_Tick;
             timer1.Start();
@@ -71,6 +55,7 @@ namespace BlackMitten.Elliot.Winforms
             var strings = _log.Read();
             if (strings.Count > 0)
             {
+                /*
                 foreach (var s in strings)
                 {
                     listBox1.Items.Add(s);
@@ -79,6 +64,7 @@ namespace BlackMitten.Elliot.Winforms
                 {
                     listBox1.SelectedIndex = listBox1.Items.Count - 1;
                 }
+                */
             }
             switch(_game.GameState)
             {
@@ -163,6 +149,33 @@ namespace BlackMitten.Elliot.Winforms
         public void InvalidMove(string message)
         {
             MessageBox.Show(message, "Invalid move");
+        }
+
+        private void toolStripButtonNewGame_Click(object sender, EventArgs e)
+        {
+            NewGame();
+        }
+
+        void NewGame()
+        {
+            IPlayer whiteHuman = new HumanPlayer(true, this);
+            IPlayer blackHuman = new HumanPlayer(false, this);
+            IPlayer blackFalade = new MachinePlayer(false, this, new Falade(4));
+            IPlayer whiteFalade = new MachinePlayer(true, this, new Falade(4));
+            IPlayer whiteStockfish = new MachinePlayer(true, this, new Stockfish(1));
+            IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(1));
+
+            IPlayer blackPlayer = blackFalade;
+            IPlayer whitePlayer = whiteHuman;
+
+            boardControl1.Log = _log;
+
+            Board board = BoardFactory.InitNewGame();
+
+            _game = new Game(whitePlayer, blackPlayer, this, _log, new MoveValidator(), board);
+            _game.StartPlay(0);
+            labelPlayers.Text = "White " + whitePlayer.Name + " vs. black " + blackPlayer.Name;
+
         }
     }
 }
