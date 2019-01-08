@@ -1,6 +1,7 @@
 ﻿using Blackmitten.Elliot.Backend;
 using Blackmitten.Menzel;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,7 @@ namespace BlackMitten.Elliot.FaladeEngine
             {
                 return null;
             }
+//            SortMoves(board, moves, board.WhitesTurn);
             double maxScore = double.MinValue;
             double minScore = double.MaxValue;
             Move maxScoreMove = moves[0];
@@ -79,6 +81,42 @@ namespace BlackMitten.Elliot.FaladeEngine
             }
         }
 
+        private void SortMoves(Board board, List<Move> moves, bool maximising)
+        {
+            moves.Sort((m1, m2) =>
+            {
+                try
+                {
+                    Undo u1 = new Undo();
+                    board.Move(m1, true, u1);
+                    double score1 = CalculateSidesScore(board, maximising);
+                    board.UndoLastmove(u1);
+
+                    Undo u2 = new Undo();
+                    board.Move(m2, true, u2);
+                    double score2 = CalculateSidesScore(board, maximising);
+                    board.UndoLastmove(u2);
+
+                    if (score1 > score2)
+                    {
+                        return 1;
+                    }
+                    else if (score2 < score1)
+                    {
+                        return -1;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            });
+        }
+
         private double Evaluate(Board board)
         {
             return Minimax(board, Depth, double.MinValue, double.MaxValue, board.WhitesTurn);
@@ -96,6 +134,7 @@ namespace BlackMitten.Elliot.FaladeEngine
 #endif
 
             var moves = board.GetAllMoves();
+//            SortMoves(board, moves, maximizing);
             if (maximizing)
             {
                 double max = -100000 - depth;
@@ -159,15 +198,15 @@ namespace BlackMitten.Elliot.FaladeEngine
                 piece.Accept(_pieceValuer);
                 score += _pieceValuer.Value;
             }
-            if(board.WhiteInCheck)
+            if (board.WhiteInCheck)
             {
                 score -= 10;
-                if ( !board.WhiteCanMove)
+                if (!board.WhiteCanMove)
                 {
                     score -= 100000;
                 }
             }
-            if(board.BlackInCheck)
+            if (board.BlackInCheck)
             {
                 score += 10;
                 if (!board.WhiteCanMove)

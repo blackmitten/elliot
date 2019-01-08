@@ -65,7 +65,7 @@ namespace Blackmitten.Elliot.Backend
             undo.UndoMove(this);
         }
 
-        public IList<Move> GetAllMoves(bool? white = null)
+        public List<Move> GetAllMoves(bool? white = null)
         {
             List<IPiece> pieces;
             if (white.HasValue)
