@@ -11,7 +11,22 @@ namespace ElliotTests
 {
     public class B_SlowTests
     {
-        public static void TestDodgyBoard()
+        public static void TestFaladeGoesForMateQuickly()
+        {
+            MockUI ui = new MockUI();
+            Falade falade = new Falade(4);
+
+            IPlayer whiteFalade = new MachinePlayer(true, ui, falade);
+            IPlayer blackFalade = new MachinePlayer(false, ui, falade);
+            Board board = BoardFactory.BoardFromFenString("rnbqkbnr/pppp1ppp/8/4p3/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq g3 0 2");
+            ui.Board = board;
+            ui.Redraw();
+            Game game = new Game(whiteFalade, blackFalade, ui, new MockLog(), new MockValidator(), board);
+
+            game.PlaySingleMove(0);
+        }
+
+        public static void TestStalemate()
         {
             MockUI ui = new MockUI();
             Falade falade = new Falade(4);

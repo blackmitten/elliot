@@ -161,11 +161,19 @@ namespace BlackMitten.Elliot.FaladeEngine
             }
             if(board.WhiteInCheck)
             {
-                score += 10;
+                score -= 10;
+                if ( !board.WhiteCanMove)
+                {
+                    score -= 100000;
+                }
             }
             if(board.BlackInCheck)
             {
-                score -= 10;
+                score += 10;
+                if (!board.WhiteCanMove)
+                {
+                    score += 100000;
+                }
             }
 
             return score;
