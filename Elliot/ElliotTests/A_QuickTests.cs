@@ -228,6 +228,12 @@ namespace ElliotTests
 
         }
 
+        public static void TestCheck()
+        {
+            Board b = BoardFactory.BoardFromFenString("4k3/8/8/8/4K2R/8/8/R7 b - - 7 4");
+            Assert.IsTrue(!b.BlackInCheck);
+            Assert.IsTrue(!b.WhiteInCheck);
+        }
 
 
     }

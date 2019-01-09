@@ -13,6 +13,10 @@ namespace ElliotTools
         {
             string fen = args[0];
             Console.WriteLine(fen);
+            if (fen.StartsWith("{") && fen.EndsWith("}"))
+            {
+                fen = fen.Substring(1, fen.Length - 2);
+            }
             Board board = BoardFactory.BoardFromFenString(fen);
             Console.WriteLine(board.ToLongString());
         }

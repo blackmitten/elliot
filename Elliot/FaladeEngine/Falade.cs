@@ -134,10 +134,34 @@ namespace BlackMitten.Elliot.FaladeEngine
 #endif
 
             var moves = board.GetAllMoves();
-//            SortMoves(board, moves, maximizing);
+            if (moves.Count == 0)
+            {
+                if (board.WhitesTurn)
+                {
+                    if (board.WhiteInCheck)
+                    {
+                        return -100000 - depth;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    if (board.BlackInCheck)
+                    {
+                        return 100000 + depth;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
             if (maximizing)
             {
-                double max = -100000 - depth;
+                double max = double.MinValue;
                 foreach (var move in moves)
                 {
                     var undo = new Undo();
@@ -154,11 +178,12 @@ namespace BlackMitten.Elliot.FaladeEngine
                         break;
                     }
                 }
+
                 return max;
             }
             else
             {
-                double min = 100000 + depth;
+                double min = double.MaxValue;
                 foreach (var move in moves)
                 {
                     var undo = new Undo();
@@ -198,22 +223,16 @@ namespace BlackMitten.Elliot.FaladeEngine
                 piece.Accept(_pieceValuer);
                 score += _pieceValuer.Value;
             }
-            if (board.WhiteInCheck)
+            /*
+            if(board.WhiteInCheck)
             {
-                score -= 10;
-                if (!board.WhiteCanMove)
-                {
-                    score -= 100000;
-                }
+                score -= 100;
             }
-            if (board.BlackInCheck)
+            if(board.BlackInCheck)
             {
-                score += 10;
-                if (!board.WhiteCanMove)
-                {
-                    score += 100000;
-                }
+                score += 100;
             }
+            */
 
             return score;
         }

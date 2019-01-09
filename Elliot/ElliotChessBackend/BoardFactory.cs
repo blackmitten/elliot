@@ -172,9 +172,9 @@ namespace Blackmitten.Elliot.Backend
         {
             Board board = new Board();
             board.AddPiece(new King(Square.WhiteKingStart, true));
-            board.AddPiece(new King(Square.BlackKingStart, false));
-            board.AddPiece(new Rook(Square.WhiteKingsRookStart, true));
-            board.AddPiece(new Rook(Square.WhiteQueensRookStart, true));
+            board.AddPiece(new King(Square.BlackKingStart.Offset(0,-1), false));
+            board.AddPiece(new Queen(Square.WhiteKingsRookStart, true));
+            board.AddPiece(new Queen(Square.WhiteQueensRookStart, true));
             board.WhitesTurn = true;
             return board;
         }

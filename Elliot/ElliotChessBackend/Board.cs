@@ -451,47 +451,46 @@ namespace Blackmitten.Elliot.Backend
 
         public bool IsSquareThreatened(Square square, bool byWhite)
         {
-            bool notWhitesTurn = byWhite;
-            if (GetPieceOnSquareOnSide(square.Offset(1, 2), notWhitesTurn) as Knight != null ||
-                GetPieceOnSquareOnSide(square.Offset(-1, 2), notWhitesTurn) as Knight != null ||
-                GetPieceOnSquareOnSide(square.Offset(1, -2), notWhitesTurn) as Knight != null ||
-                GetPieceOnSquareOnSide(square.Offset(-1, -2), notWhitesTurn) as Knight != null ||
-                GetPieceOnSquareOnSide(square.Offset(2, 1), notWhitesTurn) as Knight != null ||
-                GetPieceOnSquareOnSide(square.Offset(-2, 1), notWhitesTurn) as Knight != null ||
-                GetPieceOnSquareOnSide(square.Offset(2, -1), notWhitesTurn) as Knight != null ||
-                GetPieceOnSquareOnSide(square.Offset(-2, -1), notWhitesTurn) as Knight != null)
+            if (GetPieceOnSquareOnSide(square.Offset(1, 2), byWhite) is Knight ||
+                GetPieceOnSquareOnSide(square.Offset(-1, 2), byWhite) is Knight ||
+                GetPieceOnSquareOnSide(square.Offset(1, -2), byWhite) is Knight ||
+                GetPieceOnSquareOnSide(square.Offset(-1, -2), byWhite) is Knight ||
+                GetPieceOnSquareOnSide(square.Offset(2, 1), byWhite) is Knight ||
+                GetPieceOnSquareOnSide(square.Offset(-2, 1), byWhite) is Knight ||
+                GetPieceOnSquareOnSide(square.Offset(2, -1), byWhite) is Knight ||
+                GetPieceOnSquareOnSide(square.Offset(-2, -1), byWhite) is Knight)
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, 1, 1, piece => piece.IsDiagonalMover))
+            if (IsSquareThreatenedFromDirection(square, 1, 1, piece => piece.IsDiagonalMover && piece.White == byWhite))
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, -1, 1, piece => piece.IsDiagonalMover))
+            if (IsSquareThreatenedFromDirection(square, -1, 1, piece => piece.IsDiagonalMover && piece.White == byWhite))
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, 1, -1, piece => piece.IsDiagonalMover))
+            if (IsSquareThreatenedFromDirection(square, 1, -1, piece => piece.IsDiagonalMover && piece.White == byWhite))
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, -1, -1, piece => piece.IsDiagonalMover))
+            if (IsSquareThreatenedFromDirection(square, -1, -1, piece => piece.IsDiagonalMover && piece.White == byWhite))
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, 0, 1, piece => piece.IsStraightMover))
+            if (IsSquareThreatenedFromDirection(square, 0, 1, piece => piece.IsStraightMover && piece.White == byWhite))
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, 0, -1, piece => piece.IsStraightMover))
+            if (IsSquareThreatenedFromDirection(square, 0, -1, piece => piece.IsStraightMover && piece.White == byWhite))
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, 1, 0, piece => piece.IsStraightMover))
+            if (IsSquareThreatenedFromDirection(square, 1, 0, piece => piece.IsStraightMover && piece.White == byWhite))
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, -1, 0, piece => piece.IsStraightMover))
+            if (IsSquareThreatenedFromDirection(square, -1, 0, piece => piece.IsStraightMover && piece.White == byWhite))
             {
                 return true;
             }
@@ -506,11 +505,7 @@ namespace Blackmitten.Elliot.Backend
                 IPiece piece = GetPieceOnSquare(s);
                 if (piece != null)
                 {
-                    if (piece.White == WhitesTurn)
-                    {
-                        return false;
-                    }
-                    else if (pieceTest(piece))
+                    if (pieceTest(piece))
                     {
                         return true;
                     }
