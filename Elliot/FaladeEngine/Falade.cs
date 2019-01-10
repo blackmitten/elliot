@@ -38,7 +38,7 @@ namespace BlackMitten.Elliot.FaladeEngine
             {
                 return null;
             }
-//            SortMoves(board, moves, board.WhitesTurn);
+            SortMoves(board, moves, board.WhitesTurn);
             double maxScore = double.MinValue;
             double minScore = double.MaxValue;
             Move maxScoreMove = moves[0];
@@ -83,19 +83,24 @@ namespace BlackMitten.Elliot.FaladeEngine
 
         private void SortMoves(Board board, List<Move> moves, bool maximising)
         {
+            return;
             moves.Sort((m1, m2) =>
             {
                 try
                 {
+                    double sign = maximising ? -1 : 1;
+
                     Undo u1 = new Undo();
                     board.Move(m1, true, u1);
-                    double score1 = CalculateSidesScore(board, maximising);
+                    double score1 = sign * CalculateWhitesScore(board);
                     board.UndoLastmove(u1);
 
                     Undo u2 = new Undo();
                     board.Move(m2, true, u2);
-                    double score2 = CalculateSidesScore(board, maximising);
+                    double score2 = sign * CalculateWhitesScore(board);
                     board.UndoLastmove(u2);
+
+
 
                     if (score1 > score2)
                     {
@@ -134,6 +139,7 @@ namespace BlackMitten.Elliot.FaladeEngine
 #endif
 
             var moves = board.GetAllMoves();
+            SortMoves(board, moves, board.WhitesTurn);
             if (moves.Count == 0)
             {
                 if (board.WhitesTurn)
@@ -223,17 +229,6 @@ namespace BlackMitten.Elliot.FaladeEngine
                 piece.Accept(_pieceValuer);
                 score += _pieceValuer.Value;
             }
-            /*
-            if(board.WhiteInCheck)
-            {
-                score -= 100;
-            }
-            if(board.BlackInCheck)
-            {
-                score += 100;
-            }
-            */
-
             return score;
         }
 
@@ -241,8 +236,6 @@ namespace BlackMitten.Elliot.FaladeEngine
 
         public string Name { get; } = "Falade";
 
-        public void Move(string move) => throw new NotImplementedException();
-        public void Shutdown() => throw new NotImplementedException();
     }
 
 }
