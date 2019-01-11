@@ -462,35 +462,35 @@ namespace Blackmitten.Elliot.Backend
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, 1, 1, piece => piece.IsDiagonalMover && piece.White == byWhite))
+            if (IsSquareThreatenedFromDirection(square, 1, 1, piece => piece.IsDiagonalMover, byWhite))
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, -1, 1, piece => piece.IsDiagonalMover && piece.White == byWhite))
+            if (IsSquareThreatenedFromDirection(square, -1, 1, piece => piece.IsDiagonalMover, byWhite))
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, 1, -1, piece => piece.IsDiagonalMover && piece.White == byWhite))
+            if (IsSquareThreatenedFromDirection(square, 1, -1, piece => piece.IsDiagonalMover, byWhite))
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, -1, -1, piece => piece.IsDiagonalMover && piece.White == byWhite))
+            if (IsSquareThreatenedFromDirection(square, -1, -1, piece => piece.IsDiagonalMover, byWhite))
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, 0, 1, piece => piece.IsStraightMover && piece.White == byWhite))
+            if (IsSquareThreatenedFromDirection(square, 0, 1, piece => piece.IsStraightMover, byWhite))
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, 0, -1, piece => piece.IsStraightMover && piece.White == byWhite))
+            if (IsSquareThreatenedFromDirection(square, 0, -1, piece => piece.IsStraightMover, byWhite))
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, 1, 0, piece => piece.IsStraightMover && piece.White == byWhite))
+            if (IsSquareThreatenedFromDirection(square, 1, 0, piece => piece.IsStraightMover, byWhite))
             {
                 return true;
             }
-            if (IsSquareThreatenedFromDirection(square, -1, 0, piece => piece.IsStraightMover && piece.White == byWhite))
+            if (IsSquareThreatenedFromDirection(square, -1, 0, piece => piece.IsStraightMover, byWhite))
             {
                 return true;
             }
@@ -498,13 +498,17 @@ namespace Blackmitten.Elliot.Backend
             return false;
         }
 
-        private bool IsSquareThreatenedFromDirection(Square square, int dx, int dy, Func<IPiece, bool> pieceTest)
+        private bool IsSquareThreatenedFromDirection(Square square, int dx, int dy, Func<IPiece, bool> pieceTest, bool byWhite)
         {
             for (Square s = square.Offset(dx, dy); s.InBounds; s = s.Offset(dx, dy))
             {
                 IPiece piece = GetPieceOnSquare(s);
                 if (piece != null)
                 {
+                    if (piece.White != byWhite)
+                    {
+                        return false;
+                    }
                     if (pieceTest(piece))
                     {
                         return true;

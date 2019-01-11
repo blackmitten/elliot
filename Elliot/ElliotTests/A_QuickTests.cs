@@ -202,16 +202,6 @@ namespace ElliotTests
             Board board = BoardFactory.InitNewGame();
             board.Move(new Move(board, new Square(4, 2), new Square(4, 4)), true, new Undo());
             board.WhitesTurn = false;
-            for (int y = 8; y >= 1; y--)
-            {
-                StringBuilder sb = new StringBuilder();
-                for (int x = 1; x <= 8; x++)
-                {
-                    Square s = new Square(x, y);
-                    sb.Append(board.IsSquareThreatened(s, true) ? "X" : "o");
-                }
-                strings.Add(sb.ToString());
-            }
             Assert.IsTrue(board.IsSquareThreatened(new Square(8, 6), true));
         }
 
@@ -231,6 +221,10 @@ namespace ElliotTests
         public static void TestCheck()
         {
             Board b = BoardFactory.BoardFromFenString("4k3/8/8/8/4K2R/8/8/R7 b - - 7 4");
+            Assert.IsTrue(!b.BlackInCheck);
+            Assert.IsTrue(!b.WhiteInCheck);
+
+            b = BoardFactory.BoardFromFenString("rnb1kbnr/pppp1ppp/8/4p3/4P2q/5K2/PPPP1PPP/RNBQ1BNR w kq - 2 3");
             Assert.IsTrue(!b.BlackInCheck);
             Assert.IsTrue(!b.WhiteInCheck);
         }

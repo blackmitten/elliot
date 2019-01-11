@@ -27,8 +27,6 @@ namespace Blackmitten.Elliot.Backend
         ILogWriter _log;
         IMoveValidator _moveValidator;
 
-
-
         public Game(IPlayer whitePlayer, IPlayer blackPlayer, IUserInterface userInterface, ILogWriter log,
             IMoveValidator moveValidator, Board board = null)
         {
@@ -153,6 +151,11 @@ namespace Blackmitten.Elliot.Backend
 
                 _userInterface.Redraw();
             }
+        }
+
+        public void EndGame()
+        {
+            _gameThread.Join();
         }
 
         public void ApplicationClosing()

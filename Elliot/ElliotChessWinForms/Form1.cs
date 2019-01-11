@@ -55,7 +55,6 @@ namespace BlackMitten.Elliot.Winforms
             var strings = _log.Read();
             if (strings.Count > 0)
             {
-                /*
                 foreach (var s in strings)
                 {
                     listBox1.Items.Add(s);
@@ -64,7 +63,6 @@ namespace BlackMitten.Elliot.Winforms
                 {
                     listBox1.SelectedIndex = listBox1.Items.Count - 1;
                 }
-                */
             }
             switch(_game.GameState)
             {
@@ -151,8 +149,9 @@ namespace BlackMitten.Elliot.Winforms
             MessageBox.Show(message, "Invalid move");
         }
 
-        private void toolStripButtonNewGame_Click(object sender, EventArgs e)
+        private void toolStripButtonNewGame_Click_1(object sender, EventArgs e)
         {
+            _game.EndGame();
             NewGame();
         }
 
@@ -177,5 +176,6 @@ namespace BlackMitten.Elliot.Winforms
             labelPlayers.Text = "White " + whitePlayer.Name + " vs. black " + blackPlayer.Name;
 
         }
+
     }
 }
