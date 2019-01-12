@@ -139,7 +139,7 @@ namespace BlackMitten.Elliot.Winforms
             }
         }
 
-        private void buttonInstructToMove_Click(object sender, EventArgs e)
+        private void buttonInstructToMove_Click_1(object sender, EventArgs e)
         {
             _instructToMove.Set();
         }
@@ -165,7 +165,7 @@ namespace BlackMitten.Elliot.Winforms
             IPlayer blackStockfish = new MachinePlayer(false, this, new Stockfish(1));
 
             IPlayer blackPlayer = blackFalade;
-            IPlayer whitePlayer = whiteHuman;
+            IPlayer whitePlayer = whiteFalade;
 
             boardControl1.Log = _log;
 
@@ -177,5 +177,21 @@ namespace BlackMitten.Elliot.Winforms
 
         }
 
+        private void toolStripButtonAbout_Click(object sender, EventArgs e)
+        {
+            string about = "";
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach( var ass in assemblies)
+            {
+                string s = ass.ToString();
+                if (!s.StartsWith("System") && !s.StartsWith("mscorlib"))
+                {
+                    about += s + "\n";
+                }
+            }
+            int i = 1;
+            AboutForm aboutForm = new AboutForm(about);
+            aboutForm.ShowDialog();
+        }
     }
 }
